@@ -1,0 +1,13 @@
+{
+    "error": false,
+    "results":
+        {
+            "app": "南工程",
+            "versionCode": 1,
+            "versionName": "1.0",
+	        "updateTime": "2017-03-01 20:30:00",
+            "information": "第一个功能齐全的稳定版本",
+            "foreUpdate": false,
+            "url":"https://raw.githubusercontent.com/yuqZY/MinXue/apk/minxue_v1.4_201701292214.apk"
+        }
+}

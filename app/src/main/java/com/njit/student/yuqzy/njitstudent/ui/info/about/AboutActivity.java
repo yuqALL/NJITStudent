@@ -144,7 +144,7 @@ public class AboutActivity extends AppCompatActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_web_home:
-                WebUtils.openExternal(this,"https://github.com/yuqZY/MinXue");
+                WebUtils.openExternal(this,"https://github.com/yuqZY/NJITStudent");
                 break;
             case R.id.btn_feedback:
                 feedBack();
@@ -153,7 +153,7 @@ public class AboutActivity extends AppCompatActivity {
                 UpdateUtil.check(AboutActivity.this, false);
                 break;
             case R.id.btn_share_app:
-                ShareUtils.shareText(this, "https://github.com/yuqZY/MinXue");
+                ShareUtils.shareText(this, "https://github.com/yuqZY/NJITStudent");
                 break;
             case R.id.btn_mark_app:
                 openAppMarket();
