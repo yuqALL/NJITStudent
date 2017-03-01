@@ -3,11 +3,11 @@
     "results":
         {
             "app": "南工程",
-            "versionCode": 1,
-            "versionName": "1.0",
-	        "updateTime": "2017-03-01 20:30:00",
+            "versionCode": 2,
+            "versionName": "1.2",
+	        "updateTime": "2017-03-01 23:52:00",
             "information": "第一个功能齐全的稳定版本",
             "foreUpdate": false,
-            "url":"https://raw.githubusercontent.com/yuqZY/NJITStudent/apk/app-release.apk"
+            "url":"https://raw.githubusercontent.com/yuqZY/NJITStudent/apk/NJITStudent_v1.2_release.apk"
         }
 }
