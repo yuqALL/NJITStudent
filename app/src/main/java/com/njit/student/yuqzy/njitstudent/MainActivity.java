@@ -26,7 +26,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.njit.student.yuqzy.njitstudent.Event.CourseEvent;
+import com.njit.student.yuqzy.njitstudent.Event.FavorChangedEvent;
 import com.njit.student.yuqzy.njitstudent.Event.InfoDoorResponseCode;
 import com.njit.student.yuqzy.njitstudent.Event.LibraryResponseCode;
 import com.njit.student.yuqzy.njitstudent.Event.LibrarySecretCode;
@@ -55,6 +57,7 @@ import com.njit.student.yuqzy.njitstudent.net.ZfNetData;
 import com.njit.student.yuqzy.njitstudent.ui.info.about.AboutActivity;
 import com.njit.student.yuqzy.njitstudent.ui.info.course.NJITCourseFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.LibraryFragment;
+import com.njit.student.yuqzy.njitstudent.ui.info.more.PersonInfoActivity;
 import com.njit.student.yuqzy.njitstudent.ui.info.news.EduNotificationFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.more.MoreInfoFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.ReadingFragment;
@@ -140,8 +143,11 @@ public class MainActivity extends AppCompatActivity
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View view = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        view = navigationView.inflateHeaderView(R.layout.nav_header_main);
         imgHead = (ImageView) view.findViewById(R.id.img_head);
+        if(SettingsUtil.getPersonFavor()!=""){
+            Glide.with(this).load(SettingsUtil.getPersonFavor()).skipMemoryCache(true).fitCenter().into(imgHead);
+        }
         imgHead.setOnClickListener(this);
         view.findViewById(R.id.tv_contact_me).setOnClickListener(this);
         navigationView.setNavigationItemSelectedListener(this);
@@ -149,7 +155,13 @@ public class MainActivity extends AppCompatActivity
         initFragment(savedInstanceState);
 
     }
-
+    View view;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(FavorChangedEvent event) {
+        Log.e("change favor","change"+event.getPath());
+        if(event.getPath()!=null&&event.getPath()!="")
+        Glide.with(this).load(event.getPath()).skipMemoryCache(true).fitCenter().into(imgHead);
+    }
 
     private void loginNet(final String name, final String pwd) {
         subscription = Observable.just(BASE_LOGIN_HOST).subscribeOn(Schedulers.io()).map(new Func1<String, BaseLoginCookies>() {
@@ -416,7 +428,7 @@ public class MainActivity extends AppCompatActivity
                         foundFragment.setArguments(bundle);
 
                     } else {
-                        if (network.cookieStore != null) {
+                        if (network.cookieStore != null&&network.theUrls!=null) {
 
                             where = FRAGMENT_TAG_SCORE_INQUIRY;
                             if (SettingsUtil.getUserScoreTerm() != "") {
@@ -454,7 +466,7 @@ public class MainActivity extends AppCompatActivity
                         foundFragment = new NJITCourseFragment();
                         foundFragment.setArguments(bundle);
                     } else {
-                        if (network.cookieStore != null) {
+                        if (network.cookieStore != null&&network.theUrls!=null) {
                             if (personInfo != null) {
                                 where = FRAGMENT_TAG_QUERY_SCHEDULE;
                                 Log.e("main activity", "course query");
@@ -590,6 +602,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         EventBus.getDefault().unregister(this);
     }
 
@@ -1039,11 +1052,13 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_head:
-                Toast.makeText(this, "查看个人信息", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "查看个人信息", Toast.LENGTH_SHORT).show();
                 //LoginDialog();
+                Intent intent=new Intent(this, PersonInfoActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_contact_me:
-                Toast.makeText(this, "联系我", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "联系我", Toast.LENGTH_SHORT).show();
                 feedBack();
                 break;
         }

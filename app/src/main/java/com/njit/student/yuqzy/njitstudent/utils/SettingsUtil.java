@@ -66,9 +66,18 @@ public class SettingsUtil {
         return (String) SPUtil.get(App.getContext(), USER_LIBRARY_MM, "");
     }
 
-    public static void setUserCourseTerm(String yearAterm) {
-        SPUtil.put(App.getContext(), USER_COURSE_TERM, yearAterm);
+    public static String getPersonFavor() {
+        return (String) SPUtil.get(App.getContext(), PERSON_FAVOR, "");
     }
+
+    public static void setPersonFavor(String yearAterm) {
+        SPUtil.put(App.getContext(), PERSON_FAVOR, yearAterm);
+    }
+
+    public static void setUserCourseTerm(String path) {
+        SPUtil.put(App.getContext(), USER_COURSE_TERM, path);
+    }
+
 
     public static String getUserCourseTerm() {
         return (String) SPUtil.get(App.getContext(), USER_COURSE_TERM, "");
@@ -113,6 +122,7 @@ public class SettingsUtil {
     public static String getUserCourseType() {
         return (String) SPUtil.get(App.getContext(), USER_COURSE_TYPE, "class");
     }
+
     public static void setCourseBacGround(String path) {
         SPUtil.put(App.getContext(), COURSE_BAC_GROUND, path);
     }

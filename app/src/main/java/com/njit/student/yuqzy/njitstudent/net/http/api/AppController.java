@@ -9,6 +9,6 @@ import rx.Observable;
 
 public interface AppController {
         //https://github.com/yuqZY/MinXue/updateinfo.json
-    @GET("https://raw.githubusercontent.com/yuqZY/MinXue/master/updateinfo.json")
+    @GET("https://raw.githubusercontent.com/yuqZY/NJITStudent/master/updateinfo.json")
     Observable<BaseAppResponse<UpdateInfo>> checkUpdate();
 }

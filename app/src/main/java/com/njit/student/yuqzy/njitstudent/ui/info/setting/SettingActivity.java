@@ -16,6 +16,8 @@ import com.njit.student.yuqzy.njitstudent.utils.ThemeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import io.realm.Realm;
+
 public class SettingActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
 
     protected Toolbar toolbar;
@@ -23,8 +25,9 @@ public class SettingActivity extends AppCompatActivity implements ColorChooserDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
-        setContentView(R.layout.activity_setting);
 
+        setContentView(R.layout.activity_setting);
+        Realm.init(this);
         initToolBar();
         setDisplayHomeAsUpEnabled(true);
         loadData();

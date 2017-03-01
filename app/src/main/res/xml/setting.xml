@@ -14,14 +14,6 @@
             android:key="clear_info"
             android:title="清理账号信息"
             android:icon="@drawable/ic_clear"/>
-        <Preference
-            android:key="fast_get_all_info"
-            android:title="一键获取所有个人信息"
-            android:icon="@drawable/ic_get_info"/>
-        <Preference
-            android:key="add_url"
-            android:title="添加个人收藏网址"
-            android:icon="@drawable/ic_add_url"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="通用">

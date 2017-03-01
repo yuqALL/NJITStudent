@@ -38,7 +38,7 @@ public class PersonInfoActivity extends AppCompatActivity {
         xh = SettingsUtil.getXueHao();
         toolbar=(Toolbar)findViewById(R.id.title);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("个人信息");
+        getSupportActionBar().setTitle("个人信息");
         setDisplayHomeAsUpEnabled(true);
         listView = (ListView) findViewById(R.id.lv_person_info);
         if(xh!="") {

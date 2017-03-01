@@ -44,6 +44,9 @@ import com.njit.student.yuqzy.njitstudent.model.HotRecommendItem;
 import com.njit.student.yuqzy.njitstudent.model.OrderBookItem;
 import com.njit.student.yuqzy.njitstudent.model.PreReadItem;
 import com.njit.student.yuqzy.njitstudent.model.SearchHistItem;
+import com.njit.student.yuqzy.njitstudent.model.UrlAll;
+import com.njit.student.yuqzy.njitstudent.model.UrlItem;
+import com.njit.student.yuqzy.njitstudent.model.XianduCategory;
 import com.njit.student.yuqzy.njitstudent.ui.info.course.NJITCourseFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.LibraryFragment;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
@@ -1017,6 +1020,146 @@ public class NetWork {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        ).start();
+    }
+
+    //爬取教务网链接
+    public static void SchoolLink(){
+        //http://www.njit.edu.cn/xxgk/jgsz/bmwz.htm 部门网站
+        //http://www.njit.edu.cn/xxgk/jgsz/yxwz.htm 院系网站
+        //http://www.njit.edu.cn/index/kslj/xwlj.htm  校外链接
+        //http://lib.njit.edu.cn/resource/chinese 中文数据库
+        //http://lib.njit.edu.cn/resource/foreign 外文数据库
+        //http://lib.njit.edu.cn/resource/openaccess 开放资源
+        //http://lib.njit.edu.cn/resource/trial 试用数据库
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    UrlAll all=new UrlAll();
+                    List<UrlItem> urlItems=new ArrayList<UrlItem>();
+
+                    //解析部门网站
+                    UrlItem bmwz=new UrlItem(0,"部门网站");
+                    urlItems.add(bmwz);
+                    Document doc = Jsoup.connect("http://www.njit.edu.cn/xxgk/jgsz/bmwz.htm").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
+                    Element cate = doc.select("div.z_box").select("div.r_box").select("div.jigou").first();
+                    //Log.e("cate",cate.html());
+                    Elements links = cate.select("ul").select("li");
+                    for (Element element : links) {
+                        UrlItem item=new UrlItem(1,element.text(),element.select("a[href]").first().attr("abs:href"));
+                        urlItems.add(item);
+                    }
+
+                    //解析院系网站
+                    UrlItem yxwz=new UrlItem(0,"院系网站");
+                    urlItems.add(yxwz);
+                    Document doc2 = Jsoup.connect("http://www.njit.edu.cn/xxgk/jgsz/yxwz.htm").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
+                    Element cate2 = doc2.select("div.z_box").select("div.r_box").select("div.jigou").first();
+                    Elements links2 = cate2.select("ul").select("li");
+                    for (Element element : links2) {
+                        UrlItem item=new UrlItem(1,element.text(),element.select("a[href]").first().attr("abs:href"));
+                        urlItems.add(item);
+                    }
+
+                    //解析校外链接
+                    UrlItem xwlj=new UrlItem(0,"校外链接");
+                    urlItems.add(xwlj);
+                    Document doc3 = Jsoup.connect("http://www.njit.edu.cn/index/kslj/xwlj.htm").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
+                    Element cate3 = doc3.select("div.conter1").select("div.jiaowu1").select("div.right_nr1").first();
+                    Elements links3 = cate3.select("ul").select("li");
+                    for (Element element : links3) {
+                        UrlItem item=new UrlItem(1,element.text(),element.select("a[href]").first().attr("abs:href"));
+                        urlItems.add(item);
+                    }
+
+                    //添加一些学习网站
+                    String[] name=new String[]{"爱课程(南工程版)","中国大学MOOC","尔雅通识课","教学建设与改革项目管理平台",
+                    "中国教育在线","中华人民共和国教育部","中国教育信息网","中国教育和科研计算机网","江苏省学位与研究生教育","江苏教育",
+                    "优达学城","慕课网","清华大学慕课平台","慕课学院（果壳网）",
+                    "网易公开课","TED官网",
+                    "百度传课","腾讯课堂","阿里学院","极客学院","传智播客","我要自学网",
+                    "敏学网","Google Study jam","YY教育","好知网","沪江网",
+                    "网易云课堂"};
+                    String[] value=new String[]{"http://202.119.160.175/","http://www.icourse163.org/","http://njit.benke.chaoxing.com/","http://xmgl.njit.edu.cn/index.php?m=Index&a=index.php&m=Public&a=login",
+                    "http://www.eol.cn/","http://www.moe.edu.cn/","http://www.chinaedu.edu.cn/","http://www.edu.cn/","http://xwb.jsjyt.edu.cn/","http://www.ec.js.edu.cn/",
+                    "https://cn.udacity.com/","http://www.imooc.com/course/landingpagephp?from=phpkecheng","http://tsinghua.xuetangx.com/","http://mooc.guokr.com/",
+                    "http://so.open.163.com/movie/listpage/listprogram1/pl2/%CE%EF%C0%ED/default/fc/ot/default/1.html","http://www.ted.com/",
+                    "http://www.chuanke.com/","https://ke.qq.com/","https://daxue.taobao.com/","http://www.jikexueyuan.com/","http://www.itcast.cn/","http://www.51zxw.net/",
+                    "http://www.minxue.net/","http://www.studyjamscn.com/portal.php","http://edu.yy.com/","http://www.howzhi.com/","http://www.hujiang.com/",
+                    "http://study.163.com/"};
+
+                    UrlItem xxwz=new UrlItem(0,"学习网站");
+                    urlItems.add(xxwz);
+                    for(int i=0;i<name.length;i++){
+                        UrlItem item=new UrlItem(1,name[i],value[i]);
+                        urlItems.add(item);
+                    }
+
+                    //中文数据库
+                    UrlItem zwsjk=new UrlItem(0,"中文数据库");
+                    urlItems.add(zwsjk);
+                    Document doc4 = Jsoup.connect("http://lib.njit.edu.cn/resource/chinese").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
+                    Element cate4 = doc4.select("div.width").select("div.right").select("div.subcontent-ctnblock").select("div.database").first();
+                    //Log.e("cate",cate.html());
+                    Elements links4 = cate4.select("ul").select("li");
+                    for (Element element : links4) {
+                        Element url=element.select("div.head").select("span").select("a[href]").first();
+                        UrlItem item=new UrlItem(1,url.text(),url.attr("abs:href"));
+                        urlItems.add(item);
+                    }
+
+                    //外文数据库
+                    UrlItem wwsjk=new UrlItem(0,"外文数据库");
+                    urlItems.add(wwsjk);
+                    Document doc5 = Jsoup.connect("http://lib.njit.edu.cn/resource/foreign").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
+                    Element cate5 = doc5.select("div.width").select("div.right").select("div.subcontent-ctnblock").select("div.database").first();
+                    //Log.e("cate",cate.html());
+                    Elements links5 = cate5.select("ul").select("li");
+                    for (Element element : links5) {
+                        Element url=element.select("div.head").select("span").select("a[href]").first();
+                        UrlItem item=new UrlItem(1,url.text(),url.attr("abs:href"));
+                        urlItems.add(item);
+                    }
+
+                    //试用数据库
+                    UrlItem sysjk=new UrlItem(0,"试用数据库");
+                    urlItems.add(sysjk);
+                    Document doc6 = Jsoup.connect("http://lib.njit.edu.cn/resource/trial").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
+                    Element cate6 = doc6.select("div.width").select("div.right").select("div.subcontent-ctnblock").select("div.database").first();
+                    //Log.e("cate",cate.html());
+                    Elements links6 = cate6.select("ul").select("li");
+                    for (Element element : links6) {
+                        Element url=element.select("div.head").select("span").select("a[href]").first();
+                        UrlItem item=new UrlItem(1,url.text(),url.attr("abs:href"));
+                        urlItems.add(item);
+                    }
+
+
+                    //开放资源
+                    UrlItem kfsjk=new UrlItem(0,"开放资源");
+                    urlItems.add(kfsjk);
+                    Document doc7 = Jsoup.connect("http://lib.njit.edu.cn/resource/openaccess").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
+                    Element cate7 = doc7.select("div.width").select("div.right").select("div.subcontent-ctnblock").select("div.database").first();
+                    //Log.e("cate",cate.html());
+                    Elements links7 = cate7.select("ul").select("li");
+                    for (Element element : links7) {
+                        Element url=element.select("div.head").select("span.field-content").select("a[href]").first();
+                        UrlItem item=new UrlItem(1,url.text(),url.attr("abs:href"));
+                        urlItems.add(item);
+                    }
+
+                    all.setUrlItems(urlItems);
+                    EventBus.getDefault().post(all);
+                } catch (IOException e) {
+
+                }
+
             }
         }
 

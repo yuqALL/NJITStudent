@@ -17,8 +17,13 @@ import com.njit.student.yuqzy.njitstudent.model.LikeNews;
 import com.njit.student.yuqzy.njitstudent.model.NormalItem;
 import com.njit.student.yuqzy.njitstudent.model.UrlAll;
 import com.njit.student.yuqzy.njitstudent.model.UrlItem;
+import com.njit.student.yuqzy.njitstudent.net.NetWork;
 import com.njit.student.yuqzy.njitstudent.ui.info.more.PersonInfoActivity;
 import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +40,7 @@ public class MoreInfoFragment extends Fragment implements View.OnClickListener{
     private Realm realm;
     private RealmQuery<NewsDetail> query;
     private RealmResults<NewsDetail> results;
+    private boolean parseUrl=false;
     //private CardView cardPerInfo,cardJWW,cardService,cardLinks;
     public MoreInfoFragment() {
         // Required empty public constructor
@@ -45,6 +51,7 @@ public class MoreInfoFragment extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Realm.init(getContext());
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -77,6 +84,12 @@ public class MoreInfoFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
     }
@@ -95,7 +108,12 @@ public class MoreInfoFragment extends Fragment implements View.OnClickListener{
             case R.id.school_help_page:
                 Intent intent1=new Intent(getContext(),UrlActivity.class);
                 String[] name=getResources().getStringArray(R.array.service_page_name);
-                String[] value=getResources().getStringArray(R.array.service_page_value);
+                String[] value=new String[]{
+                        "http://xhbbs.njit.edu.cn/bbs/portal.php","http://202.119.160.238/Repair/","http://zxxt.njit.edu.cn/",
+                        "http://jwc.njit.edu.cn/xl_list.jsp?urltype=tree.TreeTempUrl&wbtreeid=1129","http://202.119.160.168/Query/Query.jsp",
+                        "http://www.njit.edu.cn/ggfw/bccx.htm","http://map.njit.edu.cn/#","http://tv.njit.edu.cn/","http://210.29.166.210/",
+                        "http://al.njit.edu.cn/login.aspx","http://ecard.njit.edu.cn/","http://net.njit.edu.cn:8080/Self/idstarlogin"
+                };
                 UrlAll all=new UrlAll();
                 List<UrlItem> listUrl=new ArrayList<>();
                 for(int i=0;i<name.length;i++){
@@ -107,6 +125,7 @@ public class MoreInfoFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent1);
                 break;
             case R.id.fast_links:
+                NetWork.SchoolLink();
                 break;
 
             case R.id.show_like_news:
@@ -132,5 +151,12 @@ public class MoreInfoFragment extends Fragment implements View.OnClickListener{
                 getContext().startActivity(intent3);
                 break;
         }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(UrlAll event) {
+        parseUrl=true;
+        Intent intent=new Intent(getContext(),UrlActivity.class);
+        intent.putExtra("data",event);
+        startActivity(intent);
     }
 }
