@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cell_title_view"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/img_score_img"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:padding="5dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_book" />
+
+    <TextView
+        android:id="@+id/tv_score_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:text="xxx"
+        android:textSize="15sp" />
+
+    <!--平时成绩-->
+    <TextView
+        android:id="@+id/tv_score_usual"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="xxx"
+        android:textSize="15sp" />
+    <!--期末成绩-->
+    <TextView
+        android:id="@+id/tv_score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="xxx"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/expand_img_score"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/ic_expand_more_black_24dp" />
+
+
+</LinearLayout>

@@ -1,0 +1,424 @@
+<resources>
+    <string name="app_name">NJITStudent</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_action_refresh">刷新</string>
+    <string name="menu_action_share">分享</string>
+    <string name="menu_action_copy">复制URL</string>
+    <string name="menu_action_openwith">其他方式打开</string>
+    <string name="theme">主题</string>
+    <string name="done">确定</string>
+    <string name="cancel">取消</string>
+
+    <string name="copied_to_clipboard">已复制到粘贴板</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_minxue_search">MinxueSearchActivity</string>
+
+    <array name="view">
+        <item>教务通知</item>
+        <item>校内新闻</item>
+        <item>成绩查询</item>
+        <item>课表查询</item>
+        <item>我的图书馆</item>
+        <item>更多</item>
+    </array>
+
+    <string-array name="library_search_name">
+        <item>题名</item>
+        <item>责任者</item>
+        <item>主题词</item>
+        <item>ISBN/ISSN</item>
+        <item>订购号</item>
+        <item>分类号</item>
+        <item>索书号</item>
+        <item>出版社</item>
+        <item>丛书名</item>
+        <item>题名拼音</item>
+        <item>责任者拼音</item>
+
+    </string-array>
+    <string-array name="library_search_pipei">
+        <item>前方一致</item>
+        <item>完全匹配</item>
+        <item>任意匹配</item>
+    </string-array>
+    <string-array name="library_search_booktype">
+        <item>所有书刊</item>
+        <item>中文图书</item>
+        <item>西文图书</item>
+        <item>中文期刊</item>
+        <item>西文期刊</item>
+    </string-array>
+    <array name="term">
+
+        <item>2013-2014 第1学期</item>
+        <item>2013-2014 第2学期</item>
+        <item>2014-2015 第1学期</item>
+        <item>2014-2015 第2学期</item>
+        <item>2015-2016 第1学期</item>
+        <item>2015-2016 第2学期</item>
+        <item>2016-2017 第1学期</item>
+        <item>2016-2017 第2学期</item>
+        <item>2017-2018 第1学期</item>
+        <item>2017-2018 第2学期</item>
+        <item>2018-2019 第1学期</item>
+        <item>2018-2019 第2学期</item>
+        <item>2019-2020 第1学期</item>
+        <item>2019-2020 第2学期</item>
+    </array>
+
+    <array name="xy_name">
+        <item>机械工程学院</item>
+        <item>计算机工程学院</item>
+        <item>自动化学院</item>
+        <item>外国语学院</item>
+        <item>材料工程学院</item>
+        <item>电力工程学院</item>
+        <item>能源与动力工程学院</item>
+        <item>通信工程学院</item>
+        <item>经济与管理学院</item>
+        <item>人文与社会科学学院</item>
+        <item>艺术与设计学院</item>
+        <item>建筑工程学院</item>
+        <item>汽车与轨道交通学院</item>
+        <item>环境工程学院</item>
+        <item>工业中心</item>
+        <item>康尼学院</item>
+        <item>机关</item>
+    </array>
+    <array name="xy_value">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>34</item>
+        <item>40</item>
+        <item>53</item>
+    </array>
+
+    <string-array name="color_name">
+        <item>青石色</item>
+        <item>山茱萸</item>
+        <item>绿篱</item>
+        <item>樱草黄</item>
+        <item>烈焰红</item>
+        <item>天堂岛</item>
+        <item>甘蓝</item>
+        <item>粉蓍草</item>
+        <item>尼亚加拉</item>
+    </string-array>
+    <array name="person_info_name">
+        <item>照片</item>
+        <item>学号</item>
+        <item>学生证号</item>
+        <item>手机类型</item>
+        <item>姓名</item>
+        <item>培养方向</item>
+        <item>手机号码</item>
+        <item>曾用名</item>
+        <item>专业方向</item>
+        <item>家庭邮编</item>
+        <item>性别</item>
+        <item>入学日期</item>
+        <item>家庭电话</item>
+        <item>出生日期</item>
+        <item>毕业中学</item>
+        <item>父亲姓名</item>
+        <item>民族</item>
+        <item>宿舍号</item>
+        <item>父亲单位</item>
+        <item>籍贯</item>
+        <item>电子邮箱</item>
+        <item>父亲单位邮编</item>
+        <item>政治面貌</item>
+        <item>联系电话</item>
+        <item>母亲姓名</item>
+        <item>来源地区</item>
+        <item>邮政编码</item>
+        <item>母亲单位</item>
+        <item>来源省</item>
+        <item>准考证号</item>
+        <item>母亲单位邮编</item>
+        <item>出生地</item>
+        <item>身份证号</item>
+        <item>父亲单位电话或手机</item>
+        <item>健康状况</item>
+        <item>学历层次</item>
+        <item>母亲单位电话或手机</item>
+        <item>学院</item>
+        <item>港澳台码</item>
+        <item>家庭地址</item>
+        <item>系</item>
+        <item>报到号</item>
+        <item>家庭所在地（/省/县）</item>
+        <item>专业名称</item>
+        <item>是否高水平运动员</item>
+        <item>备注</item>
+        <item>教学班名称</item>
+        <item>英语等级</item>
+        <item>行政班</item>
+        <item>英语成绩</item>
+        <item>学制</item>
+        <item>录检表页码</item>
+        <item>学习年限</item>
+        <item>特长</item>
+        <item>学籍状态</item>
+        <item>入党(团)时间</item>
+        <item>当前所在级</item>
+        <item>火车终点站</item>
+        <item>证明人</item>
+        <item>考生号</item>
+        <item>学习形式</item>
+        <item>姓名拼音</item>
+    </array>
+
+    <string-array name="service_page_name">
+        <item>星火论坛</item>
+        <item>物业报修</item>
+        <item>助学中心</item>
+        <item>学校校历</item>
+        <item>办公电话</item>
+        <item>班车时刻</item>
+        <item>校园地图</item>
+        <item>网络电视</item>
+        <item>高清视频</item>
+        <item>学工系统</item>
+        <item>校园卡</item>
+        <item>网络服务</item>
+
+    </string-array>
+    <string-array name="service_page_value">
+        <item>http://xhbbs.njit.edu.cn/bbs/portal.php</item>
+        <item>http://202.119.160.238/Repair/</item>
+        <item>http://zxxt.njit.edu.cn/</item>
+        <item>http://zxxt.njit.edu.cn/</item>
+        <!--<item>http://jwc.njit.edu.cn/xl_list.jsp?urltype=tree.TreeTempUrl&wbtreeid=1129</item>-->
+        <item>http://202.119.160.168/Query/Query.jsp</item>
+        <item>http://www.njit.edu.cn/ggfw/bccx.htm</item>
+        <item>http://map.njit.edu.cn/#</item>
+        <item>http://tv.njit.edu.cn/</item>
+        <item>http://210.29.166.210/</item>
+        <item>http://al.njit.edu.cn/login.aspx</item>
+        <item>http://ecard.njit.edu.cn/</item>
+        <item>http://net.njit.edu.cn:8080/Self/idstarlogin</item>
+    </string-array>
+
+
+    <string name="explain">为保证『敏学』的简洁，未加入任何广告，你可以通过微信或支付宝付款来支持开发者继续优化应用，
+        金额大小根据你的心情。\n\n可以用微信或支付宝直接扫描二维码，也可以长按二维码保存在本地，启动APP扫描二维码。\n\n感谢你的支持！</string>
+
+ <string name="my_word">本软件所提供的数据均来自于敏学网（www.minxue.net），文件所有权均属于该网站，软件仅限于学习和研究目的。\n若本App触犯了贵公司的权益，请联系我们，我们会尽快处理！\n
+    我的联系方式：\n QQ:1329060146\n 邮箱:yuq329@outlook.com\n\n</string>
+<string name="open_source">• 感谢敏学网提供的数据：www.minxue.net\n• 感谢“假装看天气”：https://github.com/li-yu/FakeWeather\n• Realm：https://realm.io/\n• Glide: github.com/bumptech/glide\n• RxJava: github.com/ReactiveX/RxJava\n• Retrofit: github.com/square/retrofit\n• EventBus: github.com/greenrobot/EventBus\n• ButtonMenu: github.com/tuenti/ButtonMenu\n• dialogplus: github.com/orhanobut/dialogplus\n• RxAndroid: github.com/ReactiveX/RxAndroid\n• SeeWeather: github.com/xcc3641/SeeWeather\n• RxBinding: github.com/JakeWharton/RxBinding\n• RxPermissions: github.com/tbruyelle/RxPermissions\n• material-dialogs: github.com/afollestad/material-dialogs\n• BaseRecyclerViewAdapterHelper: github.com/CymChad/BaseRecyclerViewAdapterHelper
+    </string>
+    <string name="score_viewstate">
+        dDwxMDk5MDkzODA4O3Q8cDxsPHRqcXI7PjtsPDE7Pj47bDxpPDE+Oz47bDx0PDtsPGk8MT
+        47aTw3PjtpPDk+Oz47bDx0PHQ8O3Q8aTwxOD47QDzlhajpg6g7MjAwMS0yMDAyOzIwMDIt
+        MjAwMzsyMDAzLTIwMDQ7MjAwNC0yMDA1OzIwMDUtMjAwNjsyMDA2LTIwMDc7MjAwNy0yMD
+        A4OzIwMDgtMjAwOTsyMDA5LTIwMTA7MjAxMC0yMDExOzIwMTEtMjAxMjsyMDEyLTIwMTM7
+        MjAxMy0yMDE0OzIwMTQtMjAxNTsyMDE1LTIwMTY7MjAxNi0yMDE3OzIwMTctMjAxODs+O0
+        A85YWo6YOoOzIwMDEtMjAwMjsyMDAyLTIwMDM7MjAwMy0yMDA0OzIwMDQtMjAwNTsyMDA1
+        LTIwMDY7MjAwNi0yMDA3OzIwMDctMjAwODsyMDA4LTIwMDk7MjAwOS0yMDEwOzIwMTAtMj
+        AxMTsyMDExLTIwMTI7MjAxMi0yMDEzOzIwMTMtMjAxNDsyMDE0LTIwMTU7MjAxNS0yMDE2
+        OzIwMTYtMjAxNzsyMDE3LTIwMTg7Pj47Pjs7Pjt0PDtsPGk8MD47aTwxPjtpPDI+Oz47bD
+        x0PDtsPGk8MD47PjtsPHQ8cDxsPGlubmVyaHRtbDs+O2w8MjAxNi0yMDE35a2m5bm056ys
+        MeWtpuacn+WtpuS5oOaIkOe7qTs+Pjs7Pjs+Pjt0PDtsPGk8MD47aTwxPjtpPDI+Oz47bD
+        x0PHA8bDxpbm5lcmh0bWw7PjtsPOWtpuWPt++8mjIwMTE0MDIzMzs+Pjs7Pjt0PHA8bDxp
+        bm5lcmh0bWw7PjtsPOWnk+WQje+8muS9meW8ujs+Pjs7Pjt0PHA8bDxpbm5lcmh0bWw7Pj
+        tsPOWtpumZou+8muacuuaisOW3peeoi+WtpumZojs+Pjs7Pjs+Pjt0PDtsPGk8MD47aTwx
+        Pjs+O2w8dDxwPGw8aW5uZXJodG1sOz47bDzkuJPkuJrvvJrmnLrmorDorr7orqHliLbpgK
+        Dlj4rlhbboh6rliqjljJY7Pj47Oz47dDxwPGw8aW5uZXJodG1sOz47bDzooYzmlL/nj63v
+        vJrmnLrmorAxNDI7Pj47Oz47Pj47Pj47dDxAMDxwPHA8bDxQYWdlQ291bnQ7XyFJdGVtQ2
+        91bnQ7XyFEYXRhU291cmNlSXRlbUNvdW50O0RhdGFLZXlzOz47bDxpPDE+O2k8MTA+O2k8
+        MTA+O2w8Pjs+Pjs+O0AwPDs7Ozs7Ozs7Ozs7Ozs7Ozs7QDA8cDxsPFZpc2libGU7PjtsPG
+        88Zj47Pj47Ozs7Pjs7Ozs7Pjs7Ozs7Ozs7Oz47bDxpPDA+Oz47bDx0PDtsPGk8MT47aTwy
+        PjtpPDM+O2k8ND47aTw1PjtpPDY+O2k8Nz47aTw4PjtpPDk+O2k8MTA+Oz47bDx0PDtsPG
+        k8MD47aTwxPjtpPDI+O2k8Mz47aTw0PjtpPDU+O2k8Nj47aTw3PjtpPDg+O2k8OT47aTwx
+        MD47aTwxMT47aTwxMj47aTwxMz47aTwxND47aTwxNT47aTwxNj47aTwxNz47aTwxOD47aT
+        wxOT47aTwyMD47aTwyMT47PjtsPHQ8cDxwPGw8VGV4dDs+O2w8KDIwMTYtMjAxNy0xKS0w
+        ODA1NTA3MzE4LTAyOTQ5LTE7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDIwMTYtMjAxNz
+        s+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8MTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8
+        MDgwNTUwNzMxODs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w854Ot5bel5Z+656GAQjs+Pj
+        s+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w85Lu76YCJ6K++Oz4+Oz47Oz47dDxwPHA8bDxUZXh0
+        Oz47bDzku7vpgIk7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDIuMDs+Pjs+Ozs+O3Q8cD
+        xwPGw8VGV4dDs+O2w8ODY7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47
+        Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDcxOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbm
+        JzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDw3Njs+Pjs+Ozs+O3Q8cDxwPGw8VGV4
+        dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Oz
+        s+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8
+        6IO95rqQ5LiO5Yqo5Yqb5bel56iL5a2m6ZmiOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bD
+        wyLjYwOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8
+        bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz
+        4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47Pj47dDw7bDxpPDA+
+        O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1PjtpPDY+O2k8Nz47aTw4PjtpPDk+O2k8MTA+O2
+        k8MTE+O2k8MTI+O2k8MTM+O2k8MTQ+O2k8MTU+O2k8MTY+O2k8MTc+O2k8MTg+O2k8MTk+
+        O2k8MjA+O2k8MjE+Oz47bDx0PHA8cDxsPFRleHQ7PjtsPCgyMDE2LTIwMTctMSktMDcwMT
+        ExMTAxMy0wMjQxNi0yOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwyMDE2LTIwMTc7Pj47
+        Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDE7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDA3MD
+        ExMTEwMTM7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPOWkjeWPmOWHveaVsDs+Pjs+Ozs+
+        O3Q8cDxwPGw8VGV4dDs+O2w85b+F5L+u6K++Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bD
+        wmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwyLjA7Pj47Pjs7Pjt0PHA8cDxs
+        PFRleHQ7PjtsPDk1Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz
+        47dDxwPHA8bDxUZXh0Oz47bDw5NTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3Bc
+        Ozs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8OTU7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7Pj
+        tsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0
+        PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPOaVsO
+        eQhumDqDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8NC41MDs+Pjs+Ozs+O3Q8cDxwPGw8
+        VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pj
+        s+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+
+        O2w8Jm5ic3BcOzs+Pjs+Ozs+Oz4+O3Q8O2w8aTwwPjtpPDE+O2k8Mj47aTwzPjtpPDQ+O2
+        k8NT47aTw2PjtpPDc+O2k8OD47aTw5PjtpPDEwPjtpPDExPjtpPDEyPjtpPDEzPjtpPDE0
+        PjtpPDE1PjtpPDE2PjtpPDE3PjtpPDE4PjtpPDE5PjtpPDIwPjtpPDIxPjs+O2w8dDxwPH
+        A8bDxUZXh0Oz47bDwoMjAxNi0yMDE3LTEpLTA4MDMzMDEwMDYtMDA1MjYtMTs+Pjs+Ozs+
+        O3Q8cDxwPGw8VGV4dDs+O2w8MjAxNi0yMDE3Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bD
+        wxOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwwODAzMzAxMDA2Oz4+Oz47Oz47dDxwPHA8
+        bDxUZXh0Oz47bDzkupLmjaLmgKfkuI7mioDmnK/mtYvph487Pj47Pjs7Pjt0PHA8cDxsPF
+        RleHQ7PjtsPOW/heS/ruivvjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+
+        Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Mi4wOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bD
+        w5Mzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8
+        VGV4dDs+O2w8OTM7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDk1Oz4+Oz47Oz47dDxwPH
+        A8bDxUZXh0Oz47bDw5Mzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+
+        Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2
+        w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w85py65qKw5bel56iL5a2m6Zmi
+        Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDw0LjMwOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz
+        47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47
+        dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbm
+        JzcFw7Oz4+Oz47Oz47Pj47dDw7bDxpPDA+O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1Pjtp
+        PDY+O2k8Nz47aTw4PjtpPDk+O2k8MTA+O2k8MTE+O2k8MTI+O2k8MTM+O2k8MTQ+O2k8MT
+        U+O2k8MTY+O2k8MTc+O2k8MTg+O2k8MTk+O2k8MjA+O2k8MjE+Oz47bDx0PHA8cDxsPFRl
+        eHQ7PjtsPCgyMDE2LTIwMTctMSktMDgwMzMwMTAwMi0wMDU0Ny0xOz4+Oz47Oz47dDxwPH
+        A8bDxUZXh0Oz47bDwyMDE2LTIwMTc7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDE7Pj47
+        Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDA4MDMzMDEwMDI7Pj47Pjs7Pjt0PHA8cDxsPFRleH
+        Q7PjtsPOacuuaisOiuvuiuoTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w85b+F5L+u6K++
+        Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZX
+        h0Oz47bDw0LjA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDk3Oz4+Oz47Oz47dDxwPHA8
+        bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDw5NDs+Pjs+Oz
+        s+O3Q8cDxwPGw8VGV4dDs+O2w8OTA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDk0Oz4+
+        Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz
+        47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47
+        dDxwPHA8bDxUZXh0Oz47bDzmnLrmorDlt6XnqIvlrabpmaI7Pj47Pjs7Pjt0PHA8cDxsPF
+        RleHQ7PjtsPDQuNDA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7
+        Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPC
+        ZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjs+Pjt0
+        PDtsPGk8MD47aTwxPjtpPDI+O2k8Mz47aTw0PjtpPDU+O2k8Nj47aTw3PjtpPDg+O2k8OT
+        47aTwxMD47aTwxMT47aTwxMj47aTwxMz47aTwxND47aTwxNT47aTwxNj47aTwxNz47aTwx
+        OD47aTwxOT47aTwyMD47aTwyMT47PjtsPHQ8cDxwPGw8VGV4dDs+O2w8KDIwMTYtMjAxNy
+        0xKS0wNzAxMTExMDEyLTAyNDk5LTM7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDIwMTYt
+        MjAxNzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8MTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dD
+        s+O2w8MDcwMTExMTAxMjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w856ev5YiG5Y+Y5o2i
+        Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDzlv4Xkv67or747Pj47Pjs7Pjt0PHA8cDxsPF
+        RleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDEuMDs+Pjs+Ozs+
+        O3Q8cDxwPGw8VGV4dDs+O2w8ODU7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXD
+        s7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDgwOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47
+        bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDw4Mjs+Pjs+Ozs+O3Q8cDxwPG
+        w8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+
+        Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dD
+        s+O2w85pWw55CG6YOoOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwzLjIwOz4+Oz47Oz47
+        dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbm
+        JzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8
+        bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47Pj47dDw7bDxpPDA+O2k8MT47aTwyPjtpPD
+        M+O2k8ND47aTw1PjtpPDY+O2k8Nz47aTw4PjtpPDk+O2k8MTA+O2k8MTE+O2k8MTI+O2k8
+        MTM+O2k8MTQ+O2k8MTU+O2k8MTY+O2k8MTc+O2k8MTg+O2k8MTk+O2k8MjA+O2k8MjE+Oz
+        47bDx0PHA8cDxsPFRleHQ7PjtsPCgyMDE2LTIwMTctMSktMDgwODcwMTAwMS0wMDUzNS0x
+        Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwyMDE2LTIwMTc7Pj47Pjs7Pjt0PHA8cDxsPF
+        RleHQ7PjtsPDE7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDA4MDg3MDEwMDE7Pj47Pjs7
+        Pjt0PHA8cDxsPFRleHQ7PjtsPOaOp+WItuW3peeoi+WfuuehgEE7Pj47Pjs7Pjt0PHA8cD
+        xsPFRleHQ7PjtsPOW/heS/ruivvjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3Bc
+        Ozs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Mi4wOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz
+        47bDw5Nzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxw
+        PGw8VGV4dDs+O2w8OTQ7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pj
+        s7Pjt0PHA8cDxsPFRleHQ7PjtsPDk1Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJz
+        cFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bD
+        xUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDzmnLrmorDlt6Xn
+        qIvlrabpmaI7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDQuNTA7Pj47Pjs7Pjt0PHA8cD
+        xsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7
+        Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleH
+        Q7PjtsPCZuYnNwXDs7Pj47Pjs7Pjs+Pjt0PDtsPGk8MD47aTwxPjtpPDI+O2k8Mz47aTw0
+        PjtpPDU+O2k8Nj47aTw3PjtpPDg+O2k8OT47aTwxMD47aTwxMT47aTwxMj47aTwxMz47aT
+        wxND47aTwxNT47aTwxNj47aTwxNz47aTwxOD47aTwxOT47aTwyMD47aTwyMT47PjtsPHQ8
+        cDxwPGw8VGV4dDs+O2w8KDIwMTYtMjAxNy0xKS0wNzAzMTE2MDAxLTAyODM5LTI7Pj47Pj
+        s7Pjt0PHA8cDxsPFRleHQ7PjtsPDIwMTYtMjAxNzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+
+        O2w8MTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8MDcwMzExNjAwMTs+Pjs+Ozs+O3Q8cD
+        xwPGw8VGV4dDs+O2w85pmu6YCa5YyW5a2mOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDzl
+        v4Xkv67or747Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PH
+        A8cDxsPFRleHQ7PjtsPDIuMDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8MTAwOz4+Oz47
+        Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bD
+        w5MTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8ODg7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7
+        PjtsPDkyOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPH
+        A8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7
+        Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDznjq/looPlt6XnqIvlrabpmaI7Pj47Pjs7Pj
+        t0PHA8cDxsPFRleHQ7PjtsPDQuMjA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNw
+        XDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPF
+        RleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47
+        Pjs7Pjs+Pjt0PDtsPGk8MD47aTwxPjtpPDI+O2k8Mz47aTw0PjtpPDU+O2k8Nj47aTw3Pj
+        tpPDg+O2k8OT47aTwxMD47aTwxMT47aTwxMj47aTwxMz47aTwxND47aTwxNT47aTwxNj47
+        aTwxNz47aTwxOD47aTwxOT47aTwyMD47aTwyMT47PjtsPHQ8cDxwPGw8VGV4dDs+O2w8KD
+        IwMTYtMjAxNy0xKS0wODAzMTAxMDAyLTAwMDY0LTE7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7
+        PjtsPDIwMTYtMjAxNzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8MTs+Pjs+Ozs+O3Q8cD
+        xwPGw8VGV4dDs+O2w8MDgwMzEwMTAwMjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w85b6u
+        5py65Y6f55CG5Y+K5bqU55SoQTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w85b+F5L+u6K
+        ++Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxU
+        ZXh0Oz47bDwyLjA7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDk0Oz4+Oz47Oz47dDxwPH
+        A8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDw4NDs+Pjs+
+        Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2
+        w8ODc7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxs
+        PFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj
+        47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPOacuuaisOW3peeoi+WtpumZojs+Pjs+Ozs+O3Q8
+        cDxwPGw8VGV4dDs+O2w8My43MDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOz
+        s+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4
+        dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Oz
+        s+Oz4+O3Q8O2w8aTwwPjtpPDE+O2k8Mj47aTwzPjtpPDQ+O2k8NT47aTw2PjtpPDc+O2k8
+        OD47aTw5PjtpPDEwPjtpPDExPjtpPDEyPjtpPDEzPjtpPDE0PjtpPDE1PjtpPDE2PjtpPD
+        E3PjtpPDE4PjtpPDE5PjtpPDIwPjtpPDIxPjs+O2w8dDxwPHA8bDxUZXh0Oz47bDwoMjAx
+        Ni0yMDE3LTEpLTA4MDM5MDEwMDYtMDIxNzAtMTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2
+        w8MjAxNi0yMDE3Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwxOz4+Oz47Oz47dDxwPHA8
+        bDxUZXh0Oz47bDwwODAzOTAxMDA2Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDzmnLrmor
+        Dorr7orqHor77nqIvorr7orqE7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPOWunui3teiv
+        vjs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VG
+        V4dDs+O2w8Mi4wOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47
+        dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDzoia
+        /lpb07Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxs
+        PFRleHQ7PjtsPOiJr+WlvTs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pj
+        s+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+
+        O2w8Jm5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w85py65qKw5bel56iL5a2m6Z
+        miOz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwzLjQwOz4+Oz47Oz47dDxwPHA8bDxUZXh0
+        Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz
+        47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwm
+        bmJzcFw7Oz4+Oz47Oz47Pj47dDw7bDxpPDA+O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1Pj
+        tpPDY+O2k8Nz47aTw4PjtpPDk+O2k8MTA+O2k8MTE+O2k8MTI+O2k8MTM+O2k8MTQ+O2k8
+        MTU+O2k8MTY+O2k8MTc+O2k8MTg+O2k8MTk+O2k8MjA+O2k8MjE+Oz47bDx0PHA8cDxsPF
+        RleHQ7PjtsPCgyMDE2LTIwMTctMSktMDgwODkwMTAxNy0wMDA2NC0yOz4+Oz47Oz47dDxw
+        PHA8bDxUZXh0Oz47bDwyMDE2LTIwMTc7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDE7Pj
+        47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDA4MDg5MDEwMTc7Pj47Pjs7Pjt0PHA8cDxsPFRl
+        eHQ7PjtsPOW+ruacuuWOn+eQhuWPiuW6lOeUqOivvueoi+iuvuiuoTs+Pjs+Ozs+O3Q8cD
+        xwPGw8VGV4dDs+O2w85a6e6Le16K++Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJz
+        cFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwxLjA7Pj47Pjs7Pjt0PHA8cDxsPFRleH
+        Q7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7
+        Pjt0PHA8cDxsPFRleHQ7PjtsPOS8mOengDs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w8Jm
+        5ic3BcOzs+Pjs+Ozs+O3Q8cDxwPGw8VGV4dDs+O2w85LyY56eAOz4+Oz47Oz47dDxwPHA8
+        bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz
+        4+Oz47Oz47dDxwPHA8bDxUZXh0Oz47bDwmbmJzcFw7Oz4+Oz47Oz47dDxwPHA8bDxUZXh0
+        Oz47bDzmnLrmorDlt6XnqIvlrabpmaI7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPDQuND
+        A7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRl
+        eHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pj
+        s7Pjt0PHA8cDxsPFRleHQ7PjtsPCZuYnNwXDs7Pj47Pjs7Pjs+Pjs+Pjs+Pjs+Pjs+Pjs+
+        c8FmMuAPCnC4rCBTwzLEf+EpjPQ=</string>
+
+</resources>
