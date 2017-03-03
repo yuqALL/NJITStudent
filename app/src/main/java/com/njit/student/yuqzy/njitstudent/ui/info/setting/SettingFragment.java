@@ -17,6 +17,7 @@ import com.luck.picture.lib.model.LocalMediaLoader;
 import com.luck.picture.lib.model.PictureConfig;
 import com.njit.student.yuqzy.njitstudent.App;
 import com.njit.student.yuqzy.njitstudent.Event.FavorChangedEvent;
+import com.njit.student.yuqzy.njitstudent.Event.NavBacChangedEvent;
 import com.njit.student.yuqzy.njitstudent.MainActivity;
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.database.CurrentReadRealm;
@@ -52,6 +53,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     private Preference cleanCache;
     private Preference theme;
     private Preference personFavor;
+    private Preference navBac;
     private Preference viewMain;
     private Preference clearInfo;
 //    private Preference getAllinfo;
@@ -69,6 +71,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         theme = findPreference(SettingsUtil.THEME);
         viewMain = findPreference(SettingsUtil.VIEW_MAIN);
         personFavor = findPreference(SettingsUtil.PERSON_FAVOR);
+        navBac=findPreference(SettingsUtil.NAV_BAC);
         clearInfo = findPreference(SettingsUtil.CLEAR_INFO);
 //        getAllinfo = findPreference(SettingsUtil.FAST_GET_ALL_INFO);
 //        addUrls = findPreference(SettingsUtil.ADD_URLS);
@@ -85,6 +88,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         theme.setOnPreferenceClickListener(this);
         viewMain.setOnPreferenceClickListener(this);
         personFavor.setOnPreferenceClickListener(this);
+        navBac.setOnPreferenceClickListener(this);
         clearInfo.setOnPreferenceClickListener(this);
 //        getAllinfo.setOnPreferenceClickListener(this);
 //        addUrls.setOnPreferenceClickListener(this);
@@ -195,54 +199,77 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                         }
                     }).show();
         }else if(preference==personFavor){
-            FunctionConfig config = new FunctionConfig();
-            config.setType(LocalMediaLoader.TYPE_IMAGE);
-            config.setCopyMode(FunctionConfig.COPY_MODEL_1_1);
-            config.setCompress(false);
-            config.setEnablePixelCompress(true);
-            config.setEnableQualityCompress(true);
-            config.setMaxSelectNum(1);
-            config.setSelectMode(FunctionConfig.MODE_SINGLE);
-            config.setShowCamera(true);
-            config.setEnablePreview(true);
-            config.setEnableCrop(true);
-            config.setPreviewVideo(false);
-            config.setRecordVideoDefinition(FunctionConfig.HIGH);// 视频清晰度
-            config.setRecordVideoSecond(60);// 视频秒数
-//        config.setCropW(1000);
-//        config.setCropH(1000);
-            config.setCheckNumMode(false);
-            config.setCompressQuality(100);
-            config.setImageSpanCount(4);
-            config.setSelectMedia(selectMedia);
-
-            config.setThemeStyle(ThemeUtil.getThemeColor(getActivity(), R.attr.colorPrimary));
-            // 先初始化参数配置，在启动相册
-            PictureConfig.init(config);
-            PictureConfig.getPictureConfig().openPhoto(getActivity(), resultCallback);
+            type="favor";
+            getBac(FunctionConfig.COPY_MODEL_1_1);
+        }else if(preference==navBac){
+            type="nav";
+            getBac(FunctionConfig.COPY_MODEL_16_9);
         }
         return true;
+    }
+
+    String type="";
+    private void getBac(int copyMode){
+        FunctionConfig config = new FunctionConfig();
+        config.setType(LocalMediaLoader.TYPE_IMAGE);
+        config.setCopyMode(copyMode);
+        config.setCompress(false);
+        config.setEnablePixelCompress(true);
+        config.setEnableQualityCompress(true);
+        config.setMaxSelectNum(1);
+        config.setSelectMode(FunctionConfig.MODE_SINGLE);
+        config.setShowCamera(true);
+        config.setEnablePreview(true);
+        config.setEnableCrop(true);
+        config.setPreviewVideo(false);
+        config.setRecordVideoDefinition(FunctionConfig.HIGH);// 视频清晰度
+        config.setRecordVideoSecond(60);// 视频秒数
+//        config.setCropW(1000);
+//        config.setCropH(1000);
+        config.setCheckNumMode(false);
+        config.setCompressQuality(100);
+        config.setImageSpanCount(4);
+        config.setSelectMedia(selectMedia);
+
+        config.setThemeStyle(ThemeUtil.getThemeColor(getActivity(), R.attr.colorPrimary));
+        // 先初始化参数配置，在启动相册
+        PictureConfig.init(config);
+        PictureConfig.getPictureConfig().openPhoto(getActivity(), resultCallback);
     }
     private List<LocalMedia> selectMedia = new ArrayList<>();
     /**
      * 图片回调方法
      */
     private PictureConfig.OnSelectResultCallback resultCallback = new PictureConfig.OnSelectResultCallback() {
+
         @Override
         public void onSelectSuccess(List<LocalMedia> resultList) {
             selectMedia = resultList;
             Log.i("callBack_result", selectMedia.size() + "");
             if (selectMedia != null) {
-                if(selectMedia.get(0).getCutPath()!=null&&selectMedia.get(0).getCutPath()!="") {
-                    //setBackground(selectMedia.get(0).getCutPath());
-                    SettingsUtil.setPersonFavor(selectMedia.get(0).getCutPath());
+                if (type == "favor") {
+                    if (selectMedia.get(0).getCutPath() != null && selectMedia.get(0).getCutPath() != "") {
+                        //setBackground(selectMedia.get(0).getCutPath());
+                        SettingsUtil.setPersonFavor(selectMedia.get(0).getCutPath());
+                    } else {
+                        //setBackground(selectMedia.get(0).getPath());
+                        SettingsUtil.setPersonFavor(selectMedia.get(0).getPath());
+                    }
+                    // setBackground(selectMedia.get(0).getPath());
+                    Log.e("path", SettingsUtil.getPersonFavor() + " vs " + selectMedia.get(0).getPath());
+                    EventBus.getDefault().post(new FavorChangedEvent(SettingsUtil.getPersonFavor()));
                 }else {
-                    //setBackground(selectMedia.get(0).getPath());
-                    SettingsUtil.setPersonFavor(selectMedia.get(0).getPath());
+                    if (selectMedia.get(0).getCutPath() != null && selectMedia.get(0).getCutPath() != "") {
+                        //setBackground(selectMedia.get(0).getCutPath());
+                        SettingsUtil.setNavBac(selectMedia.get(0).getCutPath());
+                    } else {
+                        //setBackground(selectMedia.get(0).getPath());
+                        SettingsUtil.setNavBac(selectMedia.get(0).getPath());
+                    }
+                    // setBackground(selectMedia.get(0).getPath());
+                    Log.e("path", SettingsUtil.getPersonFavor() + " vs " + selectMedia.get(0).getPath());
+                    EventBus.getDefault().post(new NavBacChangedEvent(SettingsUtil.getNavBac()));
                 }
-                // setBackground(selectMedia.get(0).getPath());
-                Log.e("path",SettingsUtil.getPersonFavor()+" vs "+selectMedia.get(0).getPath());
-                EventBus.getDefault().post(new FavorChangedEvent(SettingsUtil.getPersonFavor()));
             }
         }
     };

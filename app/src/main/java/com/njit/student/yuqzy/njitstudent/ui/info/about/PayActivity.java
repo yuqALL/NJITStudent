@@ -134,7 +134,7 @@ public class PayActivity extends AppCompatActivity implements View.OnLongClickLi
     }
     public void saveImage(int id,String name) {
         Bitmap bmp= BitmapFactory.decodeResource(App.getContext().getResources(),id);
-        File appDir = new File(Environment.getExternalStorageDirectory(), "minxue");
+        File appDir = new File(Environment.getExternalStorageDirectory(), "NJITStu");
         if (!appDir.exists()) {
             appDir.mkdir();
         }

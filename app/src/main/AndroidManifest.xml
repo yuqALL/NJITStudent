@@ -18,7 +18,7 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/stu"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
@@ -27,11 +27,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
@@ -63,6 +59,15 @@
         <activity android:name=".ui.info.more.LikeBooksActivity"
             android:label="图书收藏"/>
         <activity android:name=".ui.info.more.UrlActivity"/>
+        <activity android:name=".WelcomActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

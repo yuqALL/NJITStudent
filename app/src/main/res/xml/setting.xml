@@ -11,6 +11,10 @@
             android:title="个人头像"
             android:icon="@drawable/ic_user"/>
         <Preference
+            android:key="nav_bac"
+            android:title="菜单背景"
+            android:icon="@drawable/ic_change_bac"/>
+        <Preference
             android:key="clear_info"
             android:title="清理账号信息"
             android:icon="@drawable/ic_clear"/>

@@ -1,54 +1,44 @@
 package com.njit.student.yuqzy.njitstudent.net;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
+
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.njit.student.yuqzy.njitstudent.Event.BookShelfEvent;
 import com.njit.student.yuqzy.njitstudent.Event.BreakRulesEvent;
-import com.njit.student.yuqzy.njitstudent.Event.CourseEvent;
 import com.njit.student.yuqzy.njitstudent.Event.CurrentReadEvent;
 import com.njit.student.yuqzy.njitstudent.Event.HotRecEvent;
 import com.njit.student.yuqzy.njitstudent.Event.InfoDoorResponseCode;
 import com.njit.student.yuqzy.njitstudent.Event.LibraryResponseCode;
 import com.njit.student.yuqzy.njitstudent.Event.LibrarySecretCode;
-import com.njit.student.yuqzy.njitstudent.Event.LoginResponseCode;
+
 import com.njit.student.yuqzy.njitstudent.Event.OrderBookEvent;
-import com.njit.student.yuqzy.njitstudent.Event.PersonInfoEvent;
+
 import com.njit.student.yuqzy.njitstudent.Event.PreReadEvent;
-import com.njit.student.yuqzy.njitstudent.Event.Scores;
 import com.njit.student.yuqzy.njitstudent.Event.SearchHistEvent;
-import com.njit.student.yuqzy.njitstudent.Event.SecretCode;
-import com.njit.student.yuqzy.njitstudent.Event.UrlsMap;
+
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.database.PersonInfo;
 import com.njit.student.yuqzy.njitstudent.model.BookShelfItem;
 import com.njit.student.yuqzy.njitstudent.model.CurrentReadItem;
 import com.njit.student.yuqzy.njitstudent.model.DebtInfoItem;
-import com.njit.student.yuqzy.njitstudent.model.FormKB;
-import com.njit.student.yuqzy.njitstudent.model.FormSJK;
-import com.njit.student.yuqzy.njitstudent.model.FormTTBinfo;
 import com.njit.student.yuqzy.njitstudent.model.HotRecommendItem;
 import com.njit.student.yuqzy.njitstudent.model.OrderBookItem;
 import com.njit.student.yuqzy.njitstudent.model.PreReadItem;
 import com.njit.student.yuqzy.njitstudent.model.SearchHistItem;
 import com.njit.student.yuqzy.njitstudent.model.UrlAll;
+import com.njit.student.yuqzy.njitstudent.model.UrlAllEvent;
 import com.njit.student.yuqzy.njitstudent.model.UrlItem;
-import com.njit.student.yuqzy.njitstudent.model.XianduCategory;
-import com.njit.student.yuqzy.njitstudent.ui.info.course.NJITCourseFragment;
-import com.njit.student.yuqzy.njitstudent.ui.info.library.LibraryFragment;
+
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
 
 import org.apache.http.HttpEntity;
@@ -72,25 +62,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLEncoder;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.BASE_LOGIN_HOST;
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.BASE_LOGIN_HOST_KEY;
-import static com.njit.student.yuqzy.njitstudent.AppGlobal.NJIT_ZF_HOST;
-import static com.njit.student.yuqzy.njitstudent.AppGlobal.NJIT_ZF_LOGIN;
+
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.USERAGENT;
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.USERAGENT_DESKTOP;
 
@@ -1041,40 +1025,55 @@ public class NetWork {
             public void run() {
 
                 try {
-                    UrlAll all=new UrlAll();
+                    UrlAllEvent all=new UrlAllEvent();
                     List<UrlItem> urlItems=new ArrayList<UrlItem>();
 
                     //解析部门网站
-                    UrlItem bmwz=new UrlItem(0,"部门网站");
+                    UrlItem bmwz=new UrlItem();
+                    bmwz.setType(0);
+                    bmwz.setTitle("部门网站");
                     urlItems.add(bmwz);
                     Document doc = Jsoup.connect("http://www.njit.edu.cn/xxgk/jgsz/bmwz.htm").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
                     Element cate = doc.select("div.z_box").select("div.r_box").select("div.jigou").first();
                     //Log.e("cate",cate.html());
                     Elements links = cate.select("ul").select("li");
                     for (Element element : links) {
-                        UrlItem item=new UrlItem(1,element.text(),element.select("a[href]").first().attr("abs:href"));
+                        UrlItem item=new UrlItem();
+                        item.setType(1);
+                        item.setName(element.text());
+                        item.setUrl(element.select("a[href]").first().attr("abs:href"));
                         urlItems.add(item);
                     }
 
                     //解析院系网站
-                    UrlItem yxwz=new UrlItem(0,"院系网站");
+                    UrlItem yxwz=new UrlItem();
+                    yxwz.setType(0);
+                    yxwz.setTitle("院系网站");
                     urlItems.add(yxwz);
                     Document doc2 = Jsoup.connect("http://www.njit.edu.cn/xxgk/jgsz/yxwz.htm").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
                     Element cate2 = doc2.select("div.z_box").select("div.r_box").select("div.jigou").first();
                     Elements links2 = cate2.select("ul").select("li");
                     for (Element element : links2) {
-                        UrlItem item=new UrlItem(1,element.text(),element.select("a[href]").first().attr("abs:href"));
+                        UrlItem item=new UrlItem();
+                        item.setType(1);
+                        item.setName(element.text());
+                        item.setUrl(element.select("a[href]").first().attr("abs:href"));
                         urlItems.add(item);
                     }
 
                     //解析校外链接
-                    UrlItem xwlj=new UrlItem(0,"校外链接");
+                    UrlItem xwlj=new UrlItem();
+                    xwlj.setType(0);
+                    xwlj.setTitle("校外链接");
                     urlItems.add(xwlj);
                     Document doc3 = Jsoup.connect("http://www.njit.edu.cn/index/kslj/xwlj.htm").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
                     Element cate3 = doc3.select("div.conter1").select("div.jiaowu1").select("div.right_nr1").first();
                     Elements links3 = cate3.select("ul").select("li");
                     for (Element element : links3) {
-                        UrlItem item=new UrlItem(1,element.text(),element.select("a[href]").first().attr("abs:href"));
+                        UrlItem item=new UrlItem();
+                        item.setType(1);
+                        item.setName(element.text());
+                        item.setUrl(element.select("a[href]").first().attr("abs:href"));
                         urlItems.add(item);
                     }
 
@@ -1094,15 +1093,22 @@ public class NetWork {
                     "http://www.minxue.net/","http://www.studyjamscn.com/portal.php","http://edu.yy.com/","http://www.howzhi.com/","http://www.hujiang.com/",
                     "http://study.163.com/"};
 
-                    UrlItem xxwz=new UrlItem(0,"学习网站");
+                    UrlItem xxwz=new UrlItem();
+                    xxwz.setType(0);
+                    xxwz.setTitle("学习网站");
                     urlItems.add(xxwz);
                     for(int i=0;i<name.length;i++){
-                        UrlItem item=new UrlItem(1,name[i],value[i]);
+                        UrlItem item=new UrlItem();
+                        item.setType(1);
+                        item.setName(name[i]);
+                        item.setUrl(value[i]);
                         urlItems.add(item);
                     }
 
                     //中文数据库
-                    UrlItem zwsjk=new UrlItem(0,"中文数据库");
+                    UrlItem zwsjk=new UrlItem();
+                    zwsjk.setType(0);
+                    zwsjk.setTitle("中文数据库");
                     urlItems.add(zwsjk);
                     Document doc4 = Jsoup.connect("http://lib.njit.edu.cn/resource/chinese").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
                     Element cate4 = doc4.select("div.width").select("div.right").select("div.subcontent-ctnblock").select("div.database").first();
@@ -1110,12 +1116,17 @@ public class NetWork {
                     Elements links4 = cate4.select("ul").select("li");
                     for (Element element : links4) {
                         Element url=element.select("div.head").select("span").select("a[href]").first();
-                        UrlItem item=new UrlItem(1,url.text(),url.attr("abs:href"));
+                        UrlItem item=new UrlItem();
+                        item.setType(1);
+                        item.setName(url.text());
+                        item.setUrl(url.attr("abs:href"));
                         urlItems.add(item);
                     }
 
                     //外文数据库
-                    UrlItem wwsjk=new UrlItem(0,"外文数据库");
+                    UrlItem wwsjk=new UrlItem();
+                    wwsjk.setType(0);
+                    wwsjk.setTitle("外文数据库");
                     urlItems.add(wwsjk);
                     Document doc5 = Jsoup.connect("http://lib.njit.edu.cn/resource/foreign").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
                     Element cate5 = doc5.select("div.width").select("div.right").select("div.subcontent-ctnblock").select("div.database").first();
@@ -1123,12 +1134,17 @@ public class NetWork {
                     Elements links5 = cate5.select("ul").select("li");
                     for (Element element : links5) {
                         Element url=element.select("div.head").select("span").select("a[href]").first();
-                        UrlItem item=new UrlItem(1,url.text(),url.attr("abs:href"));
+                        UrlItem item=new UrlItem();
+                        item.setType(1);
+                        item.setName(url.text());
+                        item.setUrl(url.attr("abs:href"));
                         urlItems.add(item);
                     }
 
                     //试用数据库
-                    UrlItem sysjk=new UrlItem(0,"试用数据库");
+                    UrlItem sysjk=new UrlItem();
+                    sysjk.setType(0);
+                    sysjk.setTitle("试用数据库");
                     urlItems.add(sysjk);
                     Document doc6 = Jsoup.connect("http://lib.njit.edu.cn/resource/trial").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
                     Element cate6 = doc6.select("div.width").select("div.right").select("div.subcontent-ctnblock").select("div.database").first();
@@ -1136,13 +1152,18 @@ public class NetWork {
                     Elements links6 = cate6.select("ul").select("li");
                     for (Element element : links6) {
                         Element url=element.select("div.head").select("span").select("a[href]").first();
-                        UrlItem item=new UrlItem(1,url.text(),url.attr("abs:href"));
+                        UrlItem item=new UrlItem();
+                        item.setType(1);
+                        item.setName(url.text());
+                        item.setUrl(url.attr("abs:href"));
                         urlItems.add(item);
                     }
 
 
                     //开放资源
-                    UrlItem kfsjk=new UrlItem(0,"开放资源");
+                    UrlItem kfsjk=new UrlItem();
+                    kfsjk.setType(0);
+                    kfsjk.setTitle("开放资源");
                     urlItems.add(kfsjk);
                     Document doc7 = Jsoup.connect("http://lib.njit.edu.cn/resource/openaccess").userAgent(USERAGENT_DESKTOP).timeout(10000).get();
                     Element cate7 = doc7.select("div.width").select("div.right").select("div.subcontent-ctnblock").select("div.database").first();
@@ -1150,7 +1171,10 @@ public class NetWork {
                     Elements links7 = cate7.select("ul").select("li");
                     for (Element element : links7) {
                         Element url=element.select("div.head").select("span.field-content").select("a[href]").first();
-                        UrlItem item=new UrlItem(1,url.text(),url.attr("abs:href"));
+                        UrlItem item=new UrlItem();
+                        item.setType(1);
+                        item.setName(url.text());
+                        item.setUrl(url.attr("abs:href"));
                         urlItems.add(item);
                     }
 

@@ -19,6 +19,7 @@ import com.njit.student.yuqzy.njitstudent.database.BookItem;
 import com.njit.student.yuqzy.njitstudent.model.BookDetailGson;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.BookDetailAdapter;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
+import com.njit.student.yuqzy.njitstudent.utils.ShareUtils;
 import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
 
 import org.apache.http.HttpEntity;
@@ -58,7 +59,7 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
     private RealmQuery<BookDetailRealm> query;
     private RealmResults<BookDetailRealm> results;
     private Subscription subscription;
-    private ImageView imgLike, imgIE;
+    private ImageView imgLike, imgIE,imgShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +75,10 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
         setDisplayHomeAsUpEnabled(true);
         imgLike = (ImageView) findViewById(R.id.img_like);
         imgIE = (ImageView) findViewById(R.id.img_open_ie);
+        imgShare=(ImageView)findViewById(R.id.img_share);
         imgLike.setOnClickListener(this);
         imgIE.setOnClickListener(this);
+        imgShare.setOnClickListener(this);
         lv_book_detail = (ListView) findViewById(R.id.lv_book_detail);
         Realm.init(this);
         realm = Realm.getDefaultInstance();
@@ -306,6 +309,9 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.img_open_ie:
                 WebUtils.openExternal(this, url);
+                break;
+            case R.id.img_share:
+                ShareUtils.shareText(this,name+"\n"+other+"\n"+url);
                 break;
         }
     }

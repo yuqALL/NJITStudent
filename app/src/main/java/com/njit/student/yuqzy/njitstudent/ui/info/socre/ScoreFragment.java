@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.njit.student.yuqzy.njitstudent.ui.adapter.CourseDialogAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.ScoreListAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.ScoresDialogAdapter;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
+import com.njit.student.yuqzy.njitstudent.utils.ShowLoadDialog;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ListHolder;
 import com.orhanobut.dialogplus.OnClickListener;
@@ -103,6 +105,7 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init_view(String[] time, List<ScoreData> list) {
+        ShowLoadDialog.dismiss();
         //toorbarTitle.setText("2016-2017 第1学期");
         toorbarTitle.setText(time[0] + " 第" + time[1] + "学期");
         toorbarTitle.setOnClickListener(this);
@@ -125,13 +128,13 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
         expandableLayoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ImageView imageView = (ImageView) view.findViewById(R.id.expand_img_score);
+//                ImageView imageView = (ImageView) view.findViewById(R.id.expand_img_score);
 
-                if (imageView.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.drawable.ic_expand_more_black_24dp).getConstantState())) {
-                    imageView.setImageResource(R.drawable.ic_expand_less_black_24dp);
-                } else {
-                    imageView.setImageResource(R.drawable.ic_expand_more_black_24dp);
-                }
+//                if (imageView.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.drawable.ic_expand_more_black_24dp).getConstantState())) {
+//                    imageView.setImageResource(R.drawable.ic_expand_less_black_24dp);
+//                } else {
+//                    imageView.setImageResource(R.drawable.ic_expand_more_black_24dp);
+//                }
             }
         });
     }
@@ -156,13 +159,12 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
             case R.id.toolbar_title:
                 new MaterialDialog.Builder(getContext())
                         .title("选择学期")
-                        .items(R.array.term)
-                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                        .items(genTerm())
+                        .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
-                            public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
 
-                                chooseTerm[0] = text.toString().substring(0, 9);
-                                chooseTerm[1] = text.toString().substring(11, 12);
+                                chooseTerm = termValue.get(which).split(":");
                                 SettingsUtil.setUserScoreTerm(chooseTerm[0] + ":" + chooseTerm[1]);
                                 List<PersonScore> scoreList = null;
                                 if (SettingsUtil.getXueHao() != "") {
@@ -179,9 +181,11 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
                                         }
                                         init_view(chooseTerm, list);
                                     } else {
-                                        if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.personInfo != null&&MainActivity.network.theUrls!=null) {
+                                        if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.personInfo != null && MainActivity.network.theUrls != null) {
+                                            ShowLoadDialog.show(getContext());
                                             network.getScore(chooseTerm[0], chooseTerm[1]);
-                                        } else if (network.cookieStore != null&&network.theUrls!=null) {
+                                        } else if (network.cookieStore != null && network.theUrls != null) {
+                                            ShowLoadDialog.show(getContext());
                                             network.getScore(chooseTerm[0], chooseTerm[1]);
                                         } else {
                                             dialogLogin = loginZfDialog("重新登录");
@@ -192,7 +196,7 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
                                     dialogLogin = loginZfDialog("教务网登录");
                                     dialogLogin.show();
                                 }
-                                return false;
+                                return;
                             }
                         })
                         .negativeText("取消")
@@ -208,18 +212,16 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
                     int num = 0;
                     float allCredit = 0;
                     for (int i = 0; i < list.size(); i++) {
+                        float score = 0;
+                        float finalScore = 0;
                         ScoreData data = list.get(i);
                         float credit = 0;
                         try {
                             if (!data.getCourseName().contains("体育")) {
                                 credit = Float.parseFloat(data.getCredit());
-                                float score = Float.parseFloat(data.getScore());
-                                float finalScore = Float.parseFloat(data.getFinalScore());
-                                num++;
-                                allCredit += credit;
-                                avrScore += score;
-                                avrFinalScore += finalScore;
-                                gravityScore += score * credit;
+                                score = Float.parseFloat(data.getScore());
+                                finalScore = Float.parseFloat(data.getFinalScore());
+
                                 if (score >= 95) {
                                     jidian += 5 * credit;
                                 } else if (score >= 90) {
@@ -239,21 +241,50 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
                                 } else {
 
                                 }
-                                Log.e("test", allCredit + " " + avrScore + " " + avrFinalScore + " " + num + " " + gravityScore);
+
                             }
                         } catch (NumberFormatException e) {
                             if (data.getScore().contains("优秀")) {
                                 jidian += 4.5 * credit;
+                                score = 95;
                             } else if (data.getScore().contains("良好")) {
                                 jidian += 3.5 * credit;
+                                score = 85;
                             } else if (data.getScore().contains("中等")) {
                                 jidian += 2.5 * credit;
+                                score = 75;
                             } else if (data.getScore().contains("及格")) {
                                 jidian += 1.5 * credit;
+                                score = 60;
                             } else {
+                                score = 0;
+                            }
 
+                            if (data.getFinalScore().contains("优秀")) {
+
+                                finalScore = 95;
+                            } else if (data.getFinalScore().contains("良好")) {
+
+                                finalScore = 85;
+                            } else if (data.getFinalScore().contains("中等")) {
+
+                                finalScore = 75;
+                            } else if (data.getFinalScore().contains("及格")) {
+
+                                finalScore = 60;
+                            } else {
+                                finalScore = 0;
                             }
                         }
+
+
+                        num++;
+                        allCredit += credit;
+                        avrScore += score;
+                        avrFinalScore += finalScore;
+                        gravityScore += score * credit;
+
+                        Log.e("test", allCredit + " " + avrScore + " " + avrFinalScore + " " + num + " " + gravityScore);
                     }
                     DecimalFormat fnum = new DecimalFormat("##0.00");
                     avrScore = avrScore / num;
@@ -292,6 +323,48 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    //生成学期选择
+    private List<String> termValue;
+
+    private List<String> genTerm() {
+        Time time = new Time("GMT+8");
+        time.setToNow();
+        String nj = SettingsUtil.getNj();
+        List<String> name = new ArrayList<>();
+        termValue = new ArrayList<>();
+        if (nj != "") {
+            int startYear = Integer.parseInt(nj);
+            for (int i = startYear, t = 0; i < time.year; i++, t++) {
+                for (int j = 0; j < 2; j++) {
+                    String title = "";
+                    String content = i + "-" + (i + 1) + ":" + (j + 1);
+                    if (t == 0) {
+                        title = "大一";
+                    } else if (t == 1) {
+                        title = "大二";
+                    } else if (t == 2) {
+                        title = "大三";
+                    } else if (t == 3) {
+                        title = "大四";
+                    }
+                    if (j == 0) {
+                        title += "上学期";
+                    } else if (j == 1) {
+                        title += "下学期";
+                    }
+
+                    name.add(title);
+                    termValue.add(content);
+                }
+            }
+
+            return name;
+        } else {
+
+        }
+
+        return null;
+    }
     private void displayDialog(String[] list) {
         ScoresDialogAdapter adapter = new ScoresDialogAdapter(getContext(), list);
         DialogPlus dialog = DialogPlus.newDialog(getContext())
@@ -394,6 +467,7 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
                     dialogLogin.dismiss();
                 }
                 if (SettingsUtil.getUserScoreTerm() != "") {
+                    ShowLoadDialog.show(getContext());
                     String[] info = SettingsUtil.getUserScoreTerm().split(":");
                     network.getScore(info[0], info[1]);
                 }

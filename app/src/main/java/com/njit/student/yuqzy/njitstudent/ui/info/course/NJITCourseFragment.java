@@ -49,6 +49,7 @@ import com.njit.student.yuqzy.njitstudent.net.ZfNetData;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.ChooseTypeAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.CourseDialogAdapter;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
+import com.njit.student.yuqzy.njitstudent.utils.ShowLoadDialog;
 import com.njit.student.yuqzy.njitstudent.utils.ThemeUtil;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
@@ -67,6 +68,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -163,102 +165,25 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
     }
 
     private void init_view(View view) {
-        Time time = new Time("GMT+8");
-        time.setToNow();
-        ((TextView) view.findViewById(R.id.show_year)).setText(Integer.toString(time.year));
-        ((TextView) view.findViewById(R.id.show_month)).setText((time.month + 1) + "月");
-        int weekday = time.weekDay;
-        int monthday = time.monthDay;
-        String[] value;
-        switch (weekday) {
-            case 0:
-                (view.findViewById(R.id.ll_week_7)).setBackgroundResource(R.drawable.today_course_bac);
-                value = new String[7];
-                value[0] = Integer.toString(monthday - 1);
-                value[1] = Integer.toString(monthday);
-                value[2] = Integer.toString(monthday + 1);
-                value[3] = Integer.toString(monthday + 2);
-                value[4] = Integer.toString(monthday + 3);
-                value[5] = Integer.toString(monthday + 4);
-                value[6] = Integer.toString(monthday + 5);
-                init_header(view, value);
-                break;
-            case 1:
-                (view.findViewById(R.id.ll_week_1)).setBackgroundResource(R.drawable.today_course_bac);
-                value = new String[7];
-                value[0] = Integer.toString(monthday - 2);
-                value[1] = Integer.toString(monthday - 1);
-                value[2] = Integer.toString(monthday);
-                value[3] = Integer.toString(monthday + 1);
-                value[4] = Integer.toString(monthday + 2);
-                value[5] = Integer.toString(monthday + 3);
-                value[6] = Integer.toString(monthday + 4);
-                init_header(view, value);
-                break;
-            case 2:
-                (view.findViewById(R.id.ll_week_2)).setBackgroundResource(R.drawable.today_course_bac);
-                value = new String[7];
-                value[0] = Integer.toString(monthday - 3);
-                value[1] = Integer.toString(monthday - 2);
-                value[2] = Integer.toString(monthday - 1);
-                value[3] = Integer.toString(monthday);
-                value[4] = Integer.toString(monthday + 1);
-                value[5] = Integer.toString(monthday + 2);
-                value[6] = Integer.toString(monthday + 3);
-                init_header(view, value);
-                break;
-            case 3:
-                (view.findViewById(R.id.ll_week_3)).setBackgroundResource(R.drawable.today_course_bac);
-                value = new String[7];
-                value[0] = Integer.toString(monthday - 4);
-                value[1] = Integer.toString(monthday - 3);
-                value[2] = Integer.toString(monthday - 2);
-                value[3] = Integer.toString(monthday - 1);
-                value[4] = Integer.toString(monthday);
-                value[5] = Integer.toString(monthday + 1);
-                value[6] = Integer.toString(monthday + 2);
-                init_header(view, value);
-                break;
-            case 4:
-                (view.findViewById(R.id.ll_week_4)).setBackgroundResource(R.drawable.today_course_bac);
-                value = new String[7];
-                value[0] = Integer.toString(monthday - 5);
-                value[1] = Integer.toString(monthday - 4);
-                value[2] = Integer.toString(monthday - 3);
-                value[3] = Integer.toString(monthday - 2);
-                value[4] = Integer.toString(monthday - 1);
-                value[5] = Integer.toString(monthday);
-                value[6] = Integer.toString(monthday + 1);
-                init_header(view, value);
-                break;
-            case 5:
-                (view.findViewById(R.id.ll_week_5)).setBackgroundResource(R.drawable.today_course_bac);
-                value = new String[7];
-                value[0] = Integer.toString(monthday - 6);
-                value[1] = Integer.toString(monthday - 5);
-                value[2] = Integer.toString(monthday - 4);
-                value[3] = Integer.toString(monthday - 3);
-                value[4] = Integer.toString(monthday - 2);
-                value[5] = Integer.toString(monthday - 1);
-                value[6] = Integer.toString(monthday);
-                init_header(view, value);
-                break;
-            case 6:
-                (view.findViewById(R.id.ll_week_6)).setBackgroundResource(R.drawable.today_course_bac);
-                value = new String[7];
-                value[0] = Integer.toString(monthday);
-                value[1] = Integer.toString(monthday + 1);
-                value[2] = Integer.toString(monthday + 2);
-                value[3] = Integer.toString(monthday + 3);
-                value[4] = Integer.toString(monthday + 4);
-                value[5] = Integer.toString(monthday + 5);
-                value[6] = Integer.toString(monthday + 6);
-                init_header(view, value);
-                break;
-        }
-    }
+        Calendar calendar=Calendar.getInstance();
+        long cur=calendar.getTimeInMillis();
+        int curWeekDay=calendar.get(Calendar.DAY_OF_WEEK);
+        long startTime=cur-(curWeekDay-1)*24*60*60*1000;
 
-    private void init_header(View view, String[] value) {
+        calendar.setTimeInMillis(startTime);
+
+
+        ((TextView) view.findViewById(R.id.show_year)).setText(calendar.get(Calendar.YEAR)+"");
+        ((TextView) view.findViewById(R.id.show_month)).setText((calendar.get(Calendar.MONTH) + 1) + "月");
+        String[] value=new String[7];
+        for(int i=0;i<7;i++){
+            long time=startTime+i*24*60*60*1000;
+            Calendar c=Calendar.getInstance();
+            c.setTimeInMillis(time);
+            value[i]=Integer.toString(c.get(Calendar.DAY_OF_MONTH));
+            Log.e("month day",value[i]);
+
+        }
         ((TextView) view.findViewById(R.id.day_1)).setText(value[0]);
         ((TextView) view.findViewById(R.id.day_2)).setText(value[1]);
         ((TextView) view.findViewById(R.id.day_3)).setText(value[2]);
@@ -266,7 +191,31 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         ((TextView) view.findViewById(R.id.day_5)).setText(value[4]);
         ((TextView) view.findViewById(R.id.day_6)).setText(value[5]);
         ((TextView) view.findViewById(R.id.day_7)).setText(value[6]);
+        switch (curWeekDay) {
+            case 1:
+                (view.findViewById(R.id.ll_week_7)).setBackgroundResource(R.drawable.today_course_bac);
+                break;
+            case 2:
+                (view.findViewById(R.id.ll_week_1)).setBackgroundResource(R.drawable.today_course_bac);
+                break;
+            case 3:
+                (view.findViewById(R.id.ll_week_2)).setBackgroundResource(R.drawable.today_course_bac);
+                break;
+            case 4:
+                (view.findViewById(R.id.ll_week_3)).setBackgroundResource(R.drawable.today_course_bac);
+                break;
+            case 5:
+                (view.findViewById(R.id.ll_week_4)).setBackgroundResource(R.drawable.today_course_bac);
+                break;
+            case 6:
+                (view.findViewById(R.id.ll_week_5)).setBackgroundResource(R.drawable.today_course_bac);
+                break;
+            case 7:
+                (view.findViewById(R.id.ll_week_6)).setBackgroundResource(R.drawable.today_course_bac);
+                break;
+        }
     }
+
 
     private void addSeqViews(ViewGroup index) {
         if (index != null) {
@@ -363,6 +312,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
     int click = 0;
 
     private void createView(ViewGroup index, List<List<Cell>> data) {
+        ShowLoadDialog.dismiss();
         init_current_week();
         tvTitle.setText(SettingsUtil.getUserCourseTerm() + "\n 第" + SettingsUtil.getCurrentWeek() + "周");
         if (index != null) {
@@ -524,7 +474,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                         endweek = Integer.parseInt(w.substring(w.indexOf("-") + 1, w.indexOf("周")));
 
                                         classType = 0;
-                                        Log.e("week",w);
+                                        Log.e("week", w);
                                         if (w.contains("单周")) {
                                             classType = 1;
                                         } else if (w.contains("双周")) {
@@ -534,13 +484,13 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                         for (int g = startweek; g <= endweek; g++) {
 
                                             if (classType == 1 && g % 2 == 1) {
-                                                Log.e("do week","class type 1");
+                                                Log.e("do week", "class type 1");
                                                 week.add(g);
                                             } else if (classType == 2 && g % 2 == 0) {
-                                                Log.e("do week","class type 2"+g);
+                                                Log.e("do week", "class type 2" + g);
                                                 week.add(g);
-                                            } else if(classType==0){
-                                                Log.e("do week","class type 0"+g);
+                                            } else if (classType == 0) {
+                                                Log.e("do week", "class type 0" + g);
                                                 week.add(g);
                                             }
 
@@ -623,7 +573,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
             } else {
                 type = "学生个人课表";
             }
-            final String[] current = new String[]{SettingsUtil.getXueHao(), info[0] + " 第" + info[1] + "学期", SettingsUtil.getCurrentWeek(), type, "", "", "", "", ""};
+            final String[] current = new String[]{SettingsUtil.getXueHao(), info[0] + " 第" + info[1] + "学期", SettingsUtil.getCurrentWeek(), type, "", courseDatabase.getFormSJKdatabases().size() + "", courseDatabase.getFormTTBinfoDatabases().size() + "", "", ""};
             CourseDialogAdapter adapter = new CourseDialogAdapter(getContext(), current);
 
             DialogPlus dialog = DialogPlus.newDialog(getContext())
@@ -687,6 +637,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                             getBJCourse(MainActivity.network, MainActivity.personInfo, SettingsUtil.getUserCourseTerm().split(":"));
                                         } else {
                                             String[] info = SettingsUtil.getUserCourseTerm().split(":");
+                                            ShowLoadDialog.show(getContext());
                                             MainActivity.network.getPersonCourseForm(SettingsUtil.getXueHao(), info[0], info[1]);
                                         }
                                     } else if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
@@ -694,6 +645,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                             getBJCourse(network, personInfo, SettingsUtil.getUserCourseTerm().split(":"));
                                         } else {
                                             String[] info = SettingsUtil.getUserCourseTerm().split(":");
+                                            ShowLoadDialog.show(getContext());
                                             network.getPersonCourseForm(SettingsUtil.getXueHao(), info[0], info[1]);
                                         }
                                     } else {
@@ -718,16 +670,19 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
 
     //从网络获取课表
     private void getBJCourse(ZfNetData network, PersonInfo personInfo, String[] chooseTerm) {
+        ShowLoadDialog.show(getContext());
         String[] xy_name = getResources().getStringArray(R.array.xy_name);
-        String[] xy_value = getResources().getStringArray(R.array.xy_name);
+        String[] xy_value = getResources().getStringArray(R.array.xy_value);
         int key = 0;
         String personXY = personInfo.getPersonXY();
         for (int i = 0; i < xy_name.length; i++) {
+            Log.e("get xy", xy_name[i] + ":" + xy_value[i]);
             if (xy_name[i].equals(personXY)) {
                 key = i;
                 break;
             }
         }
+        Log.e("do get course", "" + personInfo.getPersonXH() + " " + personInfo.getPersonXZB() + " " + xy_value[key] + " " + personInfo.getPersonZYMC());
         network.getCourseForm(personInfo.getPersonXH(),
                 personInfo.getPersonXZB(),
                 chooseTerm[0], chooseTerm[1],
@@ -736,17 +691,61 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                 personInfo.getPersonZYMC());// 0107 0501;
     }
 
+    //生成学期选择
+    private List<String> termValue;
+
+    private List<String> genTerm() {
+        Time time = new Time("GMT+8");
+        time.setToNow();
+        String nj = SettingsUtil.getNj();
+        List<String> name = new ArrayList<>();
+        termValue = new ArrayList<>();
+        if (nj != "") {
+            int startYear = Integer.parseInt(nj);
+            for (int i = startYear, t = 0; i < time.year; i++, t++) {
+                for (int j = 0; j < 2; j++) {
+                    String title = "";
+                    String content = i + "-" + (i + 1) + ":" + (j + 1);
+                    if (t == 0) {
+                        title = "大一";
+                    } else if (t == 1) {
+                        title = "大二";
+                    } else if (t == 2) {
+                        title = "大三";
+                    } else if (t == 3) {
+                        title = "大四";
+                    }
+                    if (j == 0) {
+                        title += "上学期";
+                    } else if (j == 1) {
+                        title += "下学期";
+                    }
+
+                    name.add(title);
+                    termValue.add(content);
+                }
+            }
+
+            return name;
+        } else {
+
+        }
+
+        return null;
+    }
+
     //学期选择
     private Dialog chooseTermDialog() {
         return new MaterialDialog.Builder(getContext())
                 .title("选择学期")
-                .items(R.array.term)
-                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                .items(genTerm())
+                .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
-                    public boolean onSelection(MaterialDialog dialog2, View itemView, int which, CharSequence text) {
+                    public void onSelection(MaterialDialog dialog2, View itemView, int which, CharSequence text) {
 
-                        chooseTerm[0] = text.toString().substring(0, 9);
-                        chooseTerm[1] = text.toString().substring(11, 12);
+                        chooseTerm=termValue.get(which).split(":");
+//                        chooseTerm[0] = text.toString().substring(0, 9);
+//                        chooseTerm[1] = text.toString().substring(11, 12);
                         if (SettingsUtil.getXueHao() != "") {
                             courseDatabase = null;
                             courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), chooseTerm[0] + ":" + chooseTerm[1], SettingsUtil.getUserCourseType());
@@ -757,12 +756,14 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                 if (SettingsUtil.getUserCourseType().equals("class")) {
                                     getBJCourse(MainActivity.network, MainActivity.personInfo, chooseTerm);
                                 } else {
+                                    ShowLoadDialog.show(getContext());
                                     MainActivity.network.getPersonCourseForm(MainActivity.personInfo.getPersonXH(), chooseTerm[0], chooseTerm[1]);
                                 }
                             } else if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
                                 if (SettingsUtil.getUserCourseType().equals("class")) {
                                     getBJCourse(network, personInfo, chooseTerm);
                                 } else {
+                                    ShowLoadDialog.show(getContext());
                                     network.getPersonCourseForm(personInfo.getPersonXH(), chooseTerm[0], chooseTerm[1]);
                                 }
                             } else {
@@ -776,7 +777,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                             dialogLogin.show();
                         }
 
-                        return false;
+                        return;
                     }
                 })
                 .negativeText("取消")
@@ -808,17 +809,19 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        String[] info=SettingsUtil.getUserCourseTerm().split(":");
                         if (text.toString().equals("班级课表")) {
                             if (SettingsUtil.getUserCourseType() != "class") {
                                 courseDatabase = null;
-                                courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), chooseTerm[0] + ":" + chooseTerm[1], "class");
+
+                                courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), info[0] + ":" + info[1], "class");
                                 if (courseDatabase != null) {
                                     SettingsUtil.setUserCourseType("class");
                                     createView(con, genCellData(courseDatabase, "class"));
                                 } else if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.personInfo != null && MainActivity.network.theUrls != null) {
-                                    getBJCourse(MainActivity.network, MainActivity.personInfo, chooseTerm);
+                                    getBJCourse(MainActivity.network, MainActivity.personInfo, info);
                                 } else if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
-                                    getBJCourse(network, personInfo, chooseTerm);
+                                    getBJCourse(network, personInfo, info);
                                 } else {
                                     dialogLogin = loginZfDialog("教务网登录");
                                     dialogLogin.show();
@@ -832,16 +835,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                     SettingsUtil.setUserCourseType("peson");
                                     createView(con, genCellData(courseDatabase, "person"));
                                 } else {
-                                    if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.network.theUrls != null) {
-                                        String[] info = SettingsUtil.getUserCourseTerm().split(":");
-                                        network.getPersonCourseForm(SettingsUtil.getXueHao(), info[0], info[1]);
-                                    } else if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
-                                        String[] info = SettingsUtil.getUserCourseTerm().split(":");
-                                        network.getPersonCourseForm(SettingsUtil.getXueHao(), info[0], info[1]);
-                                    } else {
-                                        dialogLogin = loginZfDialog("教务网登录");
-                                        dialogLogin.show();
-                                    }
+                                    getPerCourseNet(SettingsUtil.getXueHao(),info);
                                 }
                             }
                         }
@@ -864,19 +858,20 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                     public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
                         Log.e("DialogPlus", "onItemClick() called with: " + "item = [" +
                                 item + "], position = [" + position + "]");
+                        String[] info=SettingsUtil.getUserCourseTerm().split(":");
                         switch (position) {
                             case 0:
                                 if (!SettingsUtil.getUserCourseType().equals("class")) {
 
                                     courseDatabase = null;
-                                    courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), chooseTerm[0] + ":" + chooseTerm[1], "class");
+                                    courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), SettingsUtil.getUserCourseTerm(), "class");
                                     if (courseDatabase != null) {
                                         SettingsUtil.setUserCourseType("class");
                                         createView(con, genCellData(courseDatabase, "class"));
                                     } else if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.personInfo != null && MainActivity.network.theUrls != null) {
-                                        getBJCourse(MainActivity.network, MainActivity.personInfo, chooseTerm);
+                                        getBJCourse(MainActivity.network, MainActivity.personInfo, info);
                                     } else if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
-                                        getBJCourse(network, personInfo, chooseTerm);
+                                        getBJCourse(network, personInfo, info);
                                     } else {
                                         dialogLogin = loginZfDialog("教务网登录");
                                         dialogLogin.show();
@@ -892,16 +887,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                         SettingsUtil.setUserCourseType("person");
                                         createView(con, genCellData(courseDatabase, "person"));
                                     } else {
-                                        if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.network.theUrls != null) {
-                                            String[] info = SettingsUtil.getUserCourseTerm().split(":");
-                                            network.getPersonCourseForm(SettingsUtil.getXueHao(), info[0], info[1]);
-                                        } else if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
-                                            String[] info = SettingsUtil.getUserCourseTerm().split(":");
-                                            network.getPersonCourseForm(SettingsUtil.getXueHao(), info[0], info[1]);
-                                        } else {
-                                            dialogLogin = loginZfDialog("教务网登录");
-                                            dialogLogin.show();
-                                        }
+                                       getPerCourseNet(SettingsUtil.getXueHao(),info);
                                     }
                                 }
                                 break;
@@ -913,6 +899,19 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                 .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
                 .create();
         dialog.show();
+    }
+
+    //得到网络个人课表
+    private void getPerCourseNet(String id,String[] info){
+        ShowLoadDialog.show(getContext());
+        if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.network.theUrls != null) {
+            network.getPersonCourseForm(id, info[0], info[1]);
+        } else if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
+            network.getPersonCourseForm(id, info[0], info[1]);
+        } else {
+            dialogLogin = loginZfDialog("教务网登录");
+            dialogLogin.show();
+        }
     }
 
 
@@ -1069,6 +1068,8 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 network.zfLogin(et_zf_login_username.getText().toString(), et_zf_login_mima.getText().toString(), et_zf_login_yanzhengma.getText().toString());
+                SettingsUtil.setXueHao(et_zf_login_username.getText().toString());
+                SettingsUtil.setZFMM(et_zf_login_mima.getText().toString());
             }
         });
         zf_clear_btn = (Button) mAlertLayout.findViewById(R.id.zf_clear_btn);
@@ -1116,6 +1117,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                     if (SettingsUtil.getUserCourseType().equals("class")) {
                         getBJCourse(network, personInfo, SettingsUtil.getUserCourseTerm().split(":"));
                     } else {
+                        ShowLoadDialog.show(getContext());
                         String[] info = SettingsUtil.getUserCourseTerm().split(":");
                         network.getPersonCourseForm(SettingsUtil.getXueHao(), info[0], info[1]);
                     }
@@ -1191,12 +1193,12 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
             selectMedia = resultList;
             Log.i("callBack_result", selectMedia.size() + "");
             if (selectMedia != null) {
-                if(selectMedia.get(0).getCutPath()!=null&&selectMedia.get(0).getCutPath()!="") {
+                if (selectMedia.get(0).getCutPath() != null && selectMedia.get(0).getCutPath() != "") {
                     setBackground(selectMedia.get(0).getCutPath());
-                }else {
+                } else {
                     setBackground(selectMedia.get(0).getPath());
                 }
-               // setBackground(selectMedia.get(0).getPath());
+                // setBackground(selectMedia.get(0).getPath());
             }
         }
     };

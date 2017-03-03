@@ -2,12 +2,12 @@
     "error": false,
     "results":
         {
-            "app": "南工程",
-            "versionCode": 2,
-            "versionName": "1.2",
-	        "updateTime": "2017-03-01 23:52:00",
+            "app": "NJITStu",
+            "versionCode": 3,
+            "versionName": "1.3",
+	        "updateTime": "2017-03-03 22:52:00",
             "information": "第一个功能齐全的稳定版本",
             "foreUpdate": false,
-            "url":"https://raw.githubusercontent.com/yuqZY/NJITStudent/apk/NJITStudent_v1.2_release.apk"
+            "url":"https://raw.githubusercontent.com/yuqZY/NJITStudent/apk/NJITStu_v1.3_release.apk"
         }
 }

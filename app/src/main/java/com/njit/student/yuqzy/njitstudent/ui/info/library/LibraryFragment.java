@@ -10,12 +10,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,36 +20,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.andexert.expandablelayout.library.ExpandableLayoutListView;
 import com.njit.student.yuqzy.njitstudent.Event.LibraryResponseCode;
 import com.njit.student.yuqzy.njitstudent.Event.LibrarySecretCode;
-import com.njit.student.yuqzy.njitstudent.Event.LoginResponseCode;
-import com.njit.student.yuqzy.njitstudent.Event.PersonInfoEvent;
-import com.njit.student.yuqzy.njitstudent.Event.SecretCode;
 import com.njit.student.yuqzy.njitstudent.MainActivity;
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.database.CourseDatabase;
 import com.njit.student.yuqzy.njitstudent.database.CurrentReadRealm;
-import com.njit.student.yuqzy.njitstudent.database.PersonInfo;
-import com.njit.student.yuqzy.njitstudent.database.PersonScore;
-import com.njit.student.yuqzy.njitstudent.database.ScoreData;
-import com.njit.student.yuqzy.njitstudent.model.ScoreList;
-import com.njit.student.yuqzy.njitstudent.model.XianduCategory;
 import com.njit.student.yuqzy.njitstudent.net.NetWork;
-import com.njit.student.yuqzy.njitstudent.net.ZfNetData;
-import com.njit.student.yuqzy.njitstudent.ui.adapter.ScoreListAdapter;
-import com.njit.student.yuqzy.njitstudent.ui.adapter.ScoresDialogAdapter;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
-import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.ListHolder;
-import com.orhanobut.dialogplus.OnClickListener;
+import com.njit.student.yuqzy.njitstudent.utils.ShowLoadDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -238,6 +218,8 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
+                ShowLoadDialog.show(getContext());
                 SettingsUtil.setXueHao(etLoginName.getText().toString());
                 SettingsUtil.setUserLibraryMm(etLoginPwd.getText().toString());
                 NetWork.LibraryLogin(etLoginName.getText().toString(), etLoginPwd.getText().toString(),etYanzhengma.getText().toString());
@@ -264,12 +246,12 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(LibraryResponseCode event) {
-        if(libraryDialog.isShowing()) {
-            libraryDialog.dismiss();
-        }
+//        if(libraryDialog.isShowing()) {
+//            libraryDialog.dismiss();
+//        }
         switch (event.getCode()) {
             case LibraryResponseCode.LOGIN_OK:
-
+                ShowLoadDialog.dismiss();
                 Toast.makeText(getContext(),"登录成功",Toast.LENGTH_SHORT).show();
 
                 break;

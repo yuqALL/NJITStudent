@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">南工程</string>
+    <string name="app_name">NJITStu</string>
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -93,7 +93,7 @@
         <item>康尼学院</item>
         <item>机关</item>
     </array>
-    <array name="xy_value">
+    <string-array name="xy_value">
         <item>01</item>
         <item>02</item>
         <item>03</item>
@@ -111,7 +111,7 @@
         <item>34</item>
         <item>40</item>
         <item>53</item>
-    </array>
+    </string-array>
 
     <string-array name="color_name">
         <item>青石色</item>
@@ -221,13 +221,13 @@
     </string-array>
 
 
-    <string name="explain">为保证『敏学』的简洁，未加入任何广告，你可以通过微信或支付宝付款来支持开发者继续优化应用，
+    <string name="explain">为保证『NJITStudent』的简洁，未加入任何广告，你可以通过微信或支付宝付款来支持开发者继续优化应用，
         金额大小根据你的心情。\n\n可以用微信或支付宝直接扫描二维码，也可以长按二维码保存在本地，启动APP扫描二维码。\n\n感谢你的支持！</string>
 
- <string name="my_word">本软件所提供的数据均来自于敏学网（www.minxue.net），文件所有权均属于该网站，软件仅限于学习和研究目的。\n若本App触犯了贵公司的权益，请联系我们，我们会尽快处理！\n
+ <string name="my_word">本软件所提供的数据均来自于南京工程学院官网，文件所有权均属于该网站，软件仅限于学习和研究目的。\n若本App触犯了贵公司的权益，请联系我们，我们会尽快处理！\n
     我的联系方式：\n QQ:1329060146\n 邮箱:yuq329@outlook.com\n\n</string>
-<string name="open_source">• 感谢敏学网提供的数据：www.minxue.net\n• 感谢“假装看天气”：https://github.com/li-yu/FakeWeather\n• Realm：https://realm.io/\n• Glide: github.com/bumptech/glide\n• RxJava: github.com/ReactiveX/RxJava\n• Retrofit: github.com/square/retrofit\n• EventBus: github.com/greenrobot/EventBus\n• ButtonMenu: github.com/tuenti/ButtonMenu\n• dialogplus: github.com/orhanobut/dialogplus\n• RxAndroid: github.com/ReactiveX/RxAndroid\n• SeeWeather: github.com/xcc3641/SeeWeather\n• RxBinding: github.com/JakeWharton/RxBinding\n• RxPermissions: github.com/tbruyelle/RxPermissions\n• material-dialogs: github.com/afollestad/material-dialogs\n• BaseRecyclerViewAdapterHelper: github.com/CymChad/BaseRecyclerViewAdapterHelper
-    </string>
+<string name="open_source">• 感谢南京工程学院提供的数据：http://www.njit.edu.cn/\n• 感谢“假装看天气”提供的参考：https://github.com/li-yu/FakeWeather\n• Realm：https://realm.io/\n• Glide: github.com/bumptech/glide\n• RxJava: github.com/ReactiveX/RxJava\n• Retrofit: github.com/square/retrofit\n• EventBus: github.com/greenrobot/EventBus\n• dialogplus: github.com/orhanobut/dialogplus\n• RxAndroid: github.com/ReactiveX/RxAndroid\n• SeeWeather: github.com/xcc3641/SeeWeather\n• RxBinding: github.com/JakeWharton/RxBinding\n• RxPermissions: github.com/tbruyelle/RxPermissions\n• material-dialogs: github.com/afollestad/material-dialogs\n• BaseRecyclerViewAdapterHelper: github.com/CymChad/BaseRecyclerViewAdapterHelper
+    • PictureSelector：https://github.com/LuckSiege/PictureSelector\n</string>
     <string name="score_viewstate">
         dDwxMDk5MDkzODA4O3Q8cDxsPHRqcXI7PjtsPDE7Pj47bDxpPDE+Oz47bDx0PDtsPGk8MT
         47aTw3PjtpPDk+Oz47bDx0PHQ8O3Q8aTwxOD47QDzlhajpg6g7MjAwMS0yMDAyOzIwMDIt

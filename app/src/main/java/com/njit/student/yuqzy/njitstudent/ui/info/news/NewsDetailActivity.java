@@ -17,6 +17,7 @@ import com.njit.student.yuqzy.njitstudent.database.NewsDetail;
 import com.njit.student.yuqzy.njitstudent.database.NewsDetailItem;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.NewsDetailAdapter;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
+import com.njit.student.yuqzy.njitstudent.utils.ShareUtils;
 import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
 
 import org.jsoup.Jsoup;
@@ -48,7 +49,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private Toolbar toolbar;
     private Subscription subscription;
     private NewsDetailAdapter adapter;
-    private ImageView imgLike, imgIE;
+    private ImageView imgLike, imgIE,imgShare;
     private Realm realm;
     private RealmQuery<NewsDetail> query;
     private RealmResults<NewsDetail> results;
@@ -70,8 +71,10 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         progressBar = (ProgressBar) findViewById(R.id.progress);
         imgLike = (ImageView) findViewById(R.id.img_like);
         imgIE = (ImageView) findViewById(R.id.img_open_ie);
+        imgShare=(ImageView)findViewById(R.id.img_share);
         imgLike.setOnClickListener(this);
         imgIE.setOnClickListener(this);
+        imgShare.setOnClickListener(this);
         Intent intent = getIntent();
         host = intent.getStringExtra("host");
         title = intent.getStringExtra("title");
@@ -346,6 +349,9 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.img_open_ie:
                 WebUtils.openExternal(this, host);
+                break;
+            case R.id.img_share:
+                ShareUtils.shareText(this,title+"\n"+host);
                 break;
         }
     }

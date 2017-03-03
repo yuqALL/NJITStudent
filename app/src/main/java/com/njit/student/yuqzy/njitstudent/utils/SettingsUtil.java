@@ -6,10 +6,12 @@ import com.njit.student.yuqzy.njitstudent.MainActivity;
 
 public class SettingsUtil {
 
+    public static final String NJ="nj";//年级
     public static final String THEME = "theme_color";//主题
     public static final String CLEAR_CACHE = "clean_cache";//清空缓存
     public static final String VIEW_MAIN = "view_main";//主页
     public static final String PERSON_FAVOR = "person_favor";//个人头像
+    public static final String NAV_BAC = "nav_bac";//个人头像
     public static final String CLEAR_INFO = "clear_info";//清理个人信息
     public static final String FAST_GET_ALL_INFO = "fast_get_all_info";//得到所有信息
     public static final String ADD_URLS = "add_url";//添加网址
@@ -24,6 +26,14 @@ public class SettingsUtil {
     public static final String USER_LIBRARY_MM = "user_library_mm";//添加用户图书馆系统密码
 
     public static final String COURSE_BAC_GROUND = "course_bac_ground";//课程表背景
+    public static void setNj(String nj) {
+        SPUtil.put(App.getContext(), NJ, nj);
+    }
+
+    public static String getNj() {
+        return (String) SPUtil.get(App.getContext(), NJ, "");
+    }
+
 
     public static void setTheme(int themeIndex) {
         SPUtil.put(App.getContext(), THEME, themeIndex);
@@ -131,4 +141,12 @@ public class SettingsUtil {
         return (String) SPUtil.get(App.getContext(), COURSE_BAC_GROUND, "");
     }
 
+
+    public static void setNavBac(String path) {
+        SPUtil.put(App.getContext(), NAV_BAC, path);
+    }
+
+    public static String getNavBac() {
+        return (String) SPUtil.get(App.getContext(), NAV_BAC, "");
+    }
 }

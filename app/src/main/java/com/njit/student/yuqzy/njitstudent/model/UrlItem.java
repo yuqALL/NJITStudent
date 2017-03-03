@@ -1,9 +1,8 @@
 package com.njit.student.yuqzy.njitstudent.model;
 
+import io.realm.RealmObject;
 
-import java.io.Serializable;
-
-public class UrlItem implements Serializable{
+public class UrlItem extends RealmObject{
     private int type;
     private String title;
     private String name;
@@ -23,18 +22,6 @@ public class UrlItem implements Serializable{
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public UrlItem(int type, String name, String url) {
-        this.type = type;
-        this.name = name;
-        this.url = url;
-    }
-
-    public UrlItem(int type, String title) {
-
-        this.type = type;
-        this.title = title;
     }
 
     public int getType() {
