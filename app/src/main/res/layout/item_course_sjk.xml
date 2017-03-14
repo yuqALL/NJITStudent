@@ -36,7 +36,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@drawable/shape_corners_white"
                     android:gravity="center_horizontal"
                     />
             </LinearLayout>
@@ -57,7 +56,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@drawable/shape_corners_white"
                     android:gravity="center_horizontal"
                      />
             </LinearLayout>
@@ -78,7 +76,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@drawable/shape_corners_white"
                     android:gravity="center_horizontal"
                      />
             </LinearLayout>
@@ -99,7 +96,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@drawable/shape_corners_white"
                     android:gravity="center_horizontal"
                      />
             </LinearLayout>
@@ -120,7 +116,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@drawable/shape_corners_white"
                     android:gravity="center_horizontal"
                      />
             </LinearLayout>
@@ -143,7 +138,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@drawable/shape_corners_white"
                     android:gravity="center_horizontal"
                     />
             </LinearLayout>

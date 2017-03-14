@@ -37,8 +37,7 @@
             android:hint="用户名/学号"
             android:maxLines="1"
             android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:text="201140233"/>
+            android:paddingRight="4dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -66,8 +65,7 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:text="032900yu"/>
+            android:paddingRight="4dp" />
     </LinearLayout>
 
     <LinearLayout

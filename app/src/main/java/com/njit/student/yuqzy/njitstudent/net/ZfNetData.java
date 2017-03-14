@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import android.util.Log;
+import android.util.Xml;
 
 
 import com.njit.student.yuqzy.njitstudent.Event.CourseEvent;
@@ -51,6 +52,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.NJIT_ZF_HOST;
@@ -193,6 +196,33 @@ public class ZfNetData {
         }
     }
 
+    private String encode="gb2312";
+    public String matchC(String str){
+       // String str = "A我B3是D4一个D3汉ad字e3d";
+
+        try {
+            Pattern p = Pattern.compile("([\u4e00-\u9fa5]+)");
+            Matcher m = p.matcher(str);
+
+            String mes = str;
+            String mv = null;
+
+            while (m.find()) {
+                mv = m.group(0);
+                String en = URLEncoder.encode(mv, encode);
+                if(mes.contains(mv)){
+                    mes=mes.replaceAll(mv,en);
+                    Log.e("match txt ",en+"\n"+mes);//%B2%DC%C7%EC%88%D2
+                }
+            }
+
+            return mes;
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
+        return str;
+    }
     //得到个人信息
     public void getPersonalInfo(String result) {
         theUrls = new UrlsMap(null);
@@ -214,27 +244,28 @@ public class ZfNetData {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                DefaultHttpClient client = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(theUrls.getPersonInfo());
-                HttpResponse httpResponse;
-
-                if (cookieStore == null) {
-
-                } else {
-                    client.setCookieStore(cookieStore);
-                }
                 try {
+                    //String url = new String(theUrls.getPersonInfo().getBytes(), encode);
+                    String url =matchC(theUrls.getPersonInfo());
+                    Log.e("url",url+"\n");
+                    DefaultHttpClient client = new DefaultHttpClient();
+                    HttpGet httpGet = new HttpGet(url);
+                    HttpResponse httpResponse;
+
+                    if (cookieStore == null) {
+
+                    } else {
+                        client.setCookieStore(cookieStore);
+                    }
                     httpGet.addHeader("User-Agent", USERAGENT_DESKTOP);
-                    httpGet.addHeader("Referer", theUrls.getPersonInfo());
+                    httpGet.addHeader("Referer", url);
                     client.getParams().setParameter("http.protocol.allow-circular-redirects", false);
                     httpResponse = client.execute(httpGet);
                     Log.i("xyz", String.valueOf(httpResponse.getStatusLine().getStatusCode()));
                     if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                        StringBuffer sb = new StringBuffer();
                         HttpEntity entity = httpResponse.getEntity();
 
                         String MAINBODYHTML = EntityUtils.toString(entity);
-                        //Log.e("test content", MAINBODYHTML);
                         Document doc = Jsoup.parse(MAINBODYHTML);
                         Element content = doc.select("div.main_box").first();
 
@@ -322,6 +353,9 @@ public class ZfNetData {
                         EventBus.getDefault().post(loginevent);
                         SettingsUtil.setNj(info.getPersonDQSZJ());
 
+                    }else {
+                        LoginResponseCode loginevent = new LoginResponseCode(LoginResponseCode.LOGIN_USERNAME_OR_PASSWORD_ERROR);
+                        EventBus.getDefault().post(loginevent);
                     }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -347,26 +381,27 @@ public class ZfNetData {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String host = theUrls.getScoreUrl();
-                DefaultHttpClient client = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(host);
-                HttpResponse httpResponse;
-                //设置post参数
-
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                //params.add(new BasicNameValuePair("btnCx", "%E6%9F%A5%20%20%E8%AF%A2"));
-                params.add(new BasicNameValuePair("btnCx", btn));
-                params.add(new BasicNameValuePair("ddlxn", year));
-                params.add(new BasicNameValuePair("ddlxq", term));
-                params.add(new BasicNameValuePair("__VIEWSTATE", context.getResources().getString(R.string.score_viewstate)));
-                params.add(new BasicNameValuePair("__EVENTTARGET", ""));
-                params.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
-                if (cookieStore == null) {
-
-                } else {
-                    client.setCookieStore(cookieStore);
-                }
                 try {
+                    String host = theUrls.getScoreUrl();
+                    //String host = theUrls.getScoreUrl();
+                    DefaultHttpClient client = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost(host);
+                    HttpResponse httpResponse;
+                    //设置post参数
+
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    //params.add(new BasicNameValuePair("btnCx", "%E6%9F%A5%20%20%E8%AF%A2"));
+                    params.add(new BasicNameValuePair("btnCx", btn));
+                    params.add(new BasicNameValuePair("ddlxn", year));
+                    params.add(new BasicNameValuePair("ddlxq", term));
+                    params.add(new BasicNameValuePair("__VIEWSTATE", context.getResources().getString(R.string.score_viewstate)));
+                    params.add(new BasicNameValuePair("__EVENTTARGET", ""));
+                    params.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
+                    if (cookieStore == null) {
+
+                    } else {
+                        client.setCookieStore(cookieStore);
+                    }
                     httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                     httpPost.addHeader("User-Agent", USERAGENT_DESKTOP);
                     httpPost.addHeader("Referer", host);
@@ -429,18 +464,23 @@ public class ZfNetData {
         final Thread t0 = new Thread(new Runnable() {
             @Override
             public void run() {
-                DefaultHttpClient client = new DefaultHttpClient();
-                //班级课表
-                HttpPost httpPost = new HttpPost(theUrls.getCourseForm());
-                HttpResponse httpResponse;
-                if (cookieStore == null) {
-                    return;
-                } else {
-                    client.setCookieStore(cookieStore);
-                }
+
                 try {
+
+                    String host = theUrls.getCourseForm();
+                    DefaultHttpClient client = new DefaultHttpClient();
+                    //班级课表
+                    //HttpPost httpPost = new HttpPost(theUrls.getCourseForm());
+                    HttpPost httpPost = new HttpPost(host);
+                    HttpResponse httpResponse;
+                    if (cookieStore == null) {
+                        return;
+                    } else {
+                        client.setCookieStore(cookieStore);
+                    }
                     httpPost.addHeader("User-Agent", USERAGENT_DESKTOP);
-                    httpPost.addHeader("Referer", theUrls.getCourseForm());
+                    //httpPost.addHeader("Referer", theUrls.getCourseForm());
+                    httpPost.addHeader("Referer", host);
                     client.getParams().setParameter("http.protocol.allow-circular-redirects", false);
                     httpResponse = client.execute(httpPost);
                     Log.i("xyz", String.valueOf(httpResponse.getStatusLine().getStatusCode()));
@@ -586,32 +626,36 @@ public class ZfNetData {
                     e.printStackTrace();
                 }
                 if ((!year.equals(defaultXN) && !term.equals(defaultXQ)) && year != "" && term != "") {
-                    DefaultHttpClient client = new DefaultHttpClient();
-                    //班级课表
-                    HttpPost httpPost = new HttpPost(theUrls.getCourseForm());
-                    HttpResponse httpResponse;
-                    //设置post参数
 
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("xn", year));
-                    params.add(new BasicNameValuePair("xq", term));
-                    params.add(new BasicNameValuePair("nj", nj));
-                    params.add(new BasicNameValuePair("xy", xy));
-                    params.add(new BasicNameValuePair("zy", zyCode));
-                    params.add(new BasicNameValuePair("kb", kb));//201401072016-201712011402
-                    params.add(new BasicNameValuePair("__EVENTTARGET", "zy"));
-                    params.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
-                    params.add(new BasicNameValuePair("__VIEWSTATE", firstViewstate));
-                    Log.e("params", year + " " + term + " " + nj + " " + xy + " " + zyCode + " " + kb);
-                    if (cookieStore == null) {
-                        return;
-                    } else {
-                        client.setCookieStore(cookieStore);
-                    }
                     try {
+                        String host = theUrls.getCourseForm();
+                        DefaultHttpClient client = new DefaultHttpClient();
+                        //班级课表
+                        //HttpPost httpPost = new HttpPost(theUrls.getCourseForm());
+                        HttpPost httpPost = new HttpPost(host);
+                        HttpResponse httpResponse;
+                        //设置post参数
+
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("xn", year));
+                        params.add(new BasicNameValuePair("xq", term));
+                        params.add(new BasicNameValuePair("nj", nj));
+                        params.add(new BasicNameValuePair("xy", xy));
+                        params.add(new BasicNameValuePair("zy", zyCode));
+                        params.add(new BasicNameValuePair("kb", kb));//201401072016-201712011402
+                        params.add(new BasicNameValuePair("__EVENTTARGET", "zy"));
+                        params.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
+                        params.add(new BasicNameValuePair("__VIEWSTATE", firstViewstate));
+                        Log.e("params", year + " " + term + " " + nj + " " + xy + " " + zyCode + " " + kb);
+                        if (cookieStore == null) {
+                            return;
+                        } else {
+                            client.setCookieStore(cookieStore);
+                        }
                         httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                         httpPost.addHeader("User-Agent", USERAGENT_DESKTOP);
-                        httpPost.addHeader("Referer", theUrls.getCourseForm());
+                        //httpPost.addHeader("Referer", theUrls.getCourseForm());
+                        httpPost.addHeader("Referer", host);
                         client.getParams().setParameter("http.protocol.allow-circular-redirects", false);
                         httpResponse = client.execute(httpPost);
                         Log.i("xyz", String.valueOf(httpResponse.getStatusLine().getStatusCode()));
@@ -707,17 +751,20 @@ public class ZfNetData {
         final Thread t0 = new Thread(new Runnable() {
             @Override
             public void run() {
-                DefaultHttpClient client = new DefaultHttpClient();
-                //班级课表
-                HttpPost httpPost = new HttpPost(theUrls.getPersonCourse());
-                HttpResponse httpResponse;
 
-                if (cookieStore == null) {
-                    return;
-                } else {
-                    client.setCookieStore(cookieStore);
-                }
                 try {
+                    String host = theUrls.getPersonCourse();
+                    DefaultHttpClient client = new DefaultHttpClient();
+                    //班级课表
+                    //HttpPost httpPost = new HttpPost(theUrls.getPersonCourse());
+                    HttpPost httpPost = new HttpPost(host);
+                    HttpResponse httpResponse;
+
+                    if (cookieStore == null) {
+                        return;
+                    } else {
+                        client.setCookieStore(cookieStore);
+                    }
 
                     httpPost.addHeader("User-Agent", USERAGENT_DESKTOP);
                     httpPost.addHeader("Referer", "http://jwjx.njit.edu.cn/xs_main.aspx?xh=201140233");
@@ -743,7 +790,7 @@ public class ZfNetData {
 
 
                         Element content2 = doc.select("div.main_box").select("span.formbox").select("table#Table2").first();
-                        Log.e("default xnd", content2.html()+"   "+year+":"+term);
+                        Log.e("default xnd", content2.html() + "   " + year + ":" + term);
                         if (content2 != null) {
                             Elements defaultYear = content2.select("select#xnd").select("option");
                             for (Element e : defaultYear) {
@@ -852,26 +899,30 @@ public class ZfNetData {
                     e.printStackTrace();
                 }
                 if ((!year.equals(defaultPYear) && !term.equals(defaultPterm)) && year != "" && term != "") {
-                    DefaultHttpClient client = new DefaultHttpClient();
-                    HttpPost httpPost = new HttpPost(theUrls.getPersonCourse());
-                    HttpResponse httpResponse;
-                    //设置post参数
 
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("xnd", year));
-                    params.add(new BasicNameValuePair("xqd", term));
-                    params.add(new BasicNameValuePair("__EVENTTARGET", "xqd"));
-                    params.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
-                    params.add(new BasicNameValuePair("__VIEWSTATE", firstPersonViewstate));
-                    if (cookieStore == null) {
-                        return;
-                    } else {
-                        client.setCookieStore(cookieStore);
-                    }
                     try {
+                        String host =theUrls.getPersonCourse();
+                        DefaultHttpClient client = new DefaultHttpClient();
+                        //HttpPost httpPost = new HttpPost(theUrls.getPersonCourse());
+                        HttpPost httpPost = new HttpPost(host);
+                        HttpResponse httpResponse;
+                        //设置post参数
+
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("xnd", year));
+                        params.add(new BasicNameValuePair("xqd", term));
+                        params.add(new BasicNameValuePair("__EVENTTARGET", "xqd"));
+                        params.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
+                        params.add(new BasicNameValuePair("__VIEWSTATE", firstPersonViewstate));
+                        if (cookieStore == null) {
+                            return;
+                        } else {
+                            client.setCookieStore(cookieStore);
+                        }
                         httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                         httpPost.addHeader("User-Agent", USERAGENT_DESKTOP);
-                        httpPost.addHeader("Referer", theUrls.getPersonCourse());
+                        //httpPost.addHeader("Referer", theUrls.getPersonCourse());
+                        httpPost.addHeader("Referer", host);
                         client.getParams().setParameter("http.protocol.allow-circular-redirects", false);
                         httpResponse = client.execute(httpPost);
                         Log.i("xyz", String.valueOf(httpResponse.getStatusLine().getStatusCode()));

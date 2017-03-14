@@ -23,9 +23,20 @@ public class SettingsUtil {
     public static final String USER_COURSE_TERM = "user_course_term";//添加用户查询学期信息
     public static final String USER_COURSE_TYPE = "user_course_type";//添加用户查询学期类型
     public static final String USER_ZF_MM = "user_zf_mm";//添加用户正方系统密码
+    public static final String USER_LIBRARY_USER = "user_library_user";//添加用户图书馆系统用户名
     public static final String USER_LIBRARY_MM = "user_library_mm";//添加用户图书馆系统密码
 
     public static final String COURSE_BAC_GROUND = "course_bac_ground";//课程表背景
+
+    public static void setUserLibraryUser(String user) {
+        SPUtil.put(App.getContext(), USER_LIBRARY_USER, user);
+    }
+
+    public static String getUserLibraryUser() {
+        return (String) SPUtil.get(App.getContext(), USER_LIBRARY_USER, "");
+    }
+
+
     public static void setNj(String nj) {
         SPUtil.put(App.getContext(), NJ, nj);
     }

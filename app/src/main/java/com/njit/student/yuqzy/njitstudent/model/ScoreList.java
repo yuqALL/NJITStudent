@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Administrator on 2017/2/8.
  */
 
-public class ScoreList implements Serializable,Parcelable {
+public class ScoreList{
     private List<ScoreData> dataList;
     private String personXH;
     private String yearAterm;
@@ -49,13 +49,4 @@ public class ScoreList implements Serializable,Parcelable {
         return dataList;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
 }

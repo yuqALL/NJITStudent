@@ -32,6 +32,7 @@
     <color name="booking">#f9266f</color>
     <color name="staying">#64d8ef</color>
     <color name="left">#a981ff</color>
+    <color name="add_course">#24ad9d</color>
 
     <array name="colors">
         <item>@color/lapis_blue</item>

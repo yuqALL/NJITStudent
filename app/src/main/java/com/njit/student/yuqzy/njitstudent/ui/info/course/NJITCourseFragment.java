@@ -107,17 +107,17 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_njitcourse, container, false);
-        courseDatabase = (CourseDatabase) getArguments().getSerializable("course");
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
 
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         course_layout = (LinearLayout) view.findViewById(R.id.course_layout);
         if (SettingsUtil.getCourseBacGround() != "") {
             setBackground(SettingsUtil.getCourseBacGround());
         }
+
         mToolbar.setTitle("我的课表");
         ((MainActivity) getActivity()).initDrawer(mToolbar);
         tvTitle = (TextView) view.findViewById(R.id.tv_title);
-        tvTitle.setText(SettingsUtil.getUserCourseTerm() + " 第" + SettingsUtil.getCurrentWeek() + "周");
+        tvTitle.setText(SettingsUtil.getUserCourseTerm() + "\n 第" + SettingsUtil.getCurrentWeek() + "周");
         imgMore = (ImageView) view.findViewById(R.id.img_more);
         imgMore.setOnClickListener(this);
         view.findViewById(R.id.img_change_type).setOnClickListener(this);
@@ -125,18 +125,23 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         int cell = getContext().getResources().getDisplayMetrics().widthPixels / 15;
         baseWidth = cell * 2;
         init_view(view);
-
-        if (MainActivity.network != null && MainActivity.network.cookieStore != null) {
-            network = MainActivity.network;
-        } else {
-            network = new ZfNetData(getContext());
-        }
+        network = MainActivity.network;
 
         // 更新学期课表视图
         ViewGroup seq = (ViewGroup) view.findViewById(R.id.week_class_seq);
         con = (ViewGroup) view.findViewById(R.id.week_class_content);
         addSeqViews(seq);
-        createView(con, genCellData(courseDatabase, SettingsUtil.getUserCourseType()));
+
+        if (SettingsUtil.getXueHao() != "" && SettingsUtil.getUserCourseTerm() != "") {
+            courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), SettingsUtil.getUserCourseTerm(), SettingsUtil.getUserCourseType());
+            if (courseDatabase != null) {
+                createView(con, genCellData(courseDatabase, SettingsUtil.getUserCourseType()));
+            }
+        } else {
+            dialogLogin = loginZfDialog("教务网登录");
+            dialogLogin.show();
+        }
+
         return view;
     }
 
@@ -148,6 +153,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         if (SettingsUtil.getCourseCurrentWeekBindTime() != "") {
             try {
                 date = dateFormatPattern.parse(SettingsUtil.getCourseCurrentWeekBindTime());//初始日期
+                Log.e("date",date.toString());
             } catch (Exception e) {
 
             }
@@ -165,23 +171,28 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
     }
 
     private void init_view(View view) {
-        Calendar calendar=Calendar.getInstance();
-        long cur=calendar.getTimeInMillis();
-        int curWeekDay=calendar.get(Calendar.DAY_OF_WEEK);
-        long startTime=cur-(curWeekDay-1)*24*60*60*1000;
+        Calendar calendar = Calendar.getInstance();
+        long cur = calendar.getTimeInMillis();
+        int curWeekDay = calendar.get(Calendar.DAY_OF_WEEK);//sunday开始 1 2 3..7
+        long startTime;
+        if(curWeekDay!=1) {
+            startTime = cur - (curWeekDay - 1) * 24 * 60 * 60 * 1000;
+        }else {
+            startTime = cur - 6 * 24 * 60 * 60 * 1000;
+        }
 
         calendar.setTimeInMillis(startTime);
 
 
-        ((TextView) view.findViewById(R.id.show_year)).setText(calendar.get(Calendar.YEAR)+"");
+        ((TextView) view.findViewById(R.id.show_year)).setText(calendar.get(Calendar.YEAR) + "");
         ((TextView) view.findViewById(R.id.show_month)).setText((calendar.get(Calendar.MONTH) + 1) + "月");
-        String[] value=new String[7];
-        for(int i=0;i<7;i++){
-            long time=startTime+i*24*60*60*1000;
-            Calendar c=Calendar.getInstance();
+        String[] value = new String[7];
+        for (int i = 0; i < 7; i++) {
+            long time = startTime + i * 24 * 60 * 60 * 1000;
+            Calendar c = Calendar.getInstance();
             c.setTimeInMillis(time);
-            value[i]=Integer.toString(c.get(Calendar.DAY_OF_MONTH));
-            Log.e("month day",value[i]);
+            value[i] = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
+            Log.e("month day", value[i]);
 
         }
         ((TextView) view.findViewById(R.id.day_1)).setText(value[0]);
@@ -564,8 +575,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
     private String[] chooseTerm = new String[2];
 
     private void displayDialog() {
-
-        if (SettingsUtil.getXueHao() != null && SettingsUtil.getUserCourseTerm() != "") {
+        if (SettingsUtil.getXueHao() != "" && SettingsUtil.getUserCourseTerm() != "") {
             String[] info = SettingsUtil.getUserCourseTerm().split(":");
             String type = "";
             if (SettingsUtil.getUserCourseType().equals("class")) {
@@ -573,7 +583,12 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
             } else {
                 type = "学生个人课表";
             }
-            final String[] current = new String[]{SettingsUtil.getXueHao(), info[0] + " 第" + info[1] + "学期", SettingsUtil.getCurrentWeek(), type, "", courseDatabase.getFormSJKdatabases().size() + "", courseDatabase.getFormTTBinfoDatabases().size() + "", "", ""};
+            final String[] current;
+            if (courseDatabase != null) {
+                current = new String[]{SettingsUtil.getXueHao(), info[0] + " 第" + info[1] + "学期", SettingsUtil.getCurrentWeek(), type, "", courseDatabase.getFormSJKdatabases().size() + "", courseDatabase.getFormTTBinfoDatabases().size() + "", "", ""};
+            } else {
+                current = new String[]{SettingsUtil.getXueHao(), info[0] + " 第" + info[1] + "学期", SettingsUtil.getCurrentWeek(), type, "", "", "", "", ""};
+            }
             CourseDialogAdapter adapter = new CourseDialogAdapter(getContext(), current);
 
             DialogPlus dialog = DialogPlus.newDialog(getContext())
@@ -632,15 +647,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                     }
                                     break;
                                 case 7://刷新信息
-                                    if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.personInfo != null && MainActivity.network.theUrls != null) {
-                                        if (SettingsUtil.getUserCourseType().equals("class")) {
-                                            getBJCourse(MainActivity.network, MainActivity.personInfo, SettingsUtil.getUserCourseTerm().split(":"));
-                                        } else {
-                                            String[] info = SettingsUtil.getUserCourseTerm().split(":");
-                                            ShowLoadDialog.show(getContext());
-                                            MainActivity.network.getPersonCourseForm(SettingsUtil.getXueHao(), info[0], info[1]);
-                                        }
-                                    } else if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
+                                    if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
                                         if (SettingsUtil.getUserCourseType().equals("class")) {
                                             getBJCourse(network, personInfo, SettingsUtil.getUserCourseTerm().split(":"));
                                         } else {
@@ -665,6 +672,8 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                     .setExpanded(false)
                     .create();
             dialog.show();
+        } else {
+
         }
     }
 
@@ -728,7 +737,8 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
 
             return name;
         } else {
-
+            dialogLogin = loginZfDialog("教务网登录");
+            dialogLogin.show();
         }
 
         return null;
@@ -743,7 +753,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onSelection(MaterialDialog dialog2, View itemView, int which, CharSequence text) {
 
-                        chooseTerm=termValue.get(which).split(":");
+                        chooseTerm = termValue.get(which).split(":");
 //                        chooseTerm[0] = text.toString().substring(0, 9);
 //                        chooseTerm[1] = text.toString().substring(11, 12);
                         if (SettingsUtil.getXueHao() != "") {
@@ -809,7 +819,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        String[] info=SettingsUtil.getUserCourseTerm().split(":");
+                        String[] info = SettingsUtil.getUserCourseTerm().split(":");
                         if (text.toString().equals("班级课表")) {
                             if (SettingsUtil.getUserCourseType() != "class") {
                                 courseDatabase = null;
@@ -835,7 +845,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                     SettingsUtil.setUserCourseType("peson");
                                     createView(con, genCellData(courseDatabase, "person"));
                                 } else {
-                                    getPerCourseNet(SettingsUtil.getXueHao(),info);
+                                    getPerCourseNet(SettingsUtil.getXueHao(), info);
                                 }
                             }
                         }
@@ -858,7 +868,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                     public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
                         Log.e("DialogPlus", "onItemClick() called with: " + "item = [" +
                                 item + "], position = [" + position + "]");
-                        String[] info=SettingsUtil.getUserCourseTerm().split(":");
+                        String[] info = SettingsUtil.getUserCourseTerm().split(":");
                         switch (position) {
                             case 0:
                                 if (!SettingsUtil.getUserCourseType().equals("class")) {
@@ -887,7 +897,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                         SettingsUtil.setUserCourseType("person");
                                         createView(con, genCellData(courseDatabase, "person"));
                                     } else {
-                                       getPerCourseNet(SettingsUtil.getXueHao(),info);
+                                        getPerCourseNet(SettingsUtil.getXueHao(), info);
                                     }
                                 }
                                 break;
@@ -902,7 +912,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
     }
 
     //得到网络个人课表
-    private void getPerCourseNet(String id,String[] info){
+    private void getPerCourseNet(String id, String[] info) {
         ShowLoadDialog.show(getContext());
         if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.network.theUrls != null) {
             network.getPersonCourseForm(id, info[0], info[1]);
@@ -1064,6 +1074,9 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                 network.getSecretCode();
             }
         });
+
+        et_zf_login_username.setText(SettingsUtil.getXueHao());
+        et_zf_login_mima.setText(SettingsUtil.getZFMM());
         zf_login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

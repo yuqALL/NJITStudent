@@ -67,9 +67,12 @@ import java.io.IOException;
 
 import java.io.UnsupportedEncodingException;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.BASE_LOGIN_HOST;
@@ -87,6 +90,33 @@ public class NetWork {
 
     }
 
+    private String encode="gb2312";
+    public String matchC(String str){
+        // String str = "A我B3是D4一个D3汉ad字e3d";
+
+        try {
+            Pattern p = Pattern.compile("([\u4e00-\u9fa5]+)");
+            Matcher m = p.matcher(str);
+
+            String mes = str;
+            String mv = null;
+
+            while (m.find()) {
+                mv = m.group(0);
+                String en = URLEncoder.encode(mv, encode);
+                if(mes.contains(mv)){
+                    mes=mes.replaceAll(mv,en);
+                    Log.e("match txt ",en+"\n"+mes);//%B2%DC%C7%EC%88%D2
+                }
+            }
+
+            return mes;
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
+        return str;
+    }
     public static void LoginDialog(Context context) {
         new MaterialDialog.Builder(context)
                 .title("教务网登录")

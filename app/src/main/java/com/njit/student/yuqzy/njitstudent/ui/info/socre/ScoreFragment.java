@@ -82,10 +82,6 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_score, container, false);
-        ScoreList result = (ScoreList) getArguments().getSerializable("data");
-        list = result.getDataList();
-
-        String[] time = result.getYearAterm().split(":");
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle("成绩查询");
         view.findViewById(R.id.img_cu).setOnClickListener(this);
@@ -94,13 +90,29 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
 
         ((MainActivity) getActivity()).initDrawer(mToolbar);
         toorbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
-
-        if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.personInfo != null) {
-            network = MainActivity.network;
-        } else {
-            network = new ZfNetData(getContext());
+        network = MainActivity.network;
+        List<PersonScore> result = null;
+        if (SettingsUtil.getXueHao() != "") {
+            if (SettingsUtil.getUserScoreTerm() != "") {
+                //String[] info = SettingsUtil.getUserScoreTerm().split(":");
+                result = getScoreFromDatabase(SettingsUtil.getXueHao(), SettingsUtil.getUserScoreTerm());
+            }
         }
-        init_view(time, list);
+        if (result != null && result.size() > 0) {
+
+            list = null;
+            list = new ArrayList<>();
+
+            for (PersonScore score : result) {
+                for (ScoreData scoreData : score.getScoreDatas()) {
+                    list.add(scoreData);
+                }
+            }
+            init_view(chooseTerm, list);
+        } else {
+            dialogLogin = loginZfDialog("教务网登录");
+            dialogLogin.show();
+        }
         return view;
     }
 
@@ -125,18 +137,7 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
 
         ScoreListAdapter adapter = new ScoreListAdapter(getContext(), list);
         expandableLayoutListView.setAdapter(adapter);
-        expandableLayoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ImageView imageView = (ImageView) view.findViewById(R.id.expand_img_score);
 
-//                if (imageView.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.drawable.ic_expand_more_black_24dp).getConstantState())) {
-//                    imageView.setImageResource(R.drawable.ic_expand_less_black_24dp);
-//                } else {
-//                    imageView.setImageResource(R.drawable.ic_expand_more_black_24dp);
-//                }
-            }
-        });
     }
 
     @Override
@@ -181,10 +182,7 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
                                         }
                                         init_view(chooseTerm, list);
                                     } else {
-                                        if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.personInfo != null && MainActivity.network.theUrls != null) {
-                                            ShowLoadDialog.show(getContext());
-                                            network.getScore(chooseTerm[0], chooseTerm[1]);
-                                        } else if (network.cookieStore != null && network.theUrls != null) {
+                                        if (network.cookieStore != null && network.theUrls != null) {
                                             ShowLoadDialog.show(getContext());
                                             network.getScore(chooseTerm[0], chooseTerm[1]);
                                         } else {
@@ -365,6 +363,7 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
 
         return null;
     }
+
     private void displayDialog(String[] list) {
         ScoresDialogAdapter adapter = new ScoresDialogAdapter(getContext(), list);
         DialogPlus dialog = DialogPlus.newDialog(getContext())

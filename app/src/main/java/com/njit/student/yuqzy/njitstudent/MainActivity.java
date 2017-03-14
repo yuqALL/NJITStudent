@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -37,7 +33,6 @@ import com.njit.student.yuqzy.njitstudent.Event.LoginResponseCode;
 import com.njit.student.yuqzy.njitstudent.Event.NavBacChangedEvent;
 import com.njit.student.yuqzy.njitstudent.Event.PersonInfoEvent;
 import com.njit.student.yuqzy.njitstudent.Event.Scores;
-import com.njit.student.yuqzy.njitstudent.Event.SecretCode;
 import com.njit.student.yuqzy.njitstudent.Event.ThemeChangedEvent;
 import com.njit.student.yuqzy.njitstudent.Event.UrlsMap;
 import com.njit.student.yuqzy.njitstudent.database.CourseDatabase;
@@ -51,9 +46,9 @@ import com.njit.student.yuqzy.njitstudent.database.Url;
 import com.njit.student.yuqzy.njitstudent.model.FormKB;
 import com.njit.student.yuqzy.njitstudent.model.FormSJK;
 import com.njit.student.yuqzy.njitstudent.model.FormTTBinfo;
-import com.njit.student.yuqzy.njitstudent.model.ScoreList;
+
 import com.njit.student.yuqzy.njitstudent.database.ScoreData;
-import com.njit.student.yuqzy.njitstudent.model.BaseLoginCookies;
+
 import com.njit.student.yuqzy.njitstudent.net.NetWork;
 import com.njit.student.yuqzy.njitstudent.net.ZfNetData;
 import com.njit.student.yuqzy.njitstudent.ui.info.about.AboutActivity;
@@ -65,38 +60,30 @@ import com.njit.student.yuqzy.njitstudent.ui.info.more.MoreInfoFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.news.SchoolNewsFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.socre.ScoreFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.setting.SettingActivity;
+import com.njit.student.yuqzy.njitstudent.utils.Base64;
 import com.njit.student.yuqzy.njitstudent.utils.DoubleClickExit;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
-import com.njit.student.yuqzy.njitstudent.utils.ShowLoadDialog;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
-import rx.Observable;
-import rx.Observer;
+
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 
-import static com.njit.student.yuqzy.njitstudent.AppGlobal.BASE_LOGIN_HOST;
-import static com.njit.student.yuqzy.njitstudent.AppGlobal.BASE_LOGIN_HOST_KEY;
-import static com.njit.student.yuqzy.njitstudent.AppGlobal.USERAGENT;
 import static com.njit.student.yuqzy.njitstudent.Event.LoginResponseCode.REALM_COURSE_STO_OK;
 import static com.njit.student.yuqzy.njitstudent.Event.LoginResponseCode.REALM_PERSON_STO_OK;
 import static com.njit.student.yuqzy.njitstudent.Event.LoginResponseCode.REALM_SCORE_STO_OK;
@@ -112,7 +99,7 @@ public class MainActivity extends AppCompatActivity
     private Realm realm;
     public static ZfNetData network;
     private Dialog dialog;
-    private ImageView imgHead;
+    private CircleImageView imgHead;
     private LinearLayout navHeader;
 
 
@@ -135,6 +122,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         initTheme();
         setContentView(R.layout.activity_main);
+        //Log.e("test base64",Base64.encode("学院"));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         EventBus.getDefault().register(this);
@@ -148,9 +136,9 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         view = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        navHeader=(LinearLayout) view.findViewById(R.id.nav_header);
-        imgHead = (ImageView) view.findViewById(R.id.img_head);
-        if(SettingsUtil.getNavBac()!=""){
+        navHeader = (LinearLayout) view.findViewById(R.id.nav_header);
+        imgHead = (CircleImageView) view.findViewById(R.id.img_head);
+        if (SettingsUtil.getNavBac() != "") {
             Glide.with(this).load(SettingsUtil.getNavBac()).skipMemoryCache(true).fitCenter().into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
@@ -181,90 +169,13 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(NavBacChangedEvent event) {
         if (event.getPath() != null && event.getPath() != "")
-        Glide.with(this).load(event.getPath()).skipMemoryCache(true).fitCenter().into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                navHeader.setBackground(resource);
-            }
-        });
-
-    }
-
-    private void loginNet(final String name, final String pwd) {
-        subscription = Observable.just(BASE_LOGIN_HOST).subscribeOn(Schedulers.io()).map(new Func1<String, BaseLoginCookies>() {
-            @Override
-            public BaseLoginCookies call(String host) {
-                BaseLoginCookies cookies = new BaseLoginCookies();
-                cookies.setUsername(name);
-                cookies.setPassword(pwd);
-                try {
-
-                    //第一次获取key
-                    Connection.Response res = Jsoup.connect(host)
-                            .method(Connection.Method.POST)
-                            .execute();
-                    Log.e("first response", res.cookies().toString());
-
-
-                    //第二次提交表单，获取登录cookies
-                    Connection connection = Jsoup.connect(BASE_LOGIN_HOST_KEY);
-                    connection.header("Host", "my.njit.edu.cn");
-                    connection.userAgent(USERAGENT);
-                    connection.header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-                    connection.header("Accept-Language", "zh-CN,zh;q=0.8");
-                    connection.header("Accept-Encoding", "gzip, deflate");
-                    connection.header("Referer", "http://my.njit.edu.cn/index.portal");
-                    connection.header("Upgrade-Insecure-Requests", "1");
-                    connection.header("Origin", "http://my.njit.edu.cn");
-                    connection.header("Content-Type", "application/x-www-form-urlencoded");
-                    connection.header("Connection", "keep-alive");
-                    connection.header("Cache-Control", "max-age=0");
-                    connection.data("Login.Token1", name);
-                    connection.data("Login.Token2", pwd);
-                    connection.data("goto", "http://my.njit.edu.cn/loginSuccess.portal");
-                    connection.data("gotoOnFail", "http://my.njit.edu.cn/loginFailure.portal");
-                    connection.cookie("JSESSIONID", res.cookie("JSESSIONID"));
-                    connection.method(Connection.Method.POST);
-                    Connection.Response re = connection.execute();
-
-                    Log.e("second cookies", re.cookies().toString());
-
-
-                    //http://jwc.njit.edu.cn/lm_list.jsp?urltype=tree.TreeTempUrl&wbtreeid=1035
-                    //http://jwc.njit.edu.cn/lm_list.jsp?totalpage=59&PAGENUM=2&urltype=tree.TreeTempUrl&wbtreeid=1035
-                    //得到数据
-                    Document objectDoc = Jsoup.connect(host)
-                            .cookies(re.cookies())
-                            .get();
-                    Log.e("d2", "" + objectDoc.html());
-
-                    cookies.setiPlanetDirectoryPro(re.cookie("iPlanetDirectoryPro"));
-
-
-                } catch (IOException e) {
-
+            Glide.with(this).load(event.getPath()).skipMemoryCache(true).fitCenter().into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    navHeader.setBackground(resource);
                 }
-                return cookies;
-            }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<BaseLoginCookies>() {
-            @Override
-            public void onCompleted() {
+            });
 
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(BaseLoginCookies cookies) {
-                Toast.makeText(getApplicationContext(), cookies.getiPlanetDirectoryPro(), Toast.LENGTH_SHORT).show();
-                if (cookies.getiPlanetDirectoryPro() == "" || cookies.getiPlanetDirectoryPro() == null) {
-                    //LoginDialog();
-                }
-            }
-        });
     }
 
     private void initFragment(Bundle savedInstanceState) {
@@ -431,110 +342,15 @@ public class MainActivity extends AppCompatActivity
                     foundFragment = new SchoolNewsFragment();
                     break;
                 case FRAGMENT_TAG_SCORE_INQUIRY:
-                    String[] currentTerm = getPreTerm();
-                    List<PersonScore> list = null;
-                    if (SettingsUtil.getXueHao() != "") {
-                        if (SettingsUtil.getUserScoreTerm() != "") {
-                            list = getScoreFromDatabase(SettingsUtil.getXueHao(), SettingsUtil.getUserScoreTerm());
-                        } else {
-                            list = getScoreFromDatabase(SettingsUtil.getXueHao(), currentTerm[0] + ":" + currentTerm[1]);
-                            SettingsUtil.setUserScoreTerm(currentTerm[0] + ":" + currentTerm[1]);
-                        }
-                    }
-
-                    if (list != null && list.size() > 0) {
-                        Bundle bundle = new Bundle();
-                        List<ScoreData> scoreDatas = new ArrayList<>();
-                        for (PersonScore score : list) {
-                            for (ScoreData scoreData : score.getScoreDatas()) {
-                                scoreDatas.add(scoreData);
-                            }
-                        }
-                        ShowLoadDialog.dismiss();
-                        bundle.putSerializable("data", new ScoreList(scoreDatas, list.get(0).getPersonXH(), list.get(0).getYearAterm()));
-                        foundFragment = new ScoreFragment();
-                        foundFragment.setArguments(bundle);
-
-                    } else {
-                        if (network.cookieStore != null && network.theUrls != null) {
-
-                            where = FRAGMENT_TAG_SCORE_INQUIRY;
-                            if (SettingsUtil.getUserScoreTerm() != "") {
-                                String[] info = SettingsUtil.getUserScoreTerm().split(":");
-                                ShowLoadDialog.show(this);
-                                network.getScore(info[0], info[1]);
-                            } else {
-                                ShowLoadDialog.show(this);
-                                network.getScore(currentTerm[0], currentTerm[1]);
-                                SettingsUtil.setUserScoreTerm(currentTerm[0] + ":" + currentTerm[1]);
-                            }
-
-                            return;
-                        } else {
-
-                            where = FRAGMENT_TAG_SCORE_INQUIRY;
-                            dialog = loginZfDialog("请重新登录");
-                            dialog.show();
-                            return;
-                        }
-                    }
+                    foundFragment = new ScoreFragment();
                     break;
                 case FRAGMENT_TAG_QUERY_SCHEDULE:
-                    CourseDatabase courseDatabase = null;
-                    if (SettingsUtil.getXueHao() != "") {
-                        if (SettingsUtil.getUserCourseTerm() != "") {
-                            ShowLoadDialog.dismiss();
-                            courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), SettingsUtil.getUserCourseTerm(), SettingsUtil.getUserCourseType());
-                        }
-                    }
-                    if (courseDatabase != null) {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("course", courseDatabase);
-                        foundFragment = new NJITCourseFragment();
-                        foundFragment.setArguments(bundle);
-                    } else {
-                        if (network.cookieStore != null && network.theUrls != null && personInfo != null) {
-                            where = FRAGMENT_TAG_QUERY_SCHEDULE;
-                            Log.e("main activity", "course query");
-                            if (SettingsUtil.getUserCourseTerm() != "") {
-                                String[] info = SettingsUtil.getUserCourseTerm().split(":");
-                                if (SettingsUtil.getUserCourseType().equals("class")) {
-                                    getBJCourse(network, personInfo, info);
-                                } else {
-                                    ShowLoadDialog.show(this);
-                                    network.getPersonCourseForm(personInfo.getPersonXH(), info[0],
-                                            info[1]);
-                                }
-                            } else {
-                                if (SettingsUtil.getUserCourseType().equals("class")) {
-                                    getBJCourse(network, personInfo, new String[]{"",""});
-                                } else {
-                                    ShowLoadDialog.show(this);
-                                    network.getPersonCourseForm(personInfo.getPersonXH(), "",
-                                            "");
-                                }
-                            }
-
-                            return;
-
-                        } else {
-                            where = FRAGMENT_TAG_QUERY_SCHEDULE;
-                            where = FRAGMENT_TAG_QUERY_SCHEDULE;
-                            dialog = loginZfDialog("教务网登录");
-                            dialog.show();
-                            return;
-                        }
-
-
-                    }
-
+                    foundFragment = new NJITCourseFragment();
                     break;
                 case FRAGMENT_TAG_MY_LIBRARY:
-
                     foundFragment = new LibraryFragment();
                     break;
                 case FRAGMENT_TAG_MORE:
-
                     foundFragment = new MoreInfoFragment();
                     break;
 
@@ -553,27 +369,6 @@ public class MainActivity extends AppCompatActivity
         invalidateOptionsMenu();
     }
 
-    //从网络获取课表
-    private void getBJCourse(ZfNetData network, PersonInfo personInfo, String[] chooseTerm) {
-        ShowLoadDialog.show(this);
-        String[] xy_name = getResources().getStringArray(R.array.xy_name);
-        String[] xy_value = getResources().getStringArray(R.array.xy_value);
-        int key = 0;
-        String personXY = personInfo.getPersonXY();
-        for (int i = 0; i < xy_name.length; i++) {
-            Log.e("get xy", xy_name[i] + ":" + xy_value[i]);
-            if (xy_name[i].equals(personXY)) {
-                key = i;
-                break;
-            }
-        }
-        network.getCourseForm(personInfo.getPersonXH(),
-                personInfo.getPersonXZB(),
-                chooseTerm[0], chooseTerm[1],
-                personInfo.getPersonDQSZJ(),
-                xy_value[key],
-                personInfo.getPersonZYMC());// 0107 0501;
-    }
 
     @Override
     protected void onDestroy() {
@@ -604,11 +399,6 @@ public class MainActivity extends AppCompatActivity
             addScores2Realm(realm, scores, event.getXH(), event.getYearAterm());
 
         }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(SecretCode event) {
-        zf_login_yanzhengma.setImageBitmap(event.getBitmap());
     }
 
 
@@ -681,50 +471,24 @@ public class MainActivity extends AppCompatActivity
 
         switch (event.getCode()) {
             case LoginResponseCode.LOGIN_OK:
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-
-                if (FRAGMENT_TAG_QUERY_SCHEDULE.equals(where)) {
-                    getBJCourse(network,personInfo,new String[]{"",""});
-                } else if (FRAGMENT_TAG_SCORE_INQUIRY.equals(where)) {
-                    String[] value = getPreTerm();
-                    ShowLoadDialog.show(this);
-                    network.getScore(value[0], value[1]);
-                    Log.e("LOGIN_OK", "getScore");
-                }
                 break;
             case LoginResponseCode.LOGIN_VERFATION_ERROR:
-                et_zf_login_yanzhengma.setText("");
                 Toast.makeText(getApplicationContext(), "验证码错误", Toast.LENGTH_SHORT).show();
                 break;
             case LoginResponseCode.LOGIN_USERNAME_ERROR:
-                et_zf_login_yanzhengma.setText("");
                 Toast.makeText(getApplicationContext(), "用户名不能为空", Toast.LENGTH_SHORT).show();
                 break;
             case LoginResponseCode.LOGIN_PASSWORD_ERROR:
-                et_zf_login_yanzhengma.setText("");
                 Toast.makeText(getApplicationContext(), "密码不能为空", Toast.LENGTH_SHORT).show();
                 break;
             case LoginResponseCode.LOGIN_USERNAME_OR_PASSWORD_ERROR:
-                et_zf_login_yanzhengma.setText("");
                 Toast.makeText(getApplicationContext(), "密码或用户名错误", Toast.LENGTH_SHORT).show();
                 break;
             case REALM_SCORE_STO_OK:
-                if (!where.equals(currentFragmentTag)) {
-                    item.setChecked(true);
-                    switchContent(FRAGMENT_TAG_SCORE_INQUIRY);
-                }
                 break;
             case REALM_PERSON_STO_OK:
                 break;
             case REALM_COURSE_STO_OK:
-                if (where != null && !where.equals(currentFragmentTag)) {
-
-                    item.setChecked(true);
-                    switchContent(FRAGMENT_TAG_QUERY_SCHEDULE);
-
-                }
                 break;
         }
 
@@ -954,59 +718,6 @@ public class MainActivity extends AppCompatActivity
         CourseDatabase courseDatabase = query
                 .equalTo("personXH", personXH).equalTo("yearAterm", yearAterm).equalTo("type", type).findFirst();
         return courseDatabase;
-    }
-
-    private ImageView zf_login_yanzhengma, zf_login_yanzhengma_change;
-    private EditText et_zf_login_mima, et_zf_login_username, et_zf_login_yanzhengma;
-    private Button zf_login_btn, zf_clear_btn;
-
-    public AlertDialog loginZfDialog(String title) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        LinearLayout mAlertLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_zf_login, null);
-        builder.setView(mAlertLayout);
-        //透明
-        final AlertDialog dialog = builder.create();
-
-        zf_login_yanzhengma = (ImageView) mAlertLayout.findViewById(R.id.zf_login_yanzhengma);
-
-        zf_login_yanzhengma_change = (ImageView) mAlertLayout.findViewById(R.id.zf_login_yanzhengma_change);
-        et_zf_login_mima = (EditText) mAlertLayout.findViewById(R.id.et_zf_login_mima);
-        et_zf_login_username = (EditText) mAlertLayout.findViewById(R.id.et_zf_login_username);
-        et_zf_login_yanzhengma = (EditText) mAlertLayout.findViewById(R.id.et_zf_login_yanzhengma);
-
-        et_zf_login_username.setText(SettingsUtil.getXueHao());
-        et_zf_login_mima.setText(SettingsUtil.getZFMM());
-
-        zf_login_btn = (Button) mAlertLayout.findViewById(R.id.zf_login_btn);
-        network.getSecretCode();
-        zf_login_yanzhengma_change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                network.getSecretCode();
-            }
-        });
-        zf_login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingsUtil.setXueHao(et_zf_login_username.getText().toString());
-                SettingsUtil.setZFMM(et_zf_login_mima.getText().toString());
-                network.zfLogin(et_zf_login_username.getText().toString(), et_zf_login_mima.getText().toString(), et_zf_login_yanzhengma.getText().toString());
-            }
-        });
-        zf_clear_btn = (Button) mAlertLayout.findViewById(R.id.zf_clear_btn);
-        zf_clear_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                et_zf_login_username.setText("");
-                et_zf_login_mima.setText("");
-                et_zf_login_yanzhengma.setText("");
-                network.getSecretCode();
-            }
-        });
-
-        return dialog;
     }
 
 

@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  * 每门功课成绩等数据
  */
 
-public class ScoreData extends RealmObject implements Serializable{
+public class ScoreData extends RealmObject{
     private String schoolYear="";//学年
     private String schoolTerm="";//学期
     private String courseCode="";//课程代码
@@ -163,26 +163,5 @@ public class ScoreData extends RealmObject implements Serializable{
         this.make_upComment = make_upComment;
     }
 
-    @Override
-    public String toString() {
-        return "ScoreData{" +
-                "schoolYear='" + schoolYear + '\'' +
-                ", schoolTerm='" + schoolTerm + '\'' +
-                ", courseCode='" + courseCode + '\'' +
-                ", courseName='" + courseName + '\'' +
-                ", courseNature='" + courseNature + '\'' +
-                ", courseBelong='" + courseBelong + '\'' +
-                ", credit='" + credit + '\'' +
-                ", usualScore='" + usualScore + '\'' +
-                ", midtermScore='" + midtermScore + '\'' +
-                ", finalScore='" + finalScore + '\'' +
-                ", experimentScore='" + experimentScore + '\'' +
-                ", score='" + score + '\'' +
-                ", make_upScore='" + make_upScore + '\'' +
-                ", rebuild=" + rebuild +
-                ", collegeBelong='" + collegeBelong + '\'' +
-                ", comment='" + comment + '\'' +
-                ", make_upComment='" + make_upComment + '\'' +
-                '}';
-    }
+
 }

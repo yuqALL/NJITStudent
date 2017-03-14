@@ -8,7 +8,21 @@ import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.model.NormalItem;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.NormalAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.base.BaseContentFragment;
+import com.njit.student.yuqzy.njitstudent.utils.Base64;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.CookieStore;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -48,6 +62,7 @@ public class SearchCategoryFragment extends BaseContentFragment {
     private boolean scrollTop = false;
     private Subscription subscription;
     private String search = "";
+    private String search_pre = "";
 
     @Override
     protected int getLayoutId() {
@@ -89,116 +104,62 @@ public class SearchCategoryFragment extends BaseContentFragment {
 
     public void setSearch(String search) {
         Log.e("mx", "set search" + search);
-        try {
-            this.search = URLEncoder.encode(search, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        search_pre=search;
+        this.search = Base64.encode(search);
 
+        Log.e("search text",this.search);
         if (adapter != null) {
             if (adapter.getItemCount() > 0) {
                 adapter.setNewData(null);
             }
         }
 
-        getCookies();
-        //getSearchResultsFromServer();
+        //getCookies();
+        getSearchResultsFromServer();
     }
 
     private void getCookies() {
         subscription = Observable.just(baseUrl).subscribeOn(Schedulers.io()).map(new Func1<String, String>() {
             @Override
             public String call(String host) {
+                //获得个人主界面的HTML
                 try {
 
-                    //第一次请求
-                    Connection con=Jsoup.connect(SCHOOL_INDEX_HOST);//获取连接
-                    con.header("User-Agent", USERAGENT_DESKTOP);//配置模拟浏览器
-                    Connection.Response rs= con.execute();//获取响应
-                    Document d1=Jsoup.parse(rs.body());//转换为Dom树
-                    Element et= d1.select("form#au4a").first();//获取form表单，可以通过查看页面源码代码得知
-                    Elements list=et.select("input");
+                    HttpClient client0 = new DefaultHttpClient();
 
-                    //获取，cooking和表单属性，下面map存放post时的数据
-                    Map<String, String> datas=new HashMap<>();
-                    for(Element e:list){
-                        if(e.attr("name").equals("lucenenewssearchkeyword")){
-                            e.attr("value", "5Zu95a62");
-                        }
+                    HttpPost httPost0 = new HttpPost("http://www.njit.edu.cn/sezch.jsp?wbtreeid=1001");
 
-                        if(e.attr("name").equals("showkeycode")){
-                            e.attr("value","国家");
-                        }
+                    HttpResponse httpResponse0 = client0.execute(httPost0);
+                    CookieStore cookieStore = ((AbstractHttpClient) client0).getCookieStore();
 
-                        if(e.attr("name").length()>0){//排除空值表单属性
-                            datas.put(e.attr("name"), e.attr("value"));
-                        }
+
+                    DefaultHttpClient defaultclient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost("http://www.njit.edu.cn/sezch.jsp?wbtreeid=1001");
+                    HttpResponse httpResponse;
+                    //设置post参数
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("lucenenewssearchkeyword", search));
+                    params.add(new BasicNameValuePair("showkeycode",search));
+                    params.add(new BasicNameValuePair("_lucenesearchtype", "1"));
+                    params.add(new BasicNameValuePair("searchScope", "0"));
+                    params.add(new BasicNameValuePair("x", "0"));
+                    params.add(new BasicNameValuePair("y", "0"));
+                    httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    Log.e("cookie",cookieStore.toString());
+                    defaultclient.setCookieStore(cookieStore);
+                    Log.e("search",search);
+//                    httpGet.addHeader("User-Agent", USERAGENT_DESKTOP);
+//                    httpGet.addHeader("Referer", "http://opac.lib.njit.edu.cn/reader/redr_info.php");
+//                    client.getParams().setParameter("http.protocol.allow-circular-redirects", false);
+                    httpResponse = defaultclient.execute(httpPost);
+                    Log.i("xyz", String.valueOf(httpResponse.getStatusLine().getStatusCode()));
+
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        HttpEntity entity = httpResponse.getEntity();
+
+                        String MAINBODYHTML = EntityUtils.toString(entity);
+                        Log.e("second cookies", MAINBODYHTML);
                     }
-                    Log.e("form",et.html());
-
-
-
-
-                    /**
-                     * 第二次请求，post表单数据，以及cookie信息
-                     *
-                     * **/
-                    Connection con2=Jsoup.connect(host);
-                    con2.header("User-Agent", USERAGENT_DESKTOP);
-                    //设置cookie和post上面的map数据
-                    Connection.Response login=con2.ignoreContentType(true).method(Connection.Method.POST).data(datas).cookies(rs.cookies()).execute();
-                    //打印，登陆成功后的信息
-                    Log.e("post ",login.body());
-
-                    //登陆成功后的cookie信息，可以保存到本地，以后登陆时，只需一次登陆即可
-                    Map<String, String> map=login.cookies();
-                    for(String s:map.keySet()){
-                        System.out.println(s+"      "+map.get(s));
-                    }
-
-
-
-                    //第一次获取key
-//                    Connection.Response res = Jsoup.connect(SCHOOL_INDEX_HOST)
-//                            .method(Connection.Method.POST)
-//                            .execute();
-//                    Log.e("first response",res.cookies().toString());
-
-
-                    //第二次提交表单，获取登录cookies
-                    Connection connection = Jsoup.connect(host);
-                    connection.header("Host", "my.njit.edu.cn");
-                    connection.userAgent(USERAGENT_DESKTOP);
-                    connection.header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-                    connection.header("Accept-Language", "zh-CN,zh;q=0.8");
-                    connection.header("Accept-Encoding", "gzip, deflate");
-                    //connection.header("Referer", "http://www.njit.edu.cn/index.htm");
-                    connection.header("Upgrade-Insecure-Requests", "1");
-                    //connection.header("Origin", "http://my.njit.edu.cn");
-                    connection.header("Content-Type", "application/x-www-form-urlencoded");
-                    connection.header("Connection", "keep-alive");
-                    connection.header("Cache-Control", "max-age=0");
-                    connection.data("lucenenewssearchkeyword", "5Zu95a62");
-                    //connection.data("_lucenesearchtype", "1");
-                    connection.data("showkeycode", "国家");
-                    //connection.data("x", "27");
-                    //connection.data("y", "13");
-                    //connection.cookie("JSESSIONID",res.cookie("JSESSIONID"));
-                    connection.method(Connection.Method.POST);
-                    Connection.Response re = connection.execute();
-
-                    Log.e("second cookies", re.cookies().toString());
-
-
-                    //http://jwc.njit.edu.cn/lm_list.jsp?urltype=tree.TreeTempUrl&wbtreeid=1035
-                    //http://jwc.njit.edu.cn/lm_list.jsp?totalpage=59&PAGENUM=2&urltype=tree.TreeTempUrl&wbtreeid=1035
-                    //得到数据
-//                    Document objectDoc = Jsoup.connect(host)
-//                            .userAgent(USERAGENT_DESKTOP)
-//                            .get();
-                    Document objectDoc = re.parse();
-                    Log.e("d2", "" + objectDoc.html());
-
 
                 } catch (IOException e) {
 
@@ -218,11 +179,6 @@ public class SearchCategoryFragment extends BaseContentFragment {
 
             @Override
             public void onNext(String cookies) {
-//                Toast.makeText(getContext(),cookies.getiPlanetDirectoryPro(),Toast.LENGTH_SHORT).show();
-//                if(cookies.getiPlanetDirectoryPro()==""||cookies.getiPlanetDirectoryPro()==null)
-//                {
-//                    LoginDialog();
-//                }
             }
         });
     }
@@ -328,6 +284,7 @@ public class SearchCategoryFragment extends BaseContentFragment {
     }
 
     String _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
     // private method for UTF-8 encoding
     private String UTF8Encode(String s) {
 
@@ -379,7 +336,7 @@ public class SearchCategoryFragment extends BaseContentFragment {
     }
 
     private String UTF8Decode() {
-        char[] input=new char[]{'3','1','7','2','5','4'};
+        char[] input = new char[]{'3', '1', '7', '2', '5', '4'};
         String output = "";
         char chr1, chr2, chr3;
         int enc1, enc2, enc3, enc4;
@@ -390,9 +347,9 @@ public class SearchCategoryFragment extends BaseContentFragment {
             enc2 = _keyStr.indexOf(input[i++]);
             enc3 = _keyStr.indexOf(input[i++]);
             enc4 = _keyStr.indexOf(input[i++]);
-            chr1 = (char)((enc1 << 2) | (enc2 >> 4));
-            chr2 = (char)(((enc2 & 15) << 4) | (enc3 >> 2));
-            chr3 = (char)(((enc3 & 3) << 6) | enc4);
+            chr1 = (char) ((enc1 << 2) | (enc2 >> 4));
+            chr2 = (char) (((enc2 & 15) << 4) | (enc3 >> 2));
+            chr3 = (char) (((enc3 & 3) << 6) | enc4);
             output = output + chr1;
             if (enc3 != 64) {
                 output = output + chr2;
@@ -403,20 +360,20 @@ public class SearchCategoryFragment extends BaseContentFragment {
         }
         String string = "";
         int j = 0;
-        char c, c1, c2,c3;
-        c=c1=c2=c3=0;
+        char c, c1, c2, c3;
+        c = c1 = c2 = c3 = 0;
         while (j < output.length()) {
             c = output.charAt(j);
             if (c < 128) {
                 string += c;
                 i++;
             } else if ((c > 191) && (c < 224)) {
-                c2 = output.charAt(j+1);
+                c2 = output.charAt(j + 1);
                 string += (((c & 31) << 6) | (c2 & 63));
                 i += 2;
             } else {
-                c2 = output.charAt(j+1);
-                c3 = output.charAt(j+2);
+                c2 = output.charAt(j + 1);
+                c3 = output.charAt(j + 2);
                 string += (((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
                 i += 3;
             }

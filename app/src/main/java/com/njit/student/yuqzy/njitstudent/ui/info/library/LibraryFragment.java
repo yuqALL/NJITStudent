@@ -85,7 +85,6 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
         realm = Realm.getDefaultInstance();
         RealmQuery<CurrentReadRealm> query = realm.where(CurrentReadRealm.class);
         RealmResults<CurrentReadRealm> results = query
-                .equalTo("personXH", SettingsUtil.getXueHao())
                 .findAll();
         if (results.size() > 0) return false;
         return true;
@@ -220,7 +219,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 dialog.dismiss();
                 ShowLoadDialog.show(getContext());
-                SettingsUtil.setXueHao(etLoginName.getText().toString());
+                SettingsUtil.setUserLibraryUser(etLoginName.getText().toString());
                 SettingsUtil.setUserLibraryMm(etLoginPwd.getText().toString());
                 NetWork.LibraryLogin(etLoginName.getText().toString(), etLoginPwd.getText().toString(),etYanzhengma.getText().toString());
             }

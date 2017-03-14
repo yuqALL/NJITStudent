@@ -13,8 +13,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/10.
  */
 
-public class CourseDatabase extends RealmObject implements Serializable,Parcelable{
-    public static final Parcelable.Creator<CourseDatabase> CREATOR=null;
+public class CourseDatabase extends RealmObject{
     private String personXH;
     private String yearAterm;
     private String type;
@@ -69,15 +68,5 @@ public class CourseDatabase extends RealmObject implements Serializable,Parcelab
 
     public void setFormTTBinfoDatabases(RealmList<formTTBinfoDatabase> formTTBinfoDatabases) {
         this.formTTBinfoDatabases = formTTBinfoDatabases;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
     }
 }
