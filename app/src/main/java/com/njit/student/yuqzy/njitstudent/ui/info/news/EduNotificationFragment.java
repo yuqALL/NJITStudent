@@ -43,11 +43,10 @@ public class EduNotificationFragment extends BaseFragment {
     private ACache mCache;
 
     private Subscription subscription;
+
     public EduNotificationFragment() {
 
     }
-
-
 
 
     @Override

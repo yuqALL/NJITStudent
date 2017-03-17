@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.model.NormalItem;
 import com.njit.student.yuqzy.njitstudent.ui.info.news.NewsDetailActivity;
-import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
 
 import java.util.List;
 
@@ -55,12 +54,12 @@ public class NormalAdapter extends RecyclerView.Adapter<NormalAdapter.NormalView
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("adapter",""+item.getUrl());
-               // WebUtils.openInternal(context, item.getUrl());
-                Intent intent=new Intent(context, NewsDetailActivity.class);
-                intent.putExtra("host",item.getUrl());
-                intent.putExtra("title",item.getName());
-                intent.putExtra("time",item.getUpdateTime());
+                Log.e("adapter", "" + item.getUrl());
+                // WebUtils.openInternal(context, item.getUrl());
+                Intent intent = new Intent(context, NewsDetailActivity.class);
+                intent.putExtra("host", item.getUrl());
+                intent.putExtra("title", item.getName());
+                intent.putExtra("time", item.getUpdateTime());
                 context.startActivity(intent);
             }
         });

@@ -7,6 +7,6 @@ package com.njit.student.yuqzy.njitstudent.utils;
 public class ConstUrls {
 
     //校园服务网址集合
-    public static String xhlt="http://xhbbs.njit.edu.cn/bbs/portal.php";//星火论坛
+    public static String xhlt = "http://xhbbs.njit.edu.cn/bbs/portal.php";//星火论坛
 
 }

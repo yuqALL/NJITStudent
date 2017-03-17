@@ -1,7 +1,6 @@
 package com.njit.student.yuqzy.njitstudent.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +19,11 @@ public class CourseDialogAdapter extends BaseAdapter {
     private String[] current;
 
 
-    private String[] menu=new String[]{"当前账户","当前学期","当前周","课表类型","添加课程","实习课信息","调课信息","刷新课表","更换背景"};
-    public CourseDialogAdapter(Context context,String[] current) {
+    private String[] menu = new String[]{"当前账户", "当前学期", "当前周", "课表类型", "实习课信息", "调课信息", "刷新课表", "更换背景"};
+
+    public CourseDialogAdapter(Context context, String[] current) {
         layoutInflater = LayoutInflater.from(context);
-        this.current=current;
+        this.current = current;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CourseDialogAdapter extends BaseAdapter {
 
         //Context context = parent.getContext();
         viewHolder.name.setText(menu[position]);
-        if(position<current.length) {
+        if (position < current.length) {
             viewHolder.currentvalue.setText(current[position]);
         }
         switch (position) {
@@ -76,18 +76,15 @@ public class CourseDialogAdapter extends BaseAdapter {
                 viewHolder.imageView.setImageResource(R.drawable.ic_type);
                 break;
             case 4:
-                viewHolder.imageView.setImageResource(R.drawable.ic_add);
-                break;
-            case 5:
                 viewHolder.imageView.setImageResource(R.drawable.ic_course_sxk);
                 break;
-            case 6:
+            case 5:
                 viewHolder.imageView.setImageResource(R.drawable.ic_change);
                 break;
-            case 7:
+            case 6:
                 viewHolder.imageView.setImageResource(R.drawable.ic_refresh);
                 break;
-            case 8:
+            case 7:
                 viewHolder.imageView.setImageResource(R.drawable.ic_change_bac);
                 break;
             default:

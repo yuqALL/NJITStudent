@@ -12,8 +12,8 @@ import io.realm.RealmObject;
  */
 
 public class HotRecRealm extends RealmObject {
-    private RealmList<HotRecommendItem> hotItems=null;
-    private String personXH="";
+    private RealmList<HotRecommendItem> hotItems = null;
+    private String personXH = "";
 
     public RealmList<HotRecommendItem> getHotItems() {
         return hotItems;

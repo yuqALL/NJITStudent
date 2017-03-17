@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class PreReadItem extends RealmObject{
+public class PreReadItem extends RealmObject {
     private String id;//条码号
     private String bookUrl;
 

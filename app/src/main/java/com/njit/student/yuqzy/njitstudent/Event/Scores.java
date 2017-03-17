@@ -29,9 +29,9 @@ public class Scores {
         this.XH = XH;
     }
 
-    public Scores(String XH,String yearAterm, List<Map<String, String>> scores) {
+    public Scores(String XH, String yearAterm, List<Map<String, String>> scores) {
         this.XH = XH;
-        this.yearAterm=yearAterm;
+        this.yearAterm = yearAterm;
         this.scores = scores;
     }
 
@@ -43,6 +43,6 @@ public class Scores {
         this.scores = scores;
     }
 
-    private List<Map<String,String>> scores=new ArrayList<>();
+    private List<Map<String, String>> scores = new ArrayList<>();
 
 }

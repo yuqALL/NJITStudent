@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class BookShelfBean extends RealmObject{
+public class BookShelfBean extends RealmObject {
     private int type;//0 ->书架    1->书目
     private String title;//书架名
     private BookShelfItem item;//书目信息

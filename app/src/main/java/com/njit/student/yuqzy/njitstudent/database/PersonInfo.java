@@ -56,12 +56,8 @@ public class PersonInfo extends RealmObject {
     private String personMQDWDHHSJ;//母亲单位电话或手机
 
 
-
-
     private String personJTDH;//家庭电话
     private String personJTYB;//家庭邮编
-
-
 
 
     private String personGATM;//港澳台码

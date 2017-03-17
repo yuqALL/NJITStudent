@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class BookShelfItem extends RealmObject{
+public class BookShelfItem extends RealmObject {
     private String name;//题名
     private String authors;//责任者
     private String publishCompany;//出版社

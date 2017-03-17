@@ -1,16 +1,12 @@
 package com.njit.student.yuqzy.njitstudent.ui.info.library;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,14 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.njit.student.yuqzy.njitstudent.Event.BookShelfEvent;
@@ -33,12 +26,10 @@ import com.njit.student.yuqzy.njitstudent.Event.BreakRulesEvent;
 import com.njit.student.yuqzy.njitstudent.Event.CurrentReadEvent;
 import com.njit.student.yuqzy.njitstudent.Event.HotRecEvent;
 import com.njit.student.yuqzy.njitstudent.Event.LibraryResponseCode;
-import com.njit.student.yuqzy.njitstudent.Event.LibrarySecretCode;
 import com.njit.student.yuqzy.njitstudent.Event.OrderBookEvent;
 import com.njit.student.yuqzy.njitstudent.Event.PreReadEvent;
 import com.njit.student.yuqzy.njitstudent.Event.SearchHistEvent;
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.database.BookDetailRealm;
 import com.njit.student.yuqzy.njitstudent.database.BookShelfRealm;
 import com.njit.student.yuqzy.njitstudent.database.BreakRulesRealm;
 import com.njit.student.yuqzy.njitstudent.database.CurrentReadRealm;
@@ -48,11 +39,9 @@ import com.njit.student.yuqzy.njitstudent.database.PreReadRealm;
 import com.njit.student.yuqzy.njitstudent.database.SearchHistRealm;
 import com.njit.student.yuqzy.njitstudent.model.BookItem;
 import com.njit.student.yuqzy.njitstudent.model.BookShelfBean;
-import com.njit.student.yuqzy.njitstudent.model.BookShelfItem;
 import com.njit.student.yuqzy.njitstudent.model.CurrentReadItem;
 import com.njit.student.yuqzy.njitstudent.model.DebtInfoItem;
 import com.njit.student.yuqzy.njitstudent.model.HotRecommendItem;
-import com.njit.student.yuqzy.njitstudent.model.NormalItem;
 import com.njit.student.yuqzy.njitstudent.model.OrderBookItem;
 import com.njit.student.yuqzy.njitstudent.model.PreReadItem;
 import com.njit.student.yuqzy.njitstudent.model.SearchHistItem;
@@ -61,7 +50,6 @@ import com.njit.student.yuqzy.njitstudent.ui.adapter.BookShelfAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.BreakRulesAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.CurrentReadAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.HotBooksAdapter;
-import com.njit.student.yuqzy.njitstudent.ui.adapter.NormalAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.OrderBookAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.PreReadAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.SearchBookAdapter;
@@ -93,7 +81,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-import static android.view.View.GONE;
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.USERAGENT;
 
 public class LibraryContentFragment extends Fragment {
@@ -112,7 +99,7 @@ public class LibraryContentFragment extends Fragment {
     private SearchBookAdapter adapter;
     protected SwipeRefreshLayout refreshLayout;
     private ImageView imageView;
-    private FloatingActionButton fab_search,fab_search_result;
+    private FloatingActionButton fab_search, fab_search_result;
     private Realm realm;
 
     public LibraryContentFragment() {
@@ -133,8 +120,8 @@ public class LibraryContentFragment extends Fragment {
         // Inflate the layout for this fragment
         baseUrl = getArguments().getString("url");
         realm = Realm.getDefaultInstance();
-        View view = inflater.inflate(R.layout.fragment_zf_login, container, false);
-        if (baseUrl.equals(LibraryFragment.list_url[0])) {//当前借阅
+        View view = inflater.inflate(R.layout.fragment_library_search, container, false);
+        if (baseUrl.equals(LibraryFragment.list_url[1])) {//当前借阅
             view = inflater.inflate(R.layout.fragment_library_content, container, false);
             listView = (ListView) view.findViewById(R.id.lv_list);
             CurrentReadEvent event = getCurrRealm();
@@ -142,14 +129,14 @@ public class LibraryContentFragment extends Fragment {
                 CurrentReadAdapter adapter = new CurrentReadAdapter(getContext(), event);
                 listView.setAdapter(adapter);
             }
-            current_page = 0;
-        } else if (baseUrl.equals(LibraryFragment.list_url[1])) {// 书目检索
+            current_page = 1;
+        } else if (baseUrl.equals(LibraryFragment.list_url[0])) {// 书目检索
             view = inflater.inflate(R.layout.fragment_library_search, container, false);
             final EditText search_content = (EditText) view.findViewById(R.id.search_content);
             final Spinner library_search_name = (Spinner) view.findViewById(R.id.library_search_name);
             final Spinner library_search_pipei = (Spinner) view.findViewById(R.id.library_search_pipei);
             final Spinner library_search_booktype = (Spinner) view.findViewById(R.id.library_search_booktype);
-            imageView=(ImageView)view.findViewById(R.id.show_library);
+            imageView = (ImageView) view.findViewById(R.id.show_library);
             Glide.with(getContext()).load(R.drawable.carousel).fitCenter().skipMemoryCache(true).into(imageView);
             final View finalView = view;
             search_content.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -232,7 +219,7 @@ public class LibraryContentFragment extends Fragment {
                 }
             });
 
-            current_page = 1;
+            current_page = 0;
         } else if (baseUrl.equals(LibraryFragment.list_url[2])) {//热门推荐
             view = inflater.inflate(R.layout.fragment_library_content, container, false);
             listView = (ListView) view.findViewById(R.id.lv_list);
@@ -256,8 +243,8 @@ public class LibraryContentFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_library_content, container, false);
             listView = (ListView) view.findViewById(R.id.lv_list);
             List<BookShelfBean> list = getShelfRealm();
-            if (list != null&&list.size()>0) {
-                BookShelfAdapter adapter = new BookShelfAdapter(getContext(),list);
+            if (list != null && list.size() > 0) {
+                BookShelfAdapter adapter = new BookShelfAdapter(getContext(), list);
                 listView.setAdapter(adapter);
             }
             current_page = 4;
@@ -299,9 +286,9 @@ public class LibraryContentFragment extends Fragment {
         libraryUrl = "http://opac.lib.njit.edu.cn/opac/openlink.php?strSearchType=" + searchOption + "&match_flag=" + pipei + "&historyCount=1&strText=" + content + "&doctype=" + type + "&displaypg=20&showmode=list&sort=CATA_DATE&orderby=desc&location=ALL";
         usedUrl = libraryUrl;
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        fab_search=(FloatingActionButton)view.findViewById(R.id.fab_search);
+        fab_search = (FloatingActionButton) view.findViewById(R.id.fab_search);
         fab_search.setBackgroundColor(ThemeUtil.getCurrentColorPrimary(getActivity()));
-        fab_search_result=(FloatingActionButton)view.findViewById(R.id.fab_search_result);
+        fab_search_result = (FloatingActionButton) view.findViewById(R.id.fab_search_result);
         fab_search_result.setBackgroundColor(ThemeUtil.getCurrentColorPrimary(getActivity()));
 //        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //            @Override
@@ -310,7 +297,7 @@ public class LibraryContentFragment extends Fragment {
 //
 //            }
 //        });
-        adapter=new SearchBookAdapter(getContext(),null);
+        adapter = new SearchBookAdapter(getContext(), null);
         lazyFetchData();
         refreshLayout.setColorSchemeResources(ThemeUtil.getCurrentColorPrimary(getActivity()));
         refreshLayout.setVisibility(View.VISIBLE);
@@ -318,16 +305,17 @@ public class LibraryContentFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private int preY=0;
+            private int preY = 0;
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if(dy-preY>200){
+                if (dy - preY > 200) {
                     fab_search.hide();
-                    preY=dy;
-                }else if(preY>dy){
+                    preY = dy;
+                } else if (preY > dy) {
                     fab_search.show();
-                    preY=dy;
+                    preY = dy;
                 }
             }
 
@@ -379,7 +367,7 @@ public class LibraryContentFragment extends Fragment {
         switch (event.getCode()) {
             case LibraryResponseCode.LOGIN_OK:
 
-                if (current_page == 0) {
+                if (current_page == 1) {
                     NetWork.GetCurrentRead();
                 } else if (current_page == 3) {
                     NetWork.GetPreRead();
@@ -405,7 +393,7 @@ public class LibraryContentFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(CurrentReadEvent event) {
-        if (current_page == 0) {
+        if (current_page == 1) {
             CurrentReadAdapter adapter = new CurrentReadAdapter(getContext(), event);
             listView.setAdapter(adapter);
 
@@ -436,7 +424,7 @@ public class LibraryContentFragment extends Fragment {
                 RealmList<CurrentReadItem> currentReadItems = new RealmList<CurrentReadItem>();
                 for (CurrentReadItem item : event.getCrItems()) {
                     Log.e("Star!", "start realm" + item.getName());
-                    CurrentReadItem curr=bgRealm.copyToRealm(item);
+                    CurrentReadItem curr = bgRealm.copyToRealm(item);
                     currentReadItems.add(curr);
                     Log.e("Star!", "start realm");
                 }
@@ -505,7 +493,7 @@ public class LibraryContentFragment extends Fragment {
                 RealmList<PreReadItem> preReadItems = new RealmList<PreReadItem>();
                 for (PreReadItem item : event.getPreItems()) {
 
-                    PreReadItem pre=bgRealm.copyToRealm(item);
+                    PreReadItem pre = bgRealm.copyToRealm(item);
                     preReadItems.add(pre);
 
                 }
@@ -562,6 +550,7 @@ public class LibraryContentFragment extends Fragment {
             addOrder2Realm(realm, event);
         }
     }
+
     //PreReadEvent ADD to realm
     private void addOrder2Realm(final Realm realm, final OrderBookEvent event) {
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -572,7 +561,7 @@ public class LibraryContentFragment extends Fragment {
                 RealmList<OrderBookItem> orderReadItems = new RealmList<OrderBookItem>();
                 for (OrderBookItem item : event.getOrderItems()) {
 
-                    OrderBookItem order=bgRealm.copyToRealm(item);
+                    OrderBookItem order = bgRealm.copyToRealm(item);
                     orderReadItems.add(order);
 
                 }
@@ -606,6 +595,7 @@ public class LibraryContentFragment extends Fragment {
         }
         return null;
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BreakRulesEvent event) {
         if (current_page == 6) {
@@ -637,7 +627,7 @@ public class LibraryContentFragment extends Fragment {
                 BreakRulesRealm breakRulesRealm = bgRealm.createObject(BreakRulesRealm.class);
                 RealmList<DebtInfoItem> orderReadItems = new RealmList<DebtInfoItem>();
                 for (DebtInfoItem item : event.getDebtItems()) {
-                    DebtInfoItem debt=bgRealm.copyToRealm(item);
+                    DebtInfoItem debt = bgRealm.copyToRealm(item);
                     orderReadItems.add(debt);
                 }
                 breakRulesRealm.setPersonXH(event.getPersonXH());
@@ -692,6 +682,7 @@ public class LibraryContentFragment extends Fragment {
             addSearchHist2Realm(realm, event);
         }
     }
+
     //PreReadEvent ADD to realm
     private void addSearchHist2Realm(final Realm realm, final SearchHistEvent event) {
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -700,7 +691,7 @@ public class LibraryContentFragment extends Fragment {
                 SearchHistRealm searchHistRealm = bgRealm.createObject(SearchHistRealm.class);
                 RealmList<SearchHistItem> searchHistItems = new RealmList<SearchHistItem>();
                 for (SearchHistItem item : event.getSearchItems()) {
-                    SearchHistItem sh=bgRealm.copyToRealm(item);
+                    SearchHistItem sh = bgRealm.copyToRealm(item);
                     searchHistItems.add(sh);
                 }
                 searchHistRealm.setPersonXH(event.getPersonXH());
@@ -732,6 +723,7 @@ public class LibraryContentFragment extends Fragment {
         }
         return null;
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BookShelfEvent event) {
         if (current_page == 4) {
@@ -752,12 +744,12 @@ public class LibraryContentFragment extends Fragment {
                     }
                 });
             }
-            addShelf2Realm(realm, event.getPersonXH(),beanList);
+            addShelf2Realm(realm, event.getPersonXH(), beanList);
 
         }
     }
 
-    private List<BookShelfBean> shelf2list(BookShelfEvent event){
+    private List<BookShelfBean> shelf2list(BookShelfEvent event) {
         List<BookShelfBean> beanList = new ArrayList<>();
         for (int i = 0; i < event.getShelfName().size(); i++) {
             BookShelfBean itemShelf = new BookShelfBean();
@@ -776,14 +768,14 @@ public class LibraryContentFragment extends Fragment {
     }
 
     //PreReadEvent ADD to realm
-    private void addShelf2Realm(final Realm realm, final String personXH,final List<BookShelfBean> list) {
+    private void addShelf2Realm(final Realm realm, final String personXH, final List<BookShelfBean> list) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
                 BookShelfRealm bookShelfRealm = bgRealm.createObject(BookShelfRealm.class);
                 RealmList<BookShelfBean> bookShelfBeen = new RealmList<BookShelfBean>();
                 for (BookShelfBean item : list) {
-                    BookShelfBean bsb=bgRealm.copyToRealm(item);
+                    BookShelfBean bsb = bgRealm.copyToRealm(item);
                     bookShelfBeen.add(bsb);
                 }
                 bookShelfRealm.setPersonXH(personXH);
@@ -810,8 +802,8 @@ public class LibraryContentFragment extends Fragment {
                 .findAll();
         if (results.size() > 0) {
             BookShelfRealm value = results.first();
-            List<BookShelfBean> list=new ArrayList<>();
-            for(BookShelfBean item:value.getContent()){
+            List<BookShelfBean> list = new ArrayList<>();
+            for (BookShelfBean item : value.getContent()) {
                 list.add(item);
             }
             return list;
@@ -853,7 +845,7 @@ public class LibraryContentFragment extends Fragment {
                 HotRecRealm hotRecRealm = bgRealm.createObject(HotRecRealm.class);
                 RealmList<HotRecommendItem> hotRecommendItems = new RealmList<HotRecommendItem>();
                 for (HotRecommendItem item : event.getHotItems()) {
-                    HotRecommendItem h=bgRealm.copyToRealm(item);
+                    HotRecommendItem h = bgRealm.copyToRealm(item);
                     hotRecommendItems.add(h);
                 }
                 hotRecRealm.setPersonXH(event.getPersonXH());

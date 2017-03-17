@@ -116,7 +116,8 @@
         <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"/>
+            android:layout_weight="3" />
+
         <Button
             android:id="@+id/login_btn"
             android:layout_width="0dp"

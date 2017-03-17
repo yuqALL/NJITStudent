@@ -8,24 +8,24 @@ import io.realm.RealmObject;
  * 每门功课成绩等数据
  */
 
-public class ScoreData extends RealmObject{
-    private String schoolYear="";//学年
-    private String schoolTerm="";//学期
-    private String courseCode="";//课程代码
-    private String courseName="";//课程名称
-    private String courseNature="";//课程性质
-    private String courseBelong="";//课程归属
-    private String credit="";//学分
-    private String usualScore="";//平时成绩
-    private String midtermScore="";//期中成绩
-    private String finalScore="";//期末成绩
-    private String experimentScore="";//实验成绩
-    private String score="";//成绩
-    private String make_upScore="";//补考成绩
-    private String rebuild="";//是否重修
-    private String collegeBelong="";//开课学院
-    private String comment="";//备注
-    private String make_upComment="";//补考备注
+public class ScoreData extends RealmObject {
+    private String schoolYear = "";//学年
+    private String schoolTerm = "";//学期
+    private String courseCode = "";//课程代码
+    private String courseName = "";//课程名称
+    private String courseNature = "";//课程性质
+    private String courseBelong = "";//课程归属
+    private String credit = "";//学分
+    private String usualScore = "";//平时成绩
+    private String midtermScore = "";//期中成绩
+    private String finalScore = "";//期末成绩
+    private String experimentScore = "";//实验成绩
+    private String score = "";//成绩
+    private String make_upScore = "";//补考成绩
+    private String rebuild = "";//是否重修
+    private String collegeBelong = "";//开课学院
+    private String comment = "";//备注
+    private String make_upComment = "";//补考备注
 
     public String getSchoolYear() {
         return schoolYear;

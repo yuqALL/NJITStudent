@@ -3,10 +3,8 @@ package com.njit.student.yuqzy.njitstudent.ui.info.socre;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Time;
 import android.util.Log;
@@ -14,15 +12,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.andexert.expandablelayout.library.ExpandableLayoutListView;
 import com.njit.student.yuqzy.njitstudent.Event.LoginResponseCode;
@@ -33,9 +28,7 @@ import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.database.PersonInfo;
 import com.njit.student.yuqzy.njitstudent.database.PersonScore;
 import com.njit.student.yuqzy.njitstudent.database.ScoreData;
-import com.njit.student.yuqzy.njitstudent.model.ScoreList;
 import com.njit.student.yuqzy.njitstudent.net.ZfNetData;
-import com.njit.student.yuqzy.njitstudent.ui.adapter.CourseDialogAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.ScoreListAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.ScoresDialogAdapter;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
@@ -43,8 +36,6 @@ import com.njit.student.yuqzy.njitstudent.utils.ShowLoadDialog;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ListHolder;
 import com.orhanobut.dialogplus.OnClickListener;
-import com.orhanobut.dialogplus.OnItemClickListener;
-import com.orhanobut.dialogplus.ViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,7 +43,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +80,7 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
 
         ((MainActivity) getActivity()).initDrawer(mToolbar);
         toorbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
+        toorbarTitle.setText("查询");
         network = MainActivity.network;
         List<PersonScore> result = null;
         if (SettingsUtil.getXueHao() != "") {
@@ -108,7 +99,8 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
                     list.add(scoreData);
                 }
             }
-            init_view(chooseTerm, list);
+            String[] info = SettingsUtil.getUserScoreTerm().split(":");
+            init_view(info, list);
         } else {
             dialogLogin = loginZfDialog("教务网登录");
             dialogLogin.show();
@@ -166,7 +158,6 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
                             public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
 
                                 chooseTerm = termValue.get(which).split(":");
-                                SettingsUtil.setUserScoreTerm(chooseTerm[0] + ":" + chooseTerm[1]);
                                 List<PersonScore> scoreList = null;
                                 if (SettingsUtil.getXueHao() != "") {
                                     scoreList = getScoreFromDatabase(SettingsUtil.getXueHao(), chooseTerm[0] + ":" + chooseTerm[1]);
@@ -468,6 +459,9 @@ public class ScoreFragment extends Fragment implements View.OnClickListener {
                 if (SettingsUtil.getUserScoreTerm() != "") {
                     ShowLoadDialog.show(getContext());
                     String[] info = SettingsUtil.getUserScoreTerm().split(":");
+                    network.getScore(info[0], info[1]);
+                } else {
+                    String info[] = MainActivity.getCurrentTerm();
                     network.getScore(info[0], info[1]);
                 }
                 break;

@@ -11,9 +11,9 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class PreReadRealm extends RealmObject{
-    private RealmList<PreReadItem> preItems=null;
-    private String personXH="";
+public class PreReadRealm extends RealmObject {
+    private RealmList<PreReadItem> preItems = null;
+    private String personXH = "";
 
     public RealmList<PreReadItem> getPreItems() {
         return preItems;

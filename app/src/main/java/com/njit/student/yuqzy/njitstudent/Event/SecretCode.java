@@ -8,9 +8,9 @@ import android.graphics.Bitmap;
 
 public class SecretCode {
     private Bitmap bitmap;
-    public SecretCode(Bitmap bitmap)
-    {
-        this.bitmap=bitmap;
+
+    public SecretCode(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     public Bitmap getBitmap() {

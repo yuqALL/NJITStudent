@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Administrator on 2017/2/15.
  */
 
-public class LikeNews implements Serializable{
+public class LikeNews implements Serializable {
     List<NormalItem> list;
 
     public List<NormalItem> getList() {

@@ -35,18 +35,18 @@ public class Base64 {
             } else if (Double.isNaN(chr3)) {
                 enc4 = 64;
             }
-            int x1=_keyStr.charAt(enc1) ;
-            int x2=_keyStr.charAt(enc2) ;
-            int x3=_keyStr.charAt(enc3) ;
-            int x4=_keyStr.charAt(enc4) ;
-            output.add((char)x1);
-            output.add((char)x2);
-            output.add((char)x3);
-            output.add((char)x4);
+            int x1 = _keyStr.charAt(enc1);
+            int x2 = _keyStr.charAt(enc2);
+            int x3 = _keyStr.charAt(enc3);
+            int x4 = _keyStr.charAt(enc4);
+            output.add((char) x1);
+            output.add((char) x2);
+            output.add((char) x3);
+            output.add((char) x4);
         }
-        String result="";
-        for(char c:output){
-            result+=c;
+        String result = "";
+        for (char c : output) {
+            result += c;
         }
 
         return result;

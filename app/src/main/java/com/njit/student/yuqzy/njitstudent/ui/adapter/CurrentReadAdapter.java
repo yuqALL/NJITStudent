@@ -6,13 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.njit.student.yuqzy.njitstudent.Event.CurrentReadEvent;
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.model.FormSJKCategory;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.BookDetailActivity;
 
 /**
@@ -26,7 +23,7 @@ public class CurrentReadAdapter extends BaseAdapter {
     public CurrentReadAdapter(Context context, CurrentReadEvent content) {
 
         this.context = context;
-        this.content=content;
+        this.content = content;
     }
 
     @Override
@@ -59,7 +56,7 @@ public class CurrentReadAdapter extends BaseAdapter {
             viewHolder.book_continue_times = (TextView) convertView.findViewById(R.id.book_continue_times);
             viewHolder.book_sto_place = (TextView) convertView.findViewById(R.id.book_sto_place);
             viewHolder.book_other = (TextView) convertView.findViewById(R.id.book_other);
-            viewHolder.book_continue = (Button) convertView.findViewById(R.id.book_continue);
+            //viewHolder.book_continue = (Button) convertView.findViewById(R.id.book_continue);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -71,20 +68,20 @@ public class CurrentReadAdapter extends BaseAdapter {
         viewHolder.book_continue_times.setText(content.getCrItems().get(position).getContinueTimes());
         viewHolder.book_sto_place.setText(content.getCrItems().get(position).getPlace());
         viewHolder.book_other.setText(content.getCrItems().get(position).getOtherThing());
-        viewHolder.book_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context,"click "+position,Toast.LENGTH_SHORT).show();
-            }
-        });
-        viewHolder.book_name.setTextColor(context.getResources().getColor(R.color.Color_BlueViolet));
+//        viewHolder.book_continue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(context,"click "+position,Toast.LENGTH_SHORT).show();
+//            }
+//        });
+        viewHolder.book_name.setTextColor(context.getResources().getColor(R.color.Color_DarkCyan));
         viewHolder.book_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, BookDetailActivity.class);
-                intent.putExtra("url",content.getCrItems().get(position).getBookUrl());
-                intent.putExtra("name",content.getCrItems().get(position).getName());
-                intent.putExtra("other",content.getCrItems().get(position).getPlace());
+                Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("url", content.getCrItems().get(position).getBookUrl());
+                intent.putExtra("name", content.getCrItems().get(position).getName());
+                intent.putExtra("other", content.getCrItems().get(position).getPlace());
                 context.startActivity(intent);
             }
         });
@@ -93,7 +90,7 @@ public class CurrentReadAdapter extends BaseAdapter {
 
     // View lookup cache
     private static class ViewHolder {
-        TextView book_id,book_name,book_get_time,book_return_time,book_continue_times,book_sto_place,book_other;
-        Button book_continue;
+        TextView book_id, book_name, book_get_time, book_return_time, book_continue_times, book_sto_place, book_other;
+        //Button book_continue;
     }
 }

@@ -19,7 +19,7 @@
         android:layout_height="50dp"
         android:src="@drawable/ic_icon_fav"
         app:civ_border_width="2dp"
-        app:civ_border_color="#fff"/>
+        app:civ_border_color="#fff" />
 
     <TextView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:text="南京工程学院"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_contact_me"

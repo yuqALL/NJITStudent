@@ -4,13 +4,9 @@ package com.njit.student.yuqzy.njitstudent.net;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import android.support.annotation.NonNull;
-
 import android.util.Log;
-
 import android.widget.EditText;
-
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -21,12 +17,9 @@ import com.njit.student.yuqzy.njitstudent.Event.HotRecEvent;
 import com.njit.student.yuqzy.njitstudent.Event.InfoDoorResponseCode;
 import com.njit.student.yuqzy.njitstudent.Event.LibraryResponseCode;
 import com.njit.student.yuqzy.njitstudent.Event.LibrarySecretCode;
-
 import com.njit.student.yuqzy.njitstudent.Event.OrderBookEvent;
-
 import com.njit.student.yuqzy.njitstudent.Event.PreReadEvent;
 import com.njit.student.yuqzy.njitstudent.Event.SearchHistEvent;
-
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.model.BookShelfItem;
 import com.njit.student.yuqzy.njitstudent.model.CurrentReadItem;
@@ -35,10 +28,8 @@ import com.njit.student.yuqzy.njitstudent.model.HotRecommendItem;
 import com.njit.student.yuqzy.njitstudent.model.OrderBookItem;
 import com.njit.student.yuqzy.njitstudent.model.PreReadItem;
 import com.njit.student.yuqzy.njitstudent.model.SearchHistItem;
-import com.njit.student.yuqzy.njitstudent.model.UrlAll;
 import com.njit.student.yuqzy.njitstudent.model.UrlAllEvent;
 import com.njit.student.yuqzy.njitstudent.model.UrlItem;
-
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
 
 import org.apache.http.HttpEntity;
@@ -62,22 +53,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-
 import java.io.IOException;
-
 import java.io.UnsupportedEncodingException;
-
 import java.net.URLEncoder;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.BASE_LOGIN_HOST;
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.BASE_LOGIN_HOST_KEY;
-
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.USERAGENT;
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.USERAGENT_DESKTOP;
 
@@ -90,8 +75,9 @@ public class NetWork {
 
     }
 
-    private String encode="gb2312";
-    public String matchC(String str){
+    private String encode = "gb2312";
+
+    public String matchC(String str) {
         // String str = "A我B3是D4一个D3汉ad字e3d";
 
         try {
@@ -104,19 +90,20 @@ public class NetWork {
             while (m.find()) {
                 mv = m.group(0);
                 String en = URLEncoder.encode(mv, encode);
-                if(mes.contains(mv)){
-                    mes=mes.replaceAll(mv,en);
-                    Log.e("match txt ",en+"\n"+mes);//%B2%DC%C7%EC%88%D2
+                if (mes.contains(mv)) {
+                    mes = mes.replaceAll(mv, en);
+                    Log.e("match txt ", en + "\n" + mes);//%B2%DC%C7%EC%88%D2
                 }
             }
 
             return mes;
-        }catch (UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
         return str;
     }
+
     public static void LoginDialog(Context context) {
         new MaterialDialog.Builder(context)
                 .title("教务网登录")
@@ -322,7 +309,7 @@ public class NetWork {
                         HttpEntity entity = httpResponse.getEntity();
 
                         String MAINBODYHTML = EntityUtils.toString(entity);
-                       // Log.e("html", MAINBODYHTML);
+                        // Log.e("html", MAINBODYHTML);
                         isLibraryLoginOK(MAINBODYHTML);
 //                        GetCurrentRead();
 //                        GetBookShelf();
@@ -391,7 +378,7 @@ public class NetWork {
                         HttpEntity entity = httpResponse.getEntity();
 
                         String MAINBODYHTML = EntityUtils.toString(entity);
-                       // Log.e("test content", MAINBODYHTML);
+                        // Log.e("test content", MAINBODYHTML);
                         Document doc = Jsoup.parse(MAINBODYHTML);
 
                         Element table = doc.select("div#mainbox").select("div#container").select("div#mylib_content").select("table.table_line").first();
@@ -409,8 +396,8 @@ public class NetWork {
                             item.setPlace(value.get(5).text());
                             item.setOtherThing(value.get(6).text());
                             //item.setPlace(value.get(5).text());
-                            String base=value.get(1).select("a").attr("href");
-                            item.setBookUrl("http://opac.lib.njit.edu.cn"+base.substring(2));
+                            String base = value.get(1).select("a").attr("href");
+                            item.setBookUrl("http://opac.lib.njit.edu.cn" + base.substring(2));
                             items.add(item);
                         }
                         EventBus.getDefault().post(new CurrentReadEvent(items, SettingsUtil.getXueHao()));
@@ -477,8 +464,8 @@ public class NetWork {
                             item.setReadTime(value.get(4).text());
                             item.setReturnTime(value.get(5).text());
                             item.setPlace(value.get(6).text());
-                            String base=value.get(2).select("a").attr("href");
-                            item.setBookUrl("http://opac.lib.njit.edu.cn"+base.substring(2));
+                            String base = value.get(2).select("a").attr("href");
+                            item.setBookUrl("http://opac.lib.njit.edu.cn" + base.substring(2));
                             items.add(item);
                         }
                         EventBus.getDefault().post(new PreReadEvent(items, SettingsUtil.getXueHao()));
@@ -582,8 +569,8 @@ public class NetWork {
                             item.setPlace(value.get(2).text());
                             item.setOrderTime(value.get(3).text());
                             item.setAbortTime(value.get(4).text());
-                            String base=value.get(1).select("a").first().attr("href");
-                            item.setBookUrl("http://opac.lib.njit.edu.cn"+base.substring(2));
+                            String base = value.get(1).select("a").first().attr("href");
+                            item.setBookUrl("http://opac.lib.njit.edu.cn" + base.substring(2));
                             Log.e("url yyxx", item.getBookUrl());
                             item.setGetBookPlace(value.get(5).text());
                             item.setState(value.get(6).text());
@@ -687,7 +674,7 @@ public class NetWork {
                             for (Element e : list) {
                                 Log.e("test content", e.html());
                                 names.add(e.text());
-                                urls.add(host+e.attr("href"));
+                                urls.add(host + e.attr("href"));
                                 Log.e("book shelf", e.attr("href"));
                             }
                             shelfEvent.setPersonXH(SettingsUtil.getXueHao());
@@ -752,8 +739,8 @@ public class NetWork {
                                             item.setPublishCompany(value.get(3).text());
                                             item.setPublishTime(value.get(4).text());
                                             item.setIdSuoShu(value.get(5).text());
-                                            String base=value.get(1).select("a").first().attr("href");
-                                            item.setBookUrl("http://opac.lib.njit.edu.cn"+base.substring(2));
+                                            String base = value.get(1).select("a").first().attr("href");
+                                            item.setBookUrl("http://opac.lib.njit.edu.cn" + base.substring(2));
                                             Log.e("url shelf book url", item.getBookUrl());
                                             items.add(item);
                                         }
@@ -828,8 +815,8 @@ public class NetWork {
                                 item.setShould_pay(td.get(7).text());
                                 item.setActual_pay(td.get(8).text());
                                 item.setState(td.get(9).text());
-                                String base=td.get(2).select("a").first().attr("href");
-                                item.setBookurl("http://opac.lib.njit.edu.cn"+base.substring(2));
+                                String base = td.get(2).select("a").first().attr("href");
+                                item.setBookurl("http://opac.lib.njit.edu.cn" + base.substring(2));
                                 items.add(item);
                             }
                         }
@@ -887,8 +874,8 @@ public class NetWork {
                             Elements value = content.select("td");
                             item.setContent(value.get(1).text());
                             item.setTime(value.get(2).text());
-                            String base=value.get(1).select("a[href]").attr("href");
-                            item.setUrl("http://opac.lib.njit.edu.cn"+base.substring(2));
+                            String base = value.get(1).select("a[href]").attr("href");
+                            item.setUrl("http://opac.lib.njit.edu.cn" + base.substring(2));
                             Log.e("url search", item.getUrl());
                             items.add(item);
                         }
@@ -940,14 +927,14 @@ public class NetWork {
                             Elements value = content.select("td");
                             item.setName(value.get(1).text());
                             item.setAuthor(value.get(2).text());
-                            String base=value.get(1).select("a").first().attr("href");
-                            item.setBookUrl("http://opac.lib.njit.edu.cn"+base.substring(2));
+                            String base = value.get(1).select("a").first().attr("href");
+                            item.setBookUrl("http://opac.lib.njit.edu.cn" + base.substring(2));
                             item.setPublishInfo(value.get(3).text());
                             item.setIdSuoShu(value.get(4).text());
                             item.setNum(value.get(5).text());
                             item.setReadTimes(value.get(6).text());
                             item.setRead(value.get(7).text());
-                            Log.e("url search","   uuuu  "+item.getBookUrl());
+                            Log.e("url search", "   uuuu  " + item.getBookUrl());
                             items.add(item);
                         }
                         EventBus.getDefault().post(new HotRecEvent(items, SettingsUtil.getXueHao()));
@@ -1005,8 +992,8 @@ public class NetWork {
     //http://opac.lib.njit.edu.cn/opac/openlink.php?strSearchType=title&match_flag=forward&historyCount=1&strText=java&doctype=ALL&displaypg=20&showmode=list&sort=CATA_DATE&orderby=desc&location=ALL
     //http://opac.lib.njit.edu.cn/opac/openlink.php?location=ALL&title=java&doctype=ALL&lang_code=ALL&match_flag=forward&displaypg=20&showmode=list&orderby=DESC&sort=CATA_DATE&onlylendable=no&count=1237&with_ebook=&page=2
     //搜索内容  内容类型 搜索匹配 搜索书目类型
-    public static void LibrarySearchSimple(String content,String searchOption,String pipei,String type){
-       final String host="http://opac.lib.njit.edu.cn/opac/openlink.php?strSearchType="+searchOption+"&match_flag="+pipei+"&historyCount=1&strText="+content+"&doctype="+type+"&displaypg=20&showmode=list&sort=CATA_DATE&orderby=desc&location=ALL" ;
+    public static void LibrarySearchSimple(String content, String searchOption, String pipei, String type) {
+        final String host = "http://opac.lib.njit.edu.cn/opac/openlink.php?strSearchType=" + searchOption + "&match_flag=" + pipei + "&historyCount=1&strText=" + content + "&doctype=" + type + "&displaypg=20&showmode=list&sort=CATA_DATE&orderby=desc&location=ALL";
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1041,7 +1028,7 @@ public class NetWork {
     }
 
     //爬取教务网链接
-    public static void SchoolLink(){
+    public static void SchoolLink() {
         //http://www.njit.edu.cn/xxgk/jgsz/bmwz.htm 部门网站
         //http://www.njit.edu.cn/xxgk/jgsz/yxwz.htm 院系网站
         //http://www.njit.edu.cn/index/kslj/xwlj.htm  校外链接
@@ -1055,11 +1042,11 @@ public class NetWork {
             public void run() {
 
                 try {
-                    UrlAllEvent all=new UrlAllEvent();
-                    List<UrlItem> urlItems=new ArrayList<UrlItem>();
+                    UrlAllEvent all = new UrlAllEvent();
+                    List<UrlItem> urlItems = new ArrayList<UrlItem>();
 
                     //解析部门网站
-                    UrlItem bmwz=new UrlItem();
+                    UrlItem bmwz = new UrlItem();
                     bmwz.setType(0);
                     bmwz.setTitle("部门网站");
                     urlItems.add(bmwz);
@@ -1068,7 +1055,7 @@ public class NetWork {
                     //Log.e("cate",cate.html());
                     Elements links = cate.select("ul").select("li");
                     for (Element element : links) {
-                        UrlItem item=new UrlItem();
+                        UrlItem item = new UrlItem();
                         item.setType(1);
                         item.setName(element.text());
                         item.setUrl(element.select("a[href]").first().attr("abs:href"));
@@ -1076,7 +1063,7 @@ public class NetWork {
                     }
 
                     //解析院系网站
-                    UrlItem yxwz=new UrlItem();
+                    UrlItem yxwz = new UrlItem();
                     yxwz.setType(0);
                     yxwz.setTitle("院系网站");
                     urlItems.add(yxwz);
@@ -1084,7 +1071,7 @@ public class NetWork {
                     Element cate2 = doc2.select("div.z_box").select("div.r_box").select("div.jigou").first();
                     Elements links2 = cate2.select("ul").select("li");
                     for (Element element : links2) {
-                        UrlItem item=new UrlItem();
+                        UrlItem item = new UrlItem();
                         item.setType(1);
                         item.setName(element.text());
                         item.setUrl(element.select("a[href]").first().attr("abs:href"));
@@ -1092,7 +1079,7 @@ public class NetWork {
                     }
 
                     //解析校外链接
-                    UrlItem xwlj=new UrlItem();
+                    UrlItem xwlj = new UrlItem();
                     xwlj.setType(0);
                     xwlj.setTitle("校外链接");
                     urlItems.add(xwlj);
@@ -1100,7 +1087,7 @@ public class NetWork {
                     Element cate3 = doc3.select("div.conter1").select("div.jiaowu1").select("div.right_nr1").first();
                     Elements links3 = cate3.select("ul").select("li");
                     for (Element element : links3) {
-                        UrlItem item=new UrlItem();
+                        UrlItem item = new UrlItem();
                         item.setType(1);
                         item.setName(element.text());
                         item.setUrl(element.select("a[href]").first().attr("abs:href"));
@@ -1108,27 +1095,27 @@ public class NetWork {
                     }
 
                     //添加一些学习网站
-                    String[] name=new String[]{"爱课程(南工程版)","中国大学MOOC","尔雅通识课","教学建设与改革项目管理平台",
-                    "中国教育在线","中华人民共和国教育部","中国教育信息网","中国教育和科研计算机网","江苏省学位与研究生教育","江苏教育",
-                    "优达学城","慕课网","清华大学慕课平台","慕课学院（果壳网）",
-                    "网易公开课","TED官网",
-                    "百度传课","腾讯课堂","阿里学院","极客学院","传智播客","我要自学网",
-                    "敏学网","Google Study jam","YY教育","好知网","沪江网",
-                    "网易云课堂"};
-                    String[] value=new String[]{"http://202.119.160.175/","http://www.icourse163.org/","http://njit.benke.chaoxing.com/","http://xmgl.njit.edu.cn/index.php?m=Index&a=index.php&m=Public&a=login",
-                    "http://www.eol.cn/","http://www.moe.edu.cn/","http://www.chinaedu.edu.cn/","http://www.edu.cn/","http://xwb.jsjyt.edu.cn/","http://www.ec.js.edu.cn/",
-                    "https://cn.udacity.com/","http://www.imooc.com/course/landingpagephp?from=phpkecheng","http://tsinghua.xuetangx.com/","http://mooc.guokr.com/",
-                    "http://so.open.163.com/movie/listpage/listprogram1/pl2/%CE%EF%C0%ED/default/fc/ot/default/1.html","http://www.ted.com/",
-                    "http://www.chuanke.com/","https://ke.qq.com/","https://daxue.taobao.com/","http://www.jikexueyuan.com/","http://www.itcast.cn/","http://www.51zxw.net/",
-                    "http://www.minxue.net/","http://www.studyjamscn.com/portal.php","http://edu.yy.com/","http://www.howzhi.com/","http://www.hujiang.com/",
-                    "http://study.163.com/"};
+                    String[] name = new String[]{"爱课程(南工程版)", "中国大学MOOC", "尔雅通识课", "教学建设与改革项目管理平台",
+                            "中国教育在线", "中华人民共和国教育部", "中国教育信息网", "中国教育和科研计算机网", "江苏省学位与研究生教育", "江苏教育",
+                            "优达学城", "慕课网", "清华大学慕课平台", "慕课学院（果壳网）",
+                            "网易公开课", "TED官网",
+                            "百度传课", "腾讯课堂", "阿里学院", "极客学院", "传智播客", "我要自学网",
+                            "敏学网", "Google Study jam", "YY教育", "好知网", "沪江网",
+                            "网易云课堂"};
+                    String[] value = new String[]{"http://202.119.160.175/", "http://www.icourse163.org/", "http://njit.benke.chaoxing.com/", "http://xmgl.njit.edu.cn/index.php?m=Index&a=index.php&m=Public&a=login",
+                            "http://www.eol.cn/", "http://www.moe.edu.cn/", "http://www.chinaedu.edu.cn/", "http://www.edu.cn/", "http://xwb.jsjyt.edu.cn/", "http://www.ec.js.edu.cn/",
+                            "https://cn.udacity.com/", "http://www.imooc.com/course/landingpagephp?from=phpkecheng", "http://tsinghua.xuetangx.com/", "http://mooc.guokr.com/",
+                            "http://so.open.163.com/movie/listpage/listprogram1/pl2/%CE%EF%C0%ED/default/fc/ot/default/1.html", "http://www.ted.com/",
+                            "http://www.chuanke.com/", "https://ke.qq.com/", "https://daxue.taobao.com/", "http://www.jikexueyuan.com/", "http://www.itcast.cn/", "http://www.51zxw.net/",
+                            "http://www.minxue.net/", "http://www.studyjamscn.com/portal.php", "http://edu.yy.com/", "http://www.howzhi.com/", "http://www.hujiang.com/",
+                            "http://study.163.com/"};
 
-                    UrlItem xxwz=new UrlItem();
+                    UrlItem xxwz = new UrlItem();
                     xxwz.setType(0);
                     xxwz.setTitle("学习网站");
                     urlItems.add(xxwz);
-                    for(int i=0;i<name.length;i++){
-                        UrlItem item=new UrlItem();
+                    for (int i = 0; i < name.length; i++) {
+                        UrlItem item = new UrlItem();
                         item.setType(1);
                         item.setName(name[i]);
                         item.setUrl(value[i]);
@@ -1136,7 +1123,7 @@ public class NetWork {
                     }
 
                     //中文数据库
-                    UrlItem zwsjk=new UrlItem();
+                    UrlItem zwsjk = new UrlItem();
                     zwsjk.setType(0);
                     zwsjk.setTitle("中文数据库");
                     urlItems.add(zwsjk);
@@ -1145,8 +1132,8 @@ public class NetWork {
                     //Log.e("cate",cate.html());
                     Elements links4 = cate4.select("ul").select("li");
                     for (Element element : links4) {
-                        Element url=element.select("div.head").select("span").select("a[href]").first();
-                        UrlItem item=new UrlItem();
+                        Element url = element.select("div.head").select("span").select("a[href]").first();
+                        UrlItem item = new UrlItem();
                         item.setType(1);
                         item.setName(url.text());
                         item.setUrl(url.attr("abs:href"));
@@ -1154,7 +1141,7 @@ public class NetWork {
                     }
 
                     //外文数据库
-                    UrlItem wwsjk=new UrlItem();
+                    UrlItem wwsjk = new UrlItem();
                     wwsjk.setType(0);
                     wwsjk.setTitle("外文数据库");
                     urlItems.add(wwsjk);
@@ -1163,8 +1150,8 @@ public class NetWork {
                     //Log.e("cate",cate.html());
                     Elements links5 = cate5.select("ul").select("li");
                     for (Element element : links5) {
-                        Element url=element.select("div.head").select("span").select("a[href]").first();
-                        UrlItem item=new UrlItem();
+                        Element url = element.select("div.head").select("span").select("a[href]").first();
+                        UrlItem item = new UrlItem();
                         item.setType(1);
                         item.setName(url.text());
                         item.setUrl(url.attr("abs:href"));
@@ -1172,7 +1159,7 @@ public class NetWork {
                     }
 
                     //试用数据库
-                    UrlItem sysjk=new UrlItem();
+                    UrlItem sysjk = new UrlItem();
                     sysjk.setType(0);
                     sysjk.setTitle("试用数据库");
                     urlItems.add(sysjk);
@@ -1181,8 +1168,8 @@ public class NetWork {
                     //Log.e("cate",cate.html());
                     Elements links6 = cate6.select("ul").select("li");
                     for (Element element : links6) {
-                        Element url=element.select("div.head").select("span").select("a[href]").first();
-                        UrlItem item=new UrlItem();
+                        Element url = element.select("div.head").select("span").select("a[href]").first();
+                        UrlItem item = new UrlItem();
                         item.setType(1);
                         item.setName(url.text());
                         item.setUrl(url.attr("abs:href"));
@@ -1191,7 +1178,7 @@ public class NetWork {
 
 
                     //开放资源
-                    UrlItem kfsjk=new UrlItem();
+                    UrlItem kfsjk = new UrlItem();
                     kfsjk.setType(0);
                     kfsjk.setTitle("开放资源");
                     urlItems.add(kfsjk);
@@ -1200,8 +1187,8 @@ public class NetWork {
                     //Log.e("cate",cate.html());
                     Elements links7 = cate7.select("ul").select("li");
                     for (Element element : links7) {
-                        Element url=element.select("div.head").select("span.field-content").select("a[href]").first();
-                        UrlItem item=new UrlItem();
+                        Element url = element.select("div.head").select("span.field-content").select("a[href]").first();
+                        UrlItem item = new UrlItem();
                         item.setType(1);
                         item.setName(url.text());
                         item.setUrl(url.attr("abs:href"));

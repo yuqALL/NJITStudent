@@ -20,17 +20,11 @@ import com.njit.student.yuqzy.njitstudent.Event.FavorChangedEvent;
 import com.njit.student.yuqzy.njitstudent.Event.NavBacChangedEvent;
 import com.njit.student.yuqzy.njitstudent.MainActivity;
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.database.CurrentReadRealm;
-import com.njit.student.yuqzy.njitstudent.database.PersonScore;
-import com.njit.student.yuqzy.njitstudent.database.PreReadRealm;
-import com.njit.student.yuqzy.njitstudent.database.ScoreData;
-import com.njit.student.yuqzy.njitstudent.ui.info.setting.SettingActivity;
 import com.njit.student.yuqzy.njitstudent.utils.FileSizeUtil;
 import com.njit.student.yuqzy.njitstudent.utils.FileUtil;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
 import com.njit.student.yuqzy.njitstudent.utils.SimpleSubscriber;
 import com.njit.student.yuqzy.njitstudent.utils.ThemeUtil;
-import com.orhanobut.dialogplus.DialogPlus;
 import com.yalantis.ucrop.entity.LocalMedia;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,8 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -56,8 +48,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     private Preference navBac;
     private Preference viewMain;
     private Preference clearInfo;
-//    private Preference getAllinfo;
-//    private Preference addUrls;
 
     private Realm realm;
 
@@ -71,11 +61,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         theme = findPreference(SettingsUtil.THEME);
         viewMain = findPreference(SettingsUtil.VIEW_MAIN);
         personFavor = findPreference(SettingsUtil.PERSON_FAVOR);
-        navBac=findPreference(SettingsUtil.NAV_BAC);
+        navBac = findPreference(SettingsUtil.NAV_BAC);
         clearInfo = findPreference(SettingsUtil.CLEAR_INFO);
-//        getAllinfo = findPreference(SettingsUtil.FAST_GET_ALL_INFO);
-//        addUrls = findPreference(SettingsUtil.ADD_URLS);
-
         String[] colorNames = getActivity().getResources().getStringArray(R.array.color_name);
         int currentThemeIndex = SettingsUtil.getTheme();
         if (currentThemeIndex >= colorNames.length) {
@@ -90,8 +77,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         personFavor.setOnPreferenceClickListener(this);
         navBac.setOnPreferenceClickListener(this);
         clearInfo.setOnPreferenceClickListener(this);
-//        getAllinfo.setOnPreferenceClickListener(this);
-//        addUrls.setOnPreferenceClickListener(this);
 
         String[] cachePaths = new String[]{FileUtil.getInternalCacheDir(App.getContext()), FileUtil.getExternalCacheDir(App.getContext())};
         Observable
@@ -198,18 +183,19 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                             dialog.dismiss();
                         }
                     }).show();
-        }else if(preference==personFavor){
-            type="favor";
+        } else if (preference == personFavor) {
+            type = "favor";
             getBac(FunctionConfig.COPY_MODEL_1_1);
-        }else if(preference==navBac){
-            type="nav";
+        } else if (preference == navBac) {
+            type = "nav";
             getBac(FunctionConfig.COPY_MODEL_16_9);
         }
         return true;
     }
 
-    String type="";
-    private void getBac(int copyMode){
+    String type = "";
+
+    private void getBac(int copyMode) {
         FunctionConfig config = new FunctionConfig();
         config.setType(LocalMediaLoader.TYPE_IMAGE);
         config.setCopyMode(copyMode);
@@ -224,8 +210,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         config.setPreviewVideo(false);
         config.setRecordVideoDefinition(FunctionConfig.HIGH);// 视频清晰度
         config.setRecordVideoSecond(60);// 视频秒数
-//        config.setCropW(1000);
-//        config.setCropH(1000);
         config.setCheckNumMode(false);
         config.setCompressQuality(100);
         config.setImageSpanCount(4);
@@ -236,6 +220,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         PictureConfig.init(config);
         PictureConfig.getPictureConfig().openPhoto(getActivity(), resultCallback);
     }
+
     private List<LocalMedia> selectMedia = new ArrayList<>();
     /**
      * 图片回调方法
@@ -258,7 +243,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     // setBackground(selectMedia.get(0).getPath());
                     Log.e("path", SettingsUtil.getPersonFavor() + " vs " + selectMedia.get(0).getPath());
                     EventBus.getDefault().post(new FavorChangedEvent(SettingsUtil.getPersonFavor()));
-                }else {
+                } else {
                     if (selectMedia.get(0).getCutPath() != null && selectMedia.get(0).getCutPath() != "") {
                         //setBackground(selectMedia.get(0).getCutPath());
                         SettingsUtil.setNavBac(selectMedia.get(0).getCutPath());
@@ -275,7 +260,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     };
 
     private void clearPersonInfo() {
-        realm=Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

@@ -8,7 +8,7 @@ import java.util.List;
  */
 
 public class FormTTBCategory implements Serializable {
-    List<FormTTBinfo> ttbList=null;
+    List<FormTTBinfo> ttbList = null;
 
     public List<FormTTBinfo> getTtbList() {
         return ttbList;

@@ -35,24 +35,22 @@ import com.njit.student.yuqzy.njitstudent.Event.PersonInfoEvent;
 import com.njit.student.yuqzy.njitstudent.Event.SecretCode;
 import com.njit.student.yuqzy.njitstudent.MainActivity;
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.model.Cell;
 import com.njit.student.yuqzy.njitstudent.database.CourseDatabase;
-import com.njit.student.yuqzy.njitstudent.database.formKBdatabase;
 import com.njit.student.yuqzy.njitstudent.database.PersonInfo;
+import com.njit.student.yuqzy.njitstudent.database.formKBdatabase;
 import com.njit.student.yuqzy.njitstudent.database.formSJKdatabase;
 import com.njit.student.yuqzy.njitstudent.database.formTTBinfoDatabase;
+import com.njit.student.yuqzy.njitstudent.model.Cell;
 import com.njit.student.yuqzy.njitstudent.model.FormSJK;
 import com.njit.student.yuqzy.njitstudent.model.FormSJKCategory;
 import com.njit.student.yuqzy.njitstudent.model.FormTTBCategory;
 import com.njit.student.yuqzy.njitstudent.model.FormTTBinfo;
 import com.njit.student.yuqzy.njitstudent.net.ZfNetData;
-import com.njit.student.yuqzy.njitstudent.ui.adapter.ChooseTypeAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.CourseDialogAdapter;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
 import com.njit.student.yuqzy.njitstudent.utils.ShowLoadDialog;
 import com.njit.student.yuqzy.njitstudent.utils.ThemeUtil;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.ListHolder;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
@@ -68,7 +66,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -120,7 +117,6 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         tvTitle.setText(SettingsUtil.getUserCourseTerm() + "\n 第" + SettingsUtil.getCurrentWeek() + "周");
         imgMore = (ImageView) view.findViewById(R.id.img_more);
         imgMore.setOnClickListener(this);
-        view.findViewById(R.id.img_change_type).setOnClickListener(this);
         baseHeight = getContext().getResources().getDisplayMetrics().heightPixels / 11;
         int cell = getContext().getResources().getDisplayMetrics().widthPixels / 15;
         baseWidth = cell * 2;
@@ -153,7 +149,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         if (SettingsUtil.getCourseCurrentWeekBindTime() != "") {
             try {
                 date = dateFormatPattern.parse(SettingsUtil.getCourseCurrentWeekBindTime());//初始日期
-                Log.e("date",date.toString());
+                //Log.e("date",date.toString());
             } catch (Exception e) {
 
             }
@@ -161,7 +157,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         }
         Calendar calendar = Calendar.getInstance();
         SettingsUtil.setCurrentWeek(Integer.toString(calendar.get(Calendar.WEEK_OF_YEAR) - precalendar.get(Calendar.WEEK_OF_YEAR)) + SettingsUtil.getCourseStartWeek());
-        Log.e("week", precalendar.get(Calendar.WEEK_OF_YEAR) + " vs " + calendar.get(Calendar.WEEK_OF_YEAR));
+        //Log.e("week", precalendar.get(Calendar.WEEK_OF_YEAR) + " vs " + calendar.get(Calendar.WEEK_OF_YEAR));
     }
 
     public static String getCurrentTime() {//2017-2-19
@@ -175,9 +171,9 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         long cur = calendar.getTimeInMillis();
         int curWeekDay = calendar.get(Calendar.DAY_OF_WEEK);//sunday开始 1 2 3..7
         long startTime;
-        if(curWeekDay!=1) {
-            startTime = cur - (curWeekDay - 1) * 24 * 60 * 60 * 1000;
-        }else {
+        if (curWeekDay != 1) {
+            startTime = cur - (curWeekDay - 2) * 24 * 60 * 60 * 1000;
+        } else {
             startTime = cur - 6 * 24 * 60 * 60 * 1000;
         }
 
@@ -192,7 +188,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(time);
             value[i] = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
-            Log.e("month day", value[i]);
+            //Log.e("month day", value[i]);
 
         }
         ((TextView) view.findViewById(R.id.day_1)).setText(value[0]);
@@ -260,7 +256,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         textView.setText(info);
         textView.setWidth(baseWidth - 24);
         textView.setHeight(baseHeight * cell.getLength() - 24);
-        Log.e("week cell", cell.getWeek().get(0) + "");
+        //Log.e("week cell", cell.getWeek().get(0) + "");
         //
         if (cell.getCourseName() != null && cell.getCourseName().size() > 1) {
             if (cell.getWeek() != null && cell.getWeek().get(0) != null && cell.getWeek().get(0).contains(Integer.parseInt(SettingsUtil.getCurrentWeek()))) {
@@ -495,13 +491,13 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                         for (int g = startweek; g <= endweek; g++) {
 
                                             if (classType == 1 && g % 2 == 1) {
-                                                Log.e("do week", "class type 1");
+                                                //Log.e("do week", "class type 1");
                                                 week.add(g);
                                             } else if (classType == 2 && g % 2 == 0) {
-                                                Log.e("do week", "class type 2" + g);
+                                                //Log.e("do week", "class type 2" + g);
                                                 week.add(g);
                                             } else if (classType == 0) {
-                                                Log.e("do week", "class type 0" + g);
+                                                //Log.e("do week", "class type 0" + g);
                                                 week.add(g);
                                             }
 
@@ -566,9 +562,6 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
             case R.id.img_more:
                 displayDialog();
                 break;
-            case R.id.img_change_type:
-                chooseCourseType();
-                break;
         }
     }
 
@@ -585,9 +578,9 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
             }
             final String[] current;
             if (courseDatabase != null) {
-                current = new String[]{SettingsUtil.getXueHao(), info[0] + " 第" + info[1] + "学期", SettingsUtil.getCurrentWeek(), type, "", courseDatabase.getFormSJKdatabases().size() + "", courseDatabase.getFormTTBinfoDatabases().size() + "", "", ""};
+                current = new String[]{SettingsUtil.getXueHao(), info[0] + " 第" + info[1] + "学期", SettingsUtil.getCurrentWeek(), type, courseDatabase.getFormSJKdatabases().size() + "", courseDatabase.getFormTTBinfoDatabases().size() + "", "", ""};
             } else {
-                current = new String[]{SettingsUtil.getXueHao(), info[0] + " 第" + info[1] + "学期", SettingsUtil.getCurrentWeek(), type, "", "", "", "", ""};
+                current = new String[]{SettingsUtil.getXueHao(), info[0] + " 第" + info[1] + "学期", SettingsUtil.getCurrentWeek(), type, "", "", "", ""};
             }
             CourseDialogAdapter adapter = new CourseDialogAdapter(getContext(), current);
 
@@ -615,9 +608,6 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                     .setOnItemClickListener(new OnItemClickListener() {
                         @Override
                         public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-                            //final DialogPlus menuDialog=dialog;
-                            Log.e("DialogPlus", "onItemClick() called with: " + "item = [" +
-                                    item + "], position = [" + position + "]");
                             dialog.dismiss();
                             switch (position) {
                                 case 0:
@@ -633,20 +623,17 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                 case 3://课表类型
                                     chooseType();
                                     break;
-                                case 4://添加课程
-                                    startActivity(new Intent(getContext(), AddCourseActivity.class));
-                                    break;
-                                case 5://实习课信息
+                                case 4://实习课信息
                                     if (courseDatabase != null) {
                                         getSJK(courseDatabase);
                                     }
                                     break;
-                                case 6://调课信息
+                                case 5://调课信息
                                     if (courseDatabase != null) {
                                         getTTB(courseDatabase);
                                     }
                                     break;
-                                case 7://刷新信息
+                                case 6://刷新信息
                                     if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
                                         if (SettingsUtil.getUserCourseType().equals("class")) {
                                             getBJCourse(network, personInfo, SettingsUtil.getUserCourseTerm().split(":"));
@@ -661,7 +648,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                                     }
                                     break;
 
-                                case 8://更换背景
+                                case 7://更换背景
                                     chooseBac();
                                     break;
                             }
@@ -685,13 +672,12 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         int key = 0;
         String personXY = personInfo.getPersonXY();
         for (int i = 0; i < xy_name.length; i++) {
-            Log.e("get xy", xy_name[i] + ":" + xy_value[i]);
             if (xy_name[i].equals(personXY)) {
                 key = i;
                 break;
             }
         }
-        Log.e("do get course", "" + personInfo.getPersonXH() + " " + personInfo.getPersonXZB() + " " + xy_value[key] + " " + personInfo.getPersonZYMC());
+        // Log.e("do get course", "" + personInfo.getPersonXH() + " " + personInfo.getPersonXZB() + " " + xy_value[key] + " " + personInfo.getPersonZYMC());
         network.getCourseForm(personInfo.getPersonXH(),
                 personInfo.getPersonXZB(),
                 chooseTerm[0], chooseTerm[1],
@@ -754,8 +740,6 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                     public void onSelection(MaterialDialog dialog2, View itemView, int which, CharSequence text) {
 
                         chooseTerm = termValue.get(which).split(":");
-//                        chooseTerm[0] = text.toString().substring(0, 9);
-//                        chooseTerm[1] = text.toString().substring(11, 12);
                         if (SettingsUtil.getXueHao() != "") {
                             courseDatabase = null;
                             courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), chooseTerm[0] + ":" + chooseTerm[1], SettingsUtil.getUserCourseType());
@@ -856,60 +840,6 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                 .show();
     }
 
-    private void chooseCourseType() {
-        ChooseTypeAdapter adapter = new ChooseTypeAdapter(getContext());
-        DialogPlus dialog = DialogPlus.newDialog(getContext())
-                .setContentHolder(new GridHolder(2))
-                .setCancelable(true)
-                .setGravity(Gravity.CENTER)
-                .setAdapter(adapter)
-                .setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-                        Log.e("DialogPlus", "onItemClick() called with: " + "item = [" +
-                                item + "], position = [" + position + "]");
-                        String[] info = SettingsUtil.getUserCourseTerm().split(":");
-                        switch (position) {
-                            case 0:
-                                if (!SettingsUtil.getUserCourseType().equals("class")) {
-
-                                    courseDatabase = null;
-                                    courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), SettingsUtil.getUserCourseTerm(), "class");
-                                    if (courseDatabase != null) {
-                                        SettingsUtil.setUserCourseType("class");
-                                        createView(con, genCellData(courseDatabase, "class"));
-                                    } else if (MainActivity.network != null && MainActivity.network.cookieStore != null && MainActivity.personInfo != null && MainActivity.network.theUrls != null) {
-                                        getBJCourse(MainActivity.network, MainActivity.personInfo, info);
-                                    } else if (network.cookieStore != null && personInfo != null && network.theUrls != null) {
-                                        getBJCourse(network, personInfo, info);
-                                    } else {
-                                        dialogLogin = loginZfDialog("教务网登录");
-                                        dialogLogin.show();
-                                    }
-                                }
-                                break;
-                            case 1:
-                                if (!SettingsUtil.getUserCourseType().equals("person")) {
-
-                                    courseDatabase = null;
-                                    courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), SettingsUtil.getUserCourseTerm(), "person");
-                                    if (courseDatabase != null) {
-                                        SettingsUtil.setUserCourseType("person");
-                                        createView(con, genCellData(courseDatabase, "person"));
-                                    } else {
-                                        getPerCourseNet(SettingsUtil.getXueHao(), info);
-                                    }
-                                }
-                                break;
-                        }
-                        dialog.dismiss();
-                    }
-                })
-                .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
-                .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
-                .create();
-        dialog.show();
-    }
 
     //得到网络个人课表
     private void getPerCourseNet(String id, String[] info) {
@@ -970,41 +900,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
 
     //选择背景图片
     private void chooseBac() {
-        // 进入相册
-        /**
-         * type --> 1图片 or 2视频
-         * copyMode -->裁剪比例，默认、1:1、3:4、3:2、16:9
-         * maxSelectNum --> 可选择图片的数量
-         * selectMode         --> 单选 or 多选
-         * isShow       --> 是否显示拍照选项 这里自动根据type 启动拍照或录视频
-         * isPreview    --> 是否打开预览选项
-         * isCrop       --> 是否打开剪切选项
-         * isPreviewVideo -->是否预览视频(播放) mode or 多选有效
-         * ThemeStyle -->主题颜色
-         * CheckedBoxDrawable -->图片勾选样式
-         * cropW-->裁剪宽度 值不能小于100  如果值大于图片原始宽高 将返回原图大小
-         * cropH-->裁剪高度 值不能小于100
-         * isCompress -->是否压缩图片
-         * setEnablePixelCompress 是否启用像素压缩
-         * setEnableQualityCompress 是否启用质量压缩
-         * setRecordVideoSecond 录视频的秒数，默认不限制
-         * setRecordVideoDefinition 视频清晰度  Constants.HIGH 清晰  Constants.ORDINARY 低质量
-         * setImageSpanCount -->每行显示个数
-         * setCheckNumMode 是否显示QQ选择风格(带数字效果)
-         * setPreviewColor 预览文字颜色
-         * setCompleteColor 完成文字颜色
-         * setPreviewBottomBgColor 预览界面底部背景色
-         * setBottomBgColor 选择图片页面底部背景色
-         * setCompressQuality 设置裁剪质量，默认无损裁剪
-         * setSelectMedia 已选择的图片
-         * setCompressFlag 1为系统自带压缩  2为第三方luban压缩
-         * 注意-->type为2时 设置isPreview or isCrop 无效
-         * 注意：Options可以为空，默认标准模式
-         */
-        Log.e("test", "choose bac");
-//        int cropW = getContext().getResources().getDisplayMetrics().widthPixels;
-//        int cropH = getContext().getResources().getDisplayMetrics().heightPixels - 2000;
-        //int selector = R.drawable.select_cb;
+
         FunctionConfig config = new FunctionConfig();
         config.setType(LocalMediaLoader.TYPE_IMAGE);
         config.setCopyMode(FunctionConfig.COPY_MODEL_DEFAULT);
@@ -1019,24 +915,12 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
         config.setPreviewVideo(false);
         config.setRecordVideoDefinition(FunctionConfig.HIGH);// 视频清晰度
         config.setRecordVideoSecond(60);// 视频秒数
-//        config.setCropW(1000);
-//        config.setCropH(1000);
         config.setCheckNumMode(false);
         config.setCompressQuality(100);
         config.setImageSpanCount(4);
         config.setSelectMedia(selectMedia);
 
         config.setThemeStyle(ThemeUtil.getThemeColor(getContext(), R.attr.colorPrimary));
-        // 可以自定义底部 预览 完成 文字的颜色和背景色
-
-        // QQ 风格模式下 这里自己搭配颜色，使用蓝色可能会不好看
-        //config.setPreviewColor(ThemeUtil.getThemeColor(getContext(), R.attr.colorPrimary));
-        //config.setCompleteColor(R.color.white);
-        //config.setPreviewBottomBgColor(R.color.bar_grey);
-        //config.setBottomBgColor(R.color.bar_grey);
-        //config.setCheckedBoxDrawable(selector);
-
-
         // 先初始化参数配置，在启动相册
         PictureConfig.init(config);
         PictureConfig.getPictureConfig().openPhoto(getContext(), resultCallback);
@@ -1164,7 +1048,7 @@ public class NJITCourseFragment extends Fragment implements View.OnClickListener
                 courseDatabase = getCourseFromDatabase(SettingsUtil.getXueHao(), SettingsUtil.getUserCourseTerm(), SettingsUtil.getUserCourseType());
 
                 if (courseDatabase != null) {
-                    Log.e("bjcorse", "create view");
+                    //Log.e("bjcorse", "create view");
                     createView(con, genCellData(courseDatabase, SettingsUtil.getUserCourseType()));
                 }
                 break;

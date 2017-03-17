@@ -53,7 +53,7 @@
                     android:textColor="@color/grey"
                     android:textSize="10sp"
                     android:gravity="right"
-                    android:paddingRight="10dp"/>
+                    android:paddingRight="10dp" />
             </LinearLayout>
 
 

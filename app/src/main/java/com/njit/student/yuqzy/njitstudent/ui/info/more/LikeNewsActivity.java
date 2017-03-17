@@ -1,12 +1,11 @@
 package com.njit.student.yuqzy.njitstudent.ui.info.more;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ListView;
 
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.model.LikeNews;
@@ -17,20 +16,21 @@ public class LikeNewsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
         setContentView(R.layout.activity_like_news);
-        toolbar=(Toolbar)findViewById(R.id.title);
+        toolbar = (Toolbar) findViewById(R.id.title);
         setSupportActionBar(toolbar);
         toolbar.setTitle("我的收藏");
         setDisplayHomeAsUpEnabled(true);
 
-        recyclerView=(RecyclerView) findViewById(R.id.like_list);
+        recyclerView = (RecyclerView) findViewById(R.id.like_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        LikeNews likeNews=(LikeNews) getIntent().getSerializableExtra("data");
-        NormalAdapter adapter=new NormalAdapter(this,likeNews.getList());
+        LikeNews likeNews = (LikeNews) getIntent().getSerializableExtra("data");
+        NormalAdapter adapter = new NormalAdapter(this, likeNews.getList());
         recyclerView.setAdapter(adapter);
     }
 
@@ -38,6 +38,7 @@ public class LikeNewsActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(enable);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

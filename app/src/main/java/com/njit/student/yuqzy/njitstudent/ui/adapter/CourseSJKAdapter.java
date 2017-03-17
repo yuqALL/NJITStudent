@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import android.widget.TextView;
 
 import com.njit.student.yuqzy.njitstudent.R;
@@ -22,7 +21,7 @@ public class CourseSJKAdapter extends BaseAdapter {
     public CourseSJKAdapter(Context context, FormSJKCategory category) {
 
         this.context = context;
-        this.category=category;
+        this.category = category;
     }
 
     @Override
@@ -69,6 +68,6 @@ public class CourseSJKAdapter extends BaseAdapter {
 
     // View lookup cache
     private static class ViewHolder {
-        TextView course_name,course_place,course_time,course_week,course_teacher,course_credit;
+        TextView course_name, course_place, course_time, course_week, course_teacher, course_credit;
     }
 }

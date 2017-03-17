@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class FormSJKCategory implements Serializable {
-    List<FormSJK> sjkList=null;
+    List<FormSJK> sjkList = null;
 
     public List<FormSJK> getSjkList() {
         return sjkList;

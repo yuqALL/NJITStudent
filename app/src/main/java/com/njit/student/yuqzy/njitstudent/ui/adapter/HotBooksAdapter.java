@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.njit.student.yuqzy.njitstudent.Event.BreakRulesEvent;
 import com.njit.student.yuqzy.njitstudent.Event.HotRecEvent;
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.BookDetailActivity;
-import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
 
 /**
  * Created by Administrator on 2017/1/27.
@@ -26,7 +24,7 @@ public class HotBooksAdapter extends BaseAdapter {
     public HotBooksAdapter(Context context, HotRecEvent content) {
 
         this.context = context;
-        this.content=content;
+        this.content = content;
     }
 
     @Override
@@ -75,10 +73,10 @@ public class HotBooksAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //WebUtils.openInternal(context,content.getHotItems().get(position).getBookUrl());
-                Intent intent=new Intent(context, BookDetailActivity.class);
-                intent.putExtra("url",content.getHotItems().get(position).getBookUrl());
-                intent.putExtra("name",content.getHotItems().get(position).getName());
-                intent.putExtra("other",content.getHotItems().get(position).getIdSuoShu());
+                Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("url", content.getHotItems().get(position).getBookUrl());
+                intent.putExtra("name", content.getHotItems().get(position).getName());
+                intent.putExtra("other", content.getHotItems().get(position).getIdSuoShu());
                 context.startActivity(intent);
             }
         });
@@ -87,7 +85,7 @@ public class HotBooksAdapter extends BaseAdapter {
 
     // View lookup cache
     private static class ViewHolder {
-        TextView book_name,book_author,book_publish_info,book_id_suo_shu,book_num,book_read_times,book_read;
+        TextView book_name, book_author, book_publish_info, book_id_suo_shu, book_num, book_read_times, book_read;
         CardView hot_book;
     }
 }

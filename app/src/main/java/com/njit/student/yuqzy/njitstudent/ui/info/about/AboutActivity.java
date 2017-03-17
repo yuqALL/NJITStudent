@@ -39,11 +39,12 @@ public class AboutActivity extends AppCompatActivity {
     protected Toolbar toolbar;
     private TextView tvVersion;
     private ImageSwitcher imageSwitcher;
-    private int[] imgs={
-            R.drawable.about_1,R.drawable.about_2,R.drawable.about_3,R.drawable.about_5
+    private int[] imgs = {
+            R.drawable.about_1, R.drawable.about_2, R.drawable.about_3, R.drawable.about_5
     };
 
     private Subscription subscription;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,16 +55,20 @@ public class AboutActivity extends AppCompatActivity {
         loadData();
 
     }
+
     private void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
+
     protected void setDisplayHomeAsUpEnabled(boolean enable) {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(enable);
     }
+
     protected void initViews() {
         setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("关于");
         tvVersion = (TextView) findViewById(R.id.tv_app_version);
         tvVersion.setText("v" + BuildConfig.VERSION_NAME);
         imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcher);
@@ -106,9 +111,10 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
     }
-    private void initTheme(){
+
+    private void initTheme() {
         int themeIndex = SettingsUtil.getTheme();
-        switch (themeIndex){
+        switch (themeIndex) {
             case 0:
                 setTheme(R.style.LapisBlueTheme);
                 break;
@@ -144,7 +150,7 @@ public class AboutActivity extends AppCompatActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_web_home:
-                WebUtils.openExternal(this,"https://github.com/yuqZY/NJITStudent");
+                WebUtils.openExternal(this, "https://github.com/yuqZY/NJITStudent");
                 break;
             case R.id.btn_feedback:
                 feedBack();
@@ -158,14 +164,11 @@ public class AboutActivity extends AppCompatActivity {
             case R.id.btn_mark_app:
                 openAppMarket();
                 break;
-            case R.id.btn_help:
-                startActivity(new Intent(AboutActivity.this,HelpActivity.class));
-                break;
             case R.id.btn_blog_home:
-                WebUtils.openExternal(this,"https://yuqzy.github.io/");
+                WebUtils.openExternal(this, "https://yuqzy.github.io/");
                 break;
             case R.id.btn_pay_app:
-                startActivity(new Intent(AboutActivity.this,PayActivity.class));
+                startActivity(new Intent(AboutActivity.this, PayActivity.class));
                 break;
         }
     }
@@ -184,6 +187,7 @@ public class AboutActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_SUBJECT, "反馈");
         startActivity(Intent.createChooser(intent, "反馈"));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -200,8 +204,8 @@ public class AboutActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }catch (ActivityNotFoundException anf) {
-            Toast.makeText(this,"未找到相关应用",Toast.LENGTH_SHORT).show();
+        } catch (ActivityNotFoundException anf) {
+            Toast.makeText(this, "未找到相关应用", Toast.LENGTH_SHORT).show();
         }
 
     }

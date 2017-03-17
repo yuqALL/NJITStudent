@@ -11,9 +11,9 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class OrderBookRealm extends RealmObject{
-    private RealmList<OrderBookItem> orderItems=null;
-    private String personXH="";
+public class OrderBookRealm extends RealmObject {
+    private RealmList<OrderBookItem> orderItems = null;
+    private String personXH = "";
 
 
     public RealmList<OrderBookItem> getOrderItems() {

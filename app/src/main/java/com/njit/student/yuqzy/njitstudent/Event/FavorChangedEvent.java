@@ -17,6 +17,6 @@ public class FavorChangedEvent {
     }
 
     public FavorChangedEvent(String path) {
-        this.path=path;
+        this.path = path;
     }
 }

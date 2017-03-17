@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:layout_height="wrap_content"
-    android:background="#88aeaeae"
+    android:background="#a6efeded"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="8dp"
@@ -16,7 +15,7 @@
         android:layout_weight="1"
         android:text="yuqzy"
         android:textColor="@color/dialogplus_black_overlay"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/footer_close_button"
@@ -25,7 +24,7 @@
         android:text="CLOSE"
         android:textColor="@color/primary"
         android:textSize="16sp"
-        android:background="@drawable/selector_bg_button"/>
+        android:background="@drawable/selector_bg_button" />
 
     <Button
         android:id="@+id/footer_confirm_button"
@@ -34,6 +33,6 @@
         android:text="CONFIRM"
         android:textColor="@color/primary"
         android:textSize="16sp"
-        android:background="@drawable/selector_bg_button"/>
+        android:background="@drawable/selector_bg_button" />
 
 </LinearLayout>

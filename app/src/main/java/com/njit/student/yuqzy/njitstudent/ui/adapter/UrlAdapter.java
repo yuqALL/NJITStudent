@@ -1,7 +1,6 @@
 package com.njit.student.yuqzy.njitstudent.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.model.BookShelfBean;
 import com.njit.student.yuqzy.njitstudent.model.UrlItem;
-import com.njit.student.yuqzy.njitstudent.ui.info.library.BookDetailActivity;
 import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
 
 import java.util.List;
@@ -63,7 +60,7 @@ public class UrlAdapter extends BaseAdapter {
             } else {
                 viewHolder = (ViewHolderTitle) holderView.getTag();
             }
-            convertView=holderView;
+            convertView = holderView;
             viewHolder.shelf_name.setText(content.get(position).getTitle());
 
         } else if (content.get(position).getType() == 1) {
@@ -74,17 +71,17 @@ public class UrlAdapter extends BaseAdapter {
                 holderView = (View) vi.inflate(R.layout.item_url, parent, false);
                 // binding view parts to view holder
                 viewHolder.url_name = (TextView) holderView.findViewById(R.id.url_name);
-                viewHolder.url_card=(CardView)holderView.findViewById(R.id.url_card);
+                viewHolder.url_card = (CardView) holderView.findViewById(R.id.url_card);
                 holderView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolderUrl) holderView.getTag();
             }
-            convertView=holderView;
+            convertView = holderView;
             viewHolder.url_name.setText(content.get(position).getName());
             viewHolder.url_card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WebUtils.openExternal(context,content.get(position).getUrl());
+                    WebUtils.openExternal(context, content.get(position).getUrl());
                 }
             });
         }
@@ -93,7 +90,7 @@ public class UrlAdapter extends BaseAdapter {
 
 
     // View lookup cache
-    private static class ViewHolderUrl{
+    private static class ViewHolderUrl {
         TextView url_name;
         CardView url_card;
     }

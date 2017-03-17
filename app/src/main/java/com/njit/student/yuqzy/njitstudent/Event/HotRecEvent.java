@@ -10,8 +10,8 @@ import java.util.List;
  */
 
 public class HotRecEvent {
-    private List<HotRecommendItem> hotItems=null;
-    private String personXH="";
+    private List<HotRecommendItem> hotItems = null;
+    private String personXH = "";
 
     public HotRecEvent(List<HotRecommendItem> hotItems, String personXH) {
         this.hotItems = hotItems;

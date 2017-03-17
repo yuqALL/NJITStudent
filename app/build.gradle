@@ -10,8 +10,8 @@ android {
         applicationId "com.njit.student.yuqzy.njitstudent"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 4
-        versionName "1.4"
+        versionCode 5
+        versionName "1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -54,6 +54,5 @@ dependencies {
     compile 'com.orhanobut:dialogplus:1.11@aar'
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v1.2.5'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.contrarywind:Android-PickerView:3.1.0'
     testCompile 'junit:junit:4.12'
 }

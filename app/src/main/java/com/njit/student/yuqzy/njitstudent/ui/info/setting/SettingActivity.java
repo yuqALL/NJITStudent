@@ -18,9 +18,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import io.realm.Realm;
 
-public class SettingActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
+public class SettingActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback {
 
     protected Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class SettingActivity extends AppCompatActivity implements ColorChooserDi
         setDisplayHomeAsUpEnabled(true);
         loadData();
     }
+
     private void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,9 +56,9 @@ public class SettingActivity extends AppCompatActivity implements ColorChooserDi
     }
 
 
-    private void initTheme(){
+    private void initTheme() {
         int themeIndex = SettingsUtil.getTheme();
-        switch (themeIndex){
+        switch (themeIndex) {
             case 0:
                 setTheme(R.style.LapisBlueTheme);
                 break;
@@ -87,6 +89,7 @@ public class SettingActivity extends AppCompatActivity implements ColorChooserDi
 
         }
     }
+
     protected void loadData() {
         getFragmentManager().beginTransaction().replace(R.id.contentLayout, new SettingFragment()).commit();
     }

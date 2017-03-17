@@ -25,7 +25,7 @@ public class PersonInfoActivity extends AppCompatActivity {
     private String xh;
     private ListView listView;
     private Realm realm;
-    private PersonInfo info=null;
+    private PersonInfo info = null;
     private Toolbar toolbar;
 
     @Override
@@ -36,27 +36,29 @@ public class PersonInfoActivity extends AppCompatActivity {
         Realm.init(this);
         Intent intent = getIntent();
         xh = SettingsUtil.getXueHao();
-        toolbar=(Toolbar)findViewById(R.id.title);
+        toolbar = (Toolbar) findViewById(R.id.title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("个人信息");
         setDisplayHomeAsUpEnabled(true);
         listView = (ListView) findViewById(R.id.lv_person_info);
-        if(xh!="") {
+        if (xh != "") {
             info = getPersonInfoFromDatabase(xh);
         }
 
         if (info != null) {
             initInfo(info);
-            PersonInfoAdapter adapter=new PersonInfoAdapter(this,name,value);
+            PersonInfoAdapter adapter = new PersonInfoAdapter(this, name, value);
             listView.setAdapter(adapter);
         } else {
-            Toast.makeText(this, "个人信息为空"+xh, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "个人信息为空" + xh, Toast.LENGTH_SHORT).show();
         }
     }
+
     protected void setDisplayHomeAsUpEnabled(boolean enable) {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(enable);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -77,9 +79,10 @@ public class PersonInfoActivity extends AppCompatActivity {
 
     private List<String> name;
     private List<String> value;
+
     public void initInfo(PersonInfo info) {
-        name=new ArrayList<>();
-        value=new ArrayList<>();
+        name = new ArrayList<>();
+        value = new ArrayList<>();
 
         name.add("学号");
         value.add(info.getPersonXH());
@@ -206,9 +209,9 @@ public class PersonInfoActivity extends AppCompatActivity {
 
     }
 
-    private void initTheme(){
+    private void initTheme() {
         int themeIndex = SettingsUtil.getTheme();
-        switch (themeIndex){
+        switch (themeIndex) {
             case 0:
                 setTheme(R.style.LapisBlueTheme);
                 break;

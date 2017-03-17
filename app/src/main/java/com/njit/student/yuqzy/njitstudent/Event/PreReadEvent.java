@@ -10,8 +10,8 @@ import java.util.List;
  */
 
 public class PreReadEvent {
-    private List<PreReadItem> preItems=null;
-    private String personXH="";
+    private List<PreReadItem> preItems = null;
+    private String personXH = "";
 
     public PreReadEvent(List<PreReadItem> preItems, String personXH) {
         this.preItems = preItems;

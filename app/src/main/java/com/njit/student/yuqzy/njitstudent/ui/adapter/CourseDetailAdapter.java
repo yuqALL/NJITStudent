@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.model.Cell;
 
@@ -15,10 +16,10 @@ public class CourseDetailAdapter extends BaseAdapter {
     private Context context;
     private Cell cell;
 
-    public CourseDetailAdapter(Context context,Cell cell) {
+    public CourseDetailAdapter(Context context, Cell cell) {
 
         this.context = context;
-        this.cell=cell;
+        this.cell = cell;
     }
 
     @Override
@@ -49,8 +50,8 @@ public class CourseDetailAdapter extends BaseAdapter {
             viewHolder.course_time = (TextView) convertView.findViewById(R.id.course_time);
             viewHolder.course_week = (TextView) convertView.findViewById(R.id.course_week);
             viewHolder.course_teacher = (TextView) convertView.findViewById(R.id.course_teacher);
-            viewHolder.course_bixiu=(RadioButton)convertView.findViewById(R.id.course_bixiu);
-            viewHolder.course_renxuan=(RadioButton)convertView.findViewById(R.id.course_renxuan);
+            viewHolder.course_bixiu = (RadioButton) convertView.findViewById(R.id.course_bixiu);
+            viewHolder.course_renxuan = (RadioButton) convertView.findViewById(R.id.course_renxuan);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -60,29 +61,29 @@ public class CourseDetailAdapter extends BaseAdapter {
 
         viewHolder.course_teacher.setText(cell.getTeacher().get(position));
 
-        if(cell.getX()>7){
-            viewHolder.course_time.setText("周日 "+(cell.getY()-1)+"-"+(cell.getY()-2+cell.getLength()));
-        }else if(cell.getX()>6){
-            viewHolder.course_time.setText("周六 "+(cell.getY()-1)+"-"+(cell.getY()-2+cell.getLength()));
-        }else if(cell.getX()>5){
-            viewHolder.course_time.setText("周五 "+(cell.getY()-1)+"-"+(cell.getY()-2+cell.getLength()));
-        }else if(cell.getX()>4){
-            viewHolder.course_time.setText("周四 "+(cell.getY()-1)+"-"+(cell.getY()-2+cell.getLength()));
-        }else if(cell.getX()>3){
-            viewHolder.course_time.setText("周三 "+(cell.getY()-1)+"-"+(cell.getY()-2+cell.getLength()));
-        }else if(cell.getX()>2){
-            viewHolder.course_time.setText("周二 "+(cell.getY()-1)+"-"+(cell.getY()-2+cell.getLength()));
-        }else if(cell.getX()>1){
-            viewHolder.course_time.setText("周一 "+(cell.getY()-1)+"-"+(cell.getY()-2+cell.getLength()));
+        if (cell.getX() > 7) {
+            viewHolder.course_time.setText("周日 " + (cell.getY() - 1) + "-" + (cell.getY() - 2 + cell.getLength()));
+        } else if (cell.getX() > 6) {
+            viewHolder.course_time.setText("周六 " + (cell.getY() - 1) + "-" + (cell.getY() - 2 + cell.getLength()));
+        } else if (cell.getX() > 5) {
+            viewHolder.course_time.setText("周五 " + (cell.getY() - 1) + "-" + (cell.getY() - 2 + cell.getLength()));
+        } else if (cell.getX() > 4) {
+            viewHolder.course_time.setText("周四 " + (cell.getY() - 1) + "-" + (cell.getY() - 2 + cell.getLength()));
+        } else if (cell.getX() > 3) {
+            viewHolder.course_time.setText("周三 " + (cell.getY() - 1) + "-" + (cell.getY() - 2 + cell.getLength()));
+        } else if (cell.getX() > 2) {
+            viewHolder.course_time.setText("周二 " + (cell.getY() - 1) + "-" + (cell.getY() - 2 + cell.getLength()));
+        } else if (cell.getX() > 1) {
+            viewHolder.course_time.setText("周一 " + (cell.getY() - 1) + "-" + (cell.getY() - 2 + cell.getLength()));
         }
 
 
         viewHolder.course_week.setText(cell.getCourseWeek().get(position));
 
-        if(cell.getCourseType().get(position).contains("必修")){
+        if (cell.getCourseType().get(position).contains("必修")) {
             viewHolder.course_bixiu.setChecked(true);
             viewHolder.course_renxuan.setChecked(false);
-        }else if(cell.getCourseType().get(position).contains("任选")){
+        } else if (cell.getCourseType().get(position).contains("任选")) {
             viewHolder.course_bixiu.setChecked(false);
             viewHolder.course_renxuan.setChecked(true);
         }
@@ -91,7 +92,7 @@ public class CourseDetailAdapter extends BaseAdapter {
 
     // View lookup cache
     private static class ViewHolder {
-        TextView course_name,course_place,course_time,course_week,course_teacher;
-        RadioButton course_bixiu,course_renxuan;
+        TextView course_name, course_place, course_time, course_week, course_teacher;
+        RadioButton course_bixiu, course_renxuan;
     }
 }

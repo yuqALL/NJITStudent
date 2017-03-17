@@ -13,7 +13,7 @@ import java.util.List;
 public class CourseEvent {
     String personXH;
     String yearAterm;
-    String type="class";
+    String type = "class";
 
     public String getType() {
         return type;
@@ -43,10 +43,10 @@ public class CourseEvent {
         this.personXH = personXH;
     }
 
-    public CourseEvent(String personXH, String yearAterm,String type, List<FormKB> formKBs, List<FormSJK> formSJKs, List<FormTTBinfo> formTTBinfos) {
-        this.personXH=personXH;
-        this.yearAterm=yearAterm;
-        this.type=type;
+    public CourseEvent(String personXH, String yearAterm, String type, List<FormKB> formKBs, List<FormSJK> formSJKs, List<FormTTBinfo> formTTBinfos) {
+        this.personXH = personXH;
+        this.yearAterm = yearAterm;
+        this.type = type;
         this.formKBs = formKBs;
         this.formSJKs = formSJKs;
         this.formTTBinfos = formTTBinfos;

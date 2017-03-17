@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/header_container"
+<LinearLayout android:id="@+id/header_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#88aeaeae"
+    android:background="#a6efeded"
     android:orientation="horizontal"
     android:padding="@dimen/activity_horizontal_margin">
 
@@ -14,13 +13,13 @@
         android:layout_weight="1"
         android:text="Menu"
         android:textColor="@color/kale"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="NJIT"
         android:textColor="@color/dialogplus_black_overlay"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
 </LinearLayout>

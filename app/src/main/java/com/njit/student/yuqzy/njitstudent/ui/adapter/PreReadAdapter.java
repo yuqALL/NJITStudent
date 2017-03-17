@@ -7,11 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.njit.student.yuqzy.njitstudent.Event.CurrentReadEvent;
 import com.njit.student.yuqzy.njitstudent.Event.PreReadEvent;
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.BookDetailActivity;
@@ -27,7 +24,7 @@ public class PreReadAdapter extends BaseAdapter {
     public PreReadAdapter(Context context, PreReadEvent content) {
 
         this.context = context;
-        this.content=content;
+        this.content = content;
     }
 
     @Override
@@ -59,7 +56,7 @@ public class PreReadAdapter extends BaseAdapter {
             viewHolder.book_get_time = (TextView) convertView.findViewById(R.id.book_get_time);
             viewHolder.book_return_time = (TextView) convertView.findViewById(R.id.book_return_time);
             viewHolder.book_sto_place = (TextView) convertView.findViewById(R.id.book_sto_place);
-            viewHolder.pre_read=(CardView)convertView.findViewById(R.id.pre_read);
+            viewHolder.pre_read = (CardView) convertView.findViewById(R.id.pre_read);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -73,10 +70,10 @@ public class PreReadAdapter extends BaseAdapter {
         viewHolder.pre_read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, BookDetailActivity.class);
-                intent.putExtra("url",content.getPreItems().get(position).getBookUrl());
-                intent.putExtra("name",content.getPreItems().get(position).getName());
-                intent.putExtra("other",content.getPreItems().get(position).getPlace());
+                Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("url", content.getPreItems().get(position).getBookUrl());
+                intent.putExtra("name", content.getPreItems().get(position).getName());
+                intent.putExtra("other", content.getPreItems().get(position).getPlace());
                 context.startActivity(intent);
             }
         });
@@ -85,7 +82,7 @@ public class PreReadAdapter extends BaseAdapter {
 
     // View lookup cache
     private static class ViewHolder {
-        TextView book_id,book_name,book_get_time,book_return_time,book_authors,book_sto_place;
+        TextView book_id, book_name, book_get_time, book_return_time, book_authors, book_sto_place;
         CardView pre_read;
     }
 }

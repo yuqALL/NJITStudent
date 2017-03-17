@@ -14,7 +14,8 @@
         android:textSize="15sp"
         android:layout_weight="1"
         android:maxLines="1"
-        android:ellipsize="middle"/>
+        android:ellipsize="middle" />
+
     <TextView
         android:id="@+id/item_detail_value"
         android:layout_width="0dp"
@@ -23,7 +24,7 @@
         android:textSize="15sp"
         android:layout_weight="1"
         android:maxLines="1"
-        android:ellipsize="middle"/>
+        android:ellipsize="middle" />
 
 
 </LinearLayout>

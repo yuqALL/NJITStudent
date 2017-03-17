@@ -17,6 +17,6 @@ public class NavBacChangedEvent {
     }
 
     public NavBacChangedEvent(String path) {
-        this.path=path;
+        this.path = path;
     }
 }

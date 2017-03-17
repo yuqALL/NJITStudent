@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 调、停、补信息
  */
 
-public class FormTTBinfo implements Serializable{
+public class FormTTBinfo implements Serializable {
     private String id;//编号
     private String courseName;//课程名称
     private String preStudyState;//原上课时间地点

@@ -7,7 +7,7 @@ import io.realm.RealmObject;
  */
 
 //欠款信息
-public class DebtInfoItem extends RealmObject{
+public class DebtInfoItem extends RealmObject {
     private String id_tiaoma;//条码号
     private String id_suoshu;//索书号
     private String name;//题名

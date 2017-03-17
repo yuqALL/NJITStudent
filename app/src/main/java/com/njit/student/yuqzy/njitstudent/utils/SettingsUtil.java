@@ -6,7 +6,7 @@ import com.njit.student.yuqzy.njitstudent.MainActivity;
 
 public class SettingsUtil {
 
-    public static final String NJ="nj";//年级
+    public static final String NJ = "nj";//年级
     public static final String THEME = "theme_color";//主题
     public static final String CLEAR_CACHE = "clean_cache";//清空缓存
     public static final String VIEW_MAIN = "view_main";//主页

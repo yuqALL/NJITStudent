@@ -9,13 +9,7 @@ import android.view.MenuItem;
 
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.database.BookDetailRealm;
-import com.njit.student.yuqzy.njitstudent.database.NewsDetail;
-import com.njit.student.yuqzy.njitstudent.model.LikeNews;
-import com.njit.student.yuqzy.njitstudent.model.NormalItem;
-import com.njit.student.yuqzy.njitstudent.ui.adapter.BookDetailAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.LikeBooksAdapter;
-import com.njit.student.yuqzy.njitstudent.ui.adapter.NormalAdapter;
-import com.njit.student.yuqzy.njitstudent.ui.info.library.BookDetailActivity;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
 
 import java.util.ArrayList;
@@ -29,9 +23,10 @@ public class LikeBooksActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private Realm  realm;
+    private Realm realm;
     private RealmQuery<BookDetailRealm> query;
     private RealmResults<BookDetailRealm> results;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +34,15 @@ public class LikeBooksActivity extends AppCompatActivity {
         Realm.init(this);
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_like_news);
-        toolbar=(Toolbar)findViewById(R.id.title);
+        toolbar = (Toolbar) findViewById(R.id.title);
         setSupportActionBar(toolbar);
         toolbar.setTitle("我的收藏");
         setDisplayHomeAsUpEnabled(true);
 
-        recyclerView=(RecyclerView) findViewById(R.id.like_list);
+        recyclerView = (RecyclerView) findViewById(R.id.like_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<BookDetailRealm> list=getBookRealm();
-        LikeBooksAdapter adapter=new LikeBooksAdapter(this,list);
+        List<BookDetailRealm> list = getBookRealm();
+        LikeBooksAdapter adapter = new LikeBooksAdapter(this, list);
         recyclerView.setAdapter(adapter);
     }
 
@@ -55,6 +50,7 @@ public class LikeBooksActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(enable);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -65,11 +61,11 @@ public class LikeBooksActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private List<BookDetailRealm> getBookRealm(){
+    private List<BookDetailRealm> getBookRealm() {
         query = realm.where(BookDetailRealm.class);
-        results = query.equalTo("personXH",SettingsUtil.getXueHao()).findAll();
-        List<BookDetailRealm> list=new ArrayList<>();
-        for(BookDetailRealm item:results){
+        results = query.equalTo("personXH", SettingsUtil.getXueHao()).findAll();
+        List<BookDetailRealm> list = new ArrayList<>();
+        for (BookDetailRealm item : results) {
             list.add(item);
         }
         return list;

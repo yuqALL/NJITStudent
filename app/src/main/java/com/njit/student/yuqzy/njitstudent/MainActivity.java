@@ -1,6 +1,4 @@
 package com.njit.student.yuqzy.njitstudent;
-
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -60,7 +58,6 @@ import com.njit.student.yuqzy.njitstudent.ui.info.more.MoreInfoFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.news.SchoolNewsFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.socre.ScoreFragment;
 import com.njit.student.yuqzy.njitstudent.ui.info.setting.SettingActivity;
-import com.njit.student.yuqzy.njitstudent.utils.Base64;
 import com.njit.student.yuqzy.njitstudent.utils.DoubleClickExit;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
 
@@ -81,7 +78,6 @@ import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-import rx.Subscription;
 
 
 import static com.njit.student.yuqzy.njitstudent.Event.LoginResponseCode.REALM_COURSE_STO_OK;
@@ -95,10 +91,8 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle mDrawerToggle;
     private FragmentManager fragmentManager;
     private String currentFragmentTag;
-    private Subscription subscription;
     private Realm realm;
     public static ZfNetData network;
-    private Dialog dialog;
     private CircleImageView imgHead;
     private LinearLayout navHeader;
 
@@ -122,7 +116,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         initTheme();
         setContentView(R.layout.activity_main);
-        //Log.e("test base64",Base64.encode("学院"));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         EventBus.getDefault().register(this);

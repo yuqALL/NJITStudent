@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Administrator on 2017/3/1.
  */
 
-public class UrlAllEvent{
+public class UrlAllEvent {
     List<UrlItem> urlItems;
 
     public List<UrlItem> getUrlItems() {

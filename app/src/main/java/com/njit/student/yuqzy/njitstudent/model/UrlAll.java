@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/3/1.
  */
 
-public class UrlAll extends RealmObject{
+public class UrlAll extends RealmObject {
     RealmList<UrlItem> urlItems;
 
     public RealmList<UrlItem> getUrlItems() {

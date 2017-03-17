@@ -12,10 +12,7 @@ import android.widget.TextView;
 
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.model.BookItem;
-import com.njit.student.yuqzy.njitstudent.model.NormalItem;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.BookDetailActivity;
-import com.njit.student.yuqzy.njitstudent.ui.info.news.NewsDetailActivity;
-import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
 
 import java.util.List;
 
@@ -58,12 +55,12 @@ public class SearchBookAdapter extends RecyclerView.Adapter<SearchBookAdapter.Se
         holder.search_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("adapter",""+item.getBookUrl());
+                Log.e("adapter", "" + item.getBookUrl());
                 //WebUtils.openInternal(context, item.getBookUrl());
-                Intent intent=new Intent(context, BookDetailActivity.class);
-                intent.putExtra("url",item.getBookUrl());
-                intent.putExtra("name",item.getName());
-                intent.putExtra("other",item.getId_suoshu());
+                Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("url", item.getBookUrl());
+                intent.putExtra("name", item.getName());
+                intent.putExtra("other", item.getId_suoshu());
                 context.startActivity(intent);
             }
         });
@@ -90,7 +87,7 @@ public class SearchBookAdapter extends RecyclerView.Adapter<SearchBookAdapter.Se
 
     class SearchViewHolder extends RecyclerView.ViewHolder {
 
-        TextView book_name,book_author,book_type,book_id_suo_shu,book_publish_company,book_publish_time,book_num_total,book_num_can_borrow;
+        TextView book_name, book_author, book_type, book_id_suo_shu, book_publish_company, book_publish_time, book_num_total, book_num_can_borrow;
         CardView search_book;
 
         public SearchViewHolder(View view) {
@@ -103,7 +100,7 @@ public class SearchBookAdapter extends RecyclerView.Adapter<SearchBookAdapter.Se
             book_publish_time = (TextView) view.findViewById(R.id.book_publish_time);
             book_num_total = (TextView) view.findViewById(R.id.book_num_total);
             book_num_can_borrow = (TextView) view.findViewById(R.id.book_num_can_borrow);
-            search_book=(CardView)view.findViewById(R.id.search_book);
+            search_book = (CardView) view.findViewById(R.id.search_book);
 
         }
 

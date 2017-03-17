@@ -36,11 +36,11 @@ public class FormKB {
         this.rowspan = rowspan;
     }
 
-    public FormKB(int colspan, int rowspan, int length,String text) {
+    public FormKB(int colspan, int rowspan, int length, String text) {
         this.colspan = colspan;
         this.rowspan = rowspan;
         this.text = text;
-        this.length=length;
+        this.length = length;
     }
 
     public String getText() {

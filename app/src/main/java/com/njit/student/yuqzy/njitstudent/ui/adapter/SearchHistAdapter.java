@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.njit.student.yuqzy.njitstudent.Event.BreakRulesEvent;
 import com.njit.student.yuqzy.njitstudent.Event.SearchHistEvent;
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
@@ -24,7 +23,7 @@ public class SearchHistAdapter extends BaseAdapter {
     public SearchHistAdapter(Context context, SearchHistEvent content) {
 
         this.context = context;
-        this.content=content;
+        this.content = content;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class SearchHistAdapter extends BaseAdapter {
             // binding view parts to view holder
             viewHolder.search_content = (TextView) convertView.findViewById(R.id.search_content);
             viewHolder.search_time = (TextView) convertView.findViewById(R.id.search_time);
-            viewHolder.search_history=(CardView)convertView.findViewById(R.id.search_history);
+            viewHolder.search_history = (CardView) convertView.findViewById(R.id.search_history);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -62,7 +61,7 @@ public class SearchHistAdapter extends BaseAdapter {
         viewHolder.search_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebUtils.openExternal(context,content.getSearchItems().get(position).getUrl());
+                WebUtils.openExternal(context, content.getSearchItems().get(position).getUrl());
 
             }
         });
@@ -72,7 +71,7 @@ public class SearchHistAdapter extends BaseAdapter {
 
     // View lookup cache
     private static class ViewHolder {
-        TextView search_content,search_time;
+        TextView search_content, search_time;
         CardView search_history;
     }
 }

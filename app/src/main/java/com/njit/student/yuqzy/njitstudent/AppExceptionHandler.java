@@ -18,7 +18,6 @@ import java.util.Map;
 
 /**
  * 应用系统异常退出，处理类
- *
  */
 public class AppExceptionHandler implements UncaughtExceptionHandler {
 

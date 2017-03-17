@@ -5,29 +5,29 @@
         <Preference
             android:key="view_main"
             android:title="主页"
-            android:icon="@drawable/ic_host"/>
+            android:icon="@drawable/ic_host" />
         <Preference
             android:key="person_favor"
             android:title="个人头像"
-            android:icon="@drawable/ic_user"/>
+            android:icon="@drawable/ic_user" />
         <Preference
             android:key="nav_bac"
             android:title="菜单背景"
-            android:icon="@drawable/ic_change_bac"/>
+            android:icon="@drawable/ic_change_bac" />
         <Preference
             android:key="clear_info"
             android:title="清理账号信息"
-            android:icon="@drawable/ic_clear"/>
+            android:icon="@drawable/ic_clear" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="通用">
         <Preference
             android:key="theme_color"
             android:title="主题色"
-            android:icon="@drawable/ic_theme"/>
+            android:icon="@drawable/ic_theme" />
         <Preference
             android:key="clean_cache"
             android:title="清除缓存"
-            android:icon="@drawable/ic_clear"/>
+            android:icon="@drawable/ic_clear" />
     </PreferenceCategory>
 </PreferenceScreen>

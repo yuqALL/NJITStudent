@@ -61,7 +61,7 @@ public class UpdateUtil {
                     });
                     builder.show();
 
-                }else{
+                } else {
                     Snackbar.make(activity.getWindow().getDecorView().findViewById(android.R.id.content), "没有获取到更新信息！", Snackbar.LENGTH_SHORT).show();
                 }
             }

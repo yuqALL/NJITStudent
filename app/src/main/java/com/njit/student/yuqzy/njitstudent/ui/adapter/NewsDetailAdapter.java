@@ -95,21 +95,21 @@ public class NewsDetailAdapter extends BaseAdapter {
                 viewHolder.link.setVisibility(View.VISIBLE);
                 viewHolder.title.setVisibility(View.GONE);
                 viewHolder.info.setVisibility(View.GONE);
-                final String text=item.getValue();
-                final String link=item.getLink();
+                final String text = item.getValue();
+                final String link = item.getLink();
                 viewHolder.link.setText(text);
-                if(!link.contains("download.jsp?")){
-                    viewHolder.link.setCompoundDrawables(null,null,null,null);
+                if (!link.contains("download.jsp?")) {
+                    viewHolder.link.setCompoundDrawables(null, null, null, null);
                 }
                 viewHolder.link.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //text.contains("上一篇")||text.contains("下一篇")
-                        if(!link.contains("download.jsp?")){
-                            Intent intent=new Intent(context, NewsDetailActivity.class);
-                            intent.putExtra("host",link);
+                        if (!link.contains("download.jsp?")) {
+                            Intent intent = new Intent(context, NewsDetailActivity.class);
+                            intent.putExtra("host", link);
                             context.startActivity(intent);
-                        }else {
+                        } else {
                             WebUtils.openExternal(context, link);
                         }
                     }
@@ -139,7 +139,7 @@ public class NewsDetailAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView imgName, content, link,title,info;
+        TextView imgName, content, link, title, info;
         ImageView imageView;
     }
 }

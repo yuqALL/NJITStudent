@@ -3,7 +3,7 @@ package com.njit.student.yuqzy.njitstudent.model;
 import java.io.Serializable;
 
 
-public class SchoolNewsCategory implements Serializable{
+public class SchoolNewsCategory implements Serializable {
     private String name;
     private String url;
 

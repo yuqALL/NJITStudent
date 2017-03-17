@@ -9,8 +9,8 @@ import java.util.List;
  */
 
 public class CurrentReadEvent {
-    private List<CurrentReadItem> crItems=null;
-    private String personXH="";
+    private List<CurrentReadItem> crItems = null;
+    private String personXH = "";
 
     public CurrentReadEvent(List<CurrentReadItem> crItems, String personXH) {
         this.crItems = crItems;

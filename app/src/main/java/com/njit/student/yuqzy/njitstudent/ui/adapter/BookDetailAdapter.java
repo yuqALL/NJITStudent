@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.model.FormTTBCategory;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class BookDetailAdapter extends BaseAdapter {
     public BookDetailAdapter(Context context, List<String> detail) {
 
         this.context = context;
-        this.detail=detail;
+        this.detail = detail;
     }
 
     @Override
@@ -52,18 +51,18 @@ public class BookDetailAdapter extends BaseAdapter {
             convertView = (View) vi.inflate(R.layout.item_book_detail, parent, false);
             // binding view parts to view holder
             viewHolder.item_value = (TextView) convertView.findViewById(R.id.item_value);
-            viewHolder.img_book=(ImageView)convertView.findViewById(R.id.img_book);
+            viewHolder.img_book = (ImageView) convertView.findViewById(R.id.img_book);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        String content=detail.get(position);
-        if(content.contains("<image>")){
+        String content = detail.get(position);
+        if (content.contains("<image>")) {
             viewHolder.item_value.setVisibility(View.GONE);
             viewHolder.img_book.setVisibility(View.VISIBLE);
-            Glide.with(context).load(content.replaceAll("<image>","").trim()).skipMemoryCache(true).fitCenter().into(viewHolder.img_book);
-        }else {
+            Glide.with(context).load(content.replaceAll("<image>", "").trim()).skipMemoryCache(true).fitCenter().into(viewHolder.img_book);
+        } else {
             viewHolder.item_value.setVisibility(View.VISIBLE);
             viewHolder.img_book.setVisibility(View.GONE);
             viewHolder.item_value.setText(content);

@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.model.FormSJKCategory;
 import com.njit.student.yuqzy.njitstudent.model.FormTTBCategory;
 
 /**
@@ -22,7 +21,7 @@ public class CourseTTBAdapter extends BaseAdapter {
     public CourseTTBAdapter(Context context, FormTTBCategory category) {
 
         this.context = context;
-        this.category=category;
+        this.category = category;
     }
 
     @Override
@@ -59,14 +58,14 @@ public class CourseTTBAdapter extends BaseAdapter {
         }
         viewHolder.course_name.setText(category.getTtbList().get(position).getCourseName());
         viewHolder.course_id.setText(category.getTtbList().get(position).getId());
-        viewHolder.course_pre_info.setText(category.getTtbList().get(position).getPreStudyState().replaceAll("/","\n"));
-        viewHolder.course_now_info.setText(category.getTtbList().get(position).getNowStudyState().replaceAll("/","\n"));
+        viewHolder.course_pre_info.setText(category.getTtbList().get(position).getPreStudyState().replaceAll("/", "\n"));
+        viewHolder.course_now_info.setText(category.getTtbList().get(position).getNowStudyState().replaceAll("/", "\n"));
         viewHolder.course_post_time.setText(category.getTtbList().get(position).getPostTime());
         return convertView;
     }
 
     // View lookup cache
     private static class ViewHolder {
-        TextView course_name,course_id,course_pre_info,course_now_info,course_post_time;
+        TextView course_name, course_id, course_pre_info, course_now_info, course_post_time;
     }
 }

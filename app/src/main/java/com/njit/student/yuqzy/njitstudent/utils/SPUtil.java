@@ -74,6 +74,7 @@ public class SPUtil {
 
     /**
      * 移除某个key值已经对应的值
+     *
      * @param context
      * @param key
      */
@@ -87,6 +88,7 @@ public class SPUtil {
 
     /**
      * 清除所有数据
+     *
      * @param context
      */
     public static void clear(Context context) {
@@ -99,6 +101,7 @@ public class SPUtil {
 
     /**
      * 查询某个key是否已经存在
+     *
      * @param context
      * @param key
      * @return
@@ -123,7 +126,6 @@ public class SPUtil {
 
     /**
      * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
-     *
      */
     private static class SharedPreferencesCompat {
         private static final Method sApplyMethod = findApplyMethod();
@@ -133,7 +135,7 @@ public class SPUtil {
          *
          * @return
          */
-        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @SuppressWarnings({"unchecked", "rawtypes"})
         private static Method findApplyMethod() {
             try {
                 Class clz = SharedPreferences.Editor.class;

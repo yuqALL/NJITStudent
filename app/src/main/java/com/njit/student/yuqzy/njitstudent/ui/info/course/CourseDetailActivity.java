@@ -16,20 +16,21 @@ public class CourseDetailActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ListView courseList;
     private Cell cell;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
         setContentView(R.layout.activity_course_detail);
-        toolbar=(Toolbar)findViewById(R.id.title);
+        toolbar = (Toolbar) findViewById(R.id.title);
         setSupportActionBar(toolbar);
         toolbar.setTitle("课程详情");
         setDisplayHomeAsUpEnabled(true);
 
-        courseList=(ListView) findViewById(R.id.course_list);
+        courseList = (ListView) findViewById(R.id.course_list);
 
-        cell=(Cell) getIntent().getSerializableExtra("data");
-        CourseDetailAdapter adapter=new CourseDetailAdapter(this,cell);
+        cell = (Cell) getIntent().getSerializableExtra("data");
+        CourseDetailAdapter adapter = new CourseDetailAdapter(this, cell);
         courseList.setAdapter(adapter);
     }
 
@@ -37,6 +38,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(enable);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

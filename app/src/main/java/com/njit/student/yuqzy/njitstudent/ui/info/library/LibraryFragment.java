@@ -62,26 +62,27 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_library, container, false);
         realm.getDefaultInstance();
-        if(isShowDialog()){
-            libraryDialog=loginLibraryDialog();
+        if (isShowDialog()) {
+            libraryDialog = loginLibraryDialog();
             libraryDialog.show();
         }
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle("我的图书馆");
-        img_login=(ImageView)view.findViewById(R.id.img_login);
+        img_login = (ImageView) view.findViewById(R.id.img_login);
         ((MainActivity) getActivity()).initDrawer(mToolbar);
         toorbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
         initTabLayout();
         img_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                libraryDialog=loginLibraryDialog();
+                libraryDialog = loginLibraryDialog();
                 libraryDialog.show();
             }
         });
         return view;
     }
-    private boolean isShowDialog(){
+
+    private boolean isShowDialog() {
         realm = Realm.getDefaultInstance();
         RealmQuery<CurrentReadRealm> query = realm.where(CurrentReadRealm.class);
         RealmResults<CurrentReadRealm> results = query
@@ -89,7 +90,6 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
         if (results.size() > 0) return false;
         return true;
     }
-
 
 
     @Override
@@ -117,7 +117,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initTabLayout() {
-        TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         setupViewPager(viewPager);
         viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
@@ -126,21 +126,22 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public static String[] list_url=new String[]{
-            "http://opac.lib.njit.edu.cn/reader/book_lst.php",//当前借阅
+    public static String[] list_url = new String[]{
             "http://opac.lib.njit.edu.cn/opac/search.php",// 书目检索
+            "http://opac.lib.njit.edu.cn/reader/book_lst.php",//当前借阅
             "http://opac.lib.njit.edu.cn/top/top_lend.php",//热门推荐
             "http://opac.lib.njit.edu.cn/reader/book_hist.php",//借阅历史
             "http://opac.lib.njit.edu.cn/reader/book_shelf.php",//我的书架
             "http://opac.lib.njit.edu.cn/reader/preg.php",//预约信息
             "http://opac.lib.njit.edu.cn/reader/fine_pec.php",//违章缴款
             "http://opac.lib.njit.edu.cn/reader/search_hist.php"};//检索历史
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-            //当前借阅、书目检索、热门推荐、分类浏览、借阅历史、我的书架、预约信息、委托信息、违章缴款、检索历史
-        String[] list=new String[]{"当前借阅","书目检索","热门推荐","借阅历史","我的书架","预约信息","违章缴款","检索历史"};
+        //当前借阅、书目检索、热门推荐、分类浏览、借阅历史、我的书架、预约信息、委托信息、违章缴款、检索历史
+        String[] list = new String[]{"书目检索", "当前借阅", "热门推荐", "借阅历史", "我的书架", "预约信息", "违章缴款", "检索历史"};
 
-        for (int i=0;i<list.length;i++) {
+        for (int i = 0; i < list.length; i++) {
             Fragment fragment = new LibraryContentFragment();
             Bundle data = new Bundle();
             data.putString("url", list_url[i]);
@@ -186,6 +187,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
     private ImageView yanzhengma, yanzhengmaChange;
     private EditText etLoginName, etLoginPwd, etYanzhengma;
     private Button login_btn, clear_btn;
+
     public AlertDialog loginLibraryDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -221,7 +223,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
                 ShowLoadDialog.show(getContext());
                 SettingsUtil.setUserLibraryUser(etLoginName.getText().toString());
                 SettingsUtil.setUserLibraryMm(etLoginPwd.getText().toString());
-                NetWork.LibraryLogin(etLoginName.getText().toString(), etLoginPwd.getText().toString(),etYanzhengma.getText().toString());
+                NetWork.LibraryLogin(etLoginName.getText().toString(), etLoginPwd.getText().toString(), etYanzhengma.getText().toString());
             }
         });
         clear_btn = (Button) mAlertLayout.findViewById(R.id.clear_btn);
@@ -251,7 +253,7 @@ public class LibraryFragment extends Fragment implements View.OnClickListener {
         switch (event.getCode()) {
             case LibraryResponseCode.LOGIN_OK:
                 ShowLoadDialog.dismiss();
-                Toast.makeText(getContext(),"登录成功",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "登录成功", Toast.LENGTH_SHORT).show();
 
                 break;
             case LibraryResponseCode.LOGIN_ERROR:

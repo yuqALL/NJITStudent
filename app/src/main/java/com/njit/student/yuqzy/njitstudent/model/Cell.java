@@ -7,15 +7,15 @@ import java.util.List;
  * Created by zhouchaoyuan on 2017/1/14.
  */
 
-public class Cell implements Serializable{
+public class Cell implements Serializable {
 
-    private List<List<Integer>> week=null;
-    private List<String> courseName=null;//课程
-    private List<String> placeName=null;//地点
-    private int length=0;//课程时长
-    private int x,y;
-    private List<String> teacher=null;
-    private List<String> courseType=null;
+    private List<List<Integer>> week = null;
+    private List<String> courseName = null;//课程
+    private List<String> placeName = null;//地点
+    private int length = 0;//课程时长
+    private int x, y;
+    private List<String> teacher = null;
+    private List<String> courseType = null;
     private List<String> courseWeek;
 
     public List<String> getCourseChangeCode() {
@@ -101,7 +101,6 @@ public class Cell implements Serializable{
     public void setLength(int length) {
         this.length = length;
     }
-
 
 
     public String[] getOriginText() {

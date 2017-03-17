@@ -24,50 +24,53 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="E6rdq6U1vjjmTTglEtdX6fFbYTejWKEq" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-
-        </activity>
-        <activity
-            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.info.news.SearchActivity" />
-        <activity
-            android:name=".ui.info.setting.SettingActivity"
-            android:screenOrientation="portrait"
-            android:label="设置"/>
-        <activity android:name=".ui.info.more.PersonInfoActivity" />
-        <activity android:name=".ui.info.about.AboutActivity" />
-        <activity android:name=".ui.info.about.HelpActivity" />
-        <activity android:name=".ui.info.about.PayActivity" />
-        <activity android:name=".ui.info.news.NewsDetailActivity"
-            android:label="新闻详情"></activity>
-        <activity android:name=".ui.info.more.LikeNewsActivity"
-            android:label="我的收藏"></activity>
-        <activity android:name=".ui.info.course.CourseDetailActivity"
-            android:label="课程详情"></activity>
-        <activity android:name=".ui.info.course.AddCourseActivity"
-            android:label="添加课程"></activity>
-        <activity android:name=".ui.info.course.CourseSJKActivity"
-            android:label="实践课信息"></activity>
-        <activity android:name=".ui.info.course.CourseTTBActivity"
-            android:label="调、停、补课信息"></activity>
-        <activity android:name=".ui.info.library.BookDetailActivity"
-            android:label="书籍信息"/>
-        <activity android:name=".ui.info.more.LikeBooksActivity"
-            android:label="图书收藏"/>
-        <activity android:name=".ui.info.more.UrlActivity"/>
-        <activity android:name=".WelcomActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/FullTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.info.setting.SettingActivity"
+            android:screenOrientation="portrait"
+            android:label="设置" />
+        <activity android:name=".ui.info.more.PersonInfoActivity" />
+        <activity android:name=".ui.info.about.AboutActivity" />
+        <activity android:name=".ui.info.about.PayActivity" />
+        <activity
+            android:name=".ui.info.news.NewsDetailActivity"
+            android:label="新闻详情"></activity>
+        <activity
+            android:name=".ui.info.more.LikeNewsActivity"
+            android:label="我的收藏"></activity>
+        <activity
+            android:name=".ui.info.course.CourseDetailActivity"
+            android:label="课程详情"></activity>
+        <activity
+            android:name=".ui.info.course.CourseSJKActivity"
+            android:label="实践课信息"></activity>
+        <activity
+            android:name=".ui.info.course.CourseTTBActivity"
+            android:label="调、停、补课信息"></activity>
+        <activity
+            android:name=".ui.info.library.BookDetailActivity"
+            android:label="书籍信息" />
+        <activity
+            android:name=".ui.info.more.LikeBooksActivity"
+            android:label="图书收藏" />
+        <activity android:name=".ui.info.more.UrlActivity" />
+
     </application>
 
 </manifest>

@@ -16,19 +16,20 @@ public class CourseSJKActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ListView courseSjkList;
     private FormSJKCategory category;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
         setContentView(R.layout.activity_course_sjk);
-        toolbar=(Toolbar)findViewById(R.id.title);
+        toolbar = (Toolbar) findViewById(R.id.title);
         setSupportActionBar(toolbar);
         setDisplayHomeAsUpEnabled(true);
 
-        courseSjkList=(ListView) findViewById(R.id.course_sjk_list);
+        courseSjkList = (ListView) findViewById(R.id.course_sjk_list);
 
-        category=(FormSJKCategory) getIntent().getSerializableExtra("data");
-        CourseSJKAdapter adapter=new CourseSJKAdapter(this,category);
+        category = (FormSJKCategory) getIntent().getSerializableExtra("data");
+        CourseSJKAdapter adapter = new CourseSJKAdapter(this, category);
         courseSjkList.setAdapter(adapter);
     }
 
@@ -36,6 +37,7 @@ public class CourseSJKActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(enable);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

@@ -12,7 +12,7 @@ public class UrlsMap {
         this.queryUrl = queryUrl;
     }
 
-    Map<String,String> queryUrl=new HashMap<>();
+    Map<String, String> queryUrl = new HashMap<>();
     String Xh;
 
     public String getXh() {
@@ -33,21 +33,23 @@ public class UrlsMap {
     }
 
     public void setCourseForm(String courseForm) {
-        queryUrl.put("班级课表查询",courseForm);
+        queryUrl.put("班级课表查询", courseForm);
     }
+
     public String getPersonCourse() {
         return queryUrl.get("学生个人课表");
     }
 
     public void setPersonCourse(String personCourse) {
-        queryUrl.put("学生个人课表",personCourse);
+        queryUrl.put("学生个人课表", personCourse);
     }
+
     public String getPersonInfo() {
         return queryUrl.get("个人信息");
     }
 
     public void setPersonInfo(String personInfo) {
-        queryUrl.put("个人信息",personInfo);
+        queryUrl.put("个人信息", personInfo);
     }
 
     public Map<String, String> getQueryUrl() {
@@ -63,6 +65,6 @@ public class UrlsMap {
     }
 
     public void setScoreUrl(String scoreUrl) {
-        queryUrl.put("平时成绩查询",scoreUrl);
+        queryUrl.put("平时成绩查询", scoreUrl);
     }
 }

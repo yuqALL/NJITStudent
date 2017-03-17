@@ -10,10 +10,10 @@ import java.util.List;
  */
 
 public class BookShelfEvent {
-    private List<List<BookShelfItem>> bookList=null;
+    private List<List<BookShelfItem>> bookList = null;
     private List<String> shelfName;
     private List<String> shelfUrl;
-    private String personXH="";
+    private String personXH = "";
 
     public List<List<BookShelfItem>> getBookList() {
         return bookList;

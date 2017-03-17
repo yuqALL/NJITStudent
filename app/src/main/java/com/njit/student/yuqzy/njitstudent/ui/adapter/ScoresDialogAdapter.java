@@ -129,10 +129,11 @@ public class ScoresDialogAdapter extends BaseAdapter {
 //
 //    不及格
 //    0
-    private String[] menu=new String[]{"加权平均分","平均学分绩点","总成绩平均分","期末成绩平均分"};
+    private String[] menu = new String[]{"加权平均分", "平均学分绩点", "总成绩平均分", "期末成绩平均分"};
+
     public ScoresDialogAdapter(Context context, String[] current) {
         layoutInflater = LayoutInflater.from(context);
-        this.current=current;
+        this.current = current;
     }
 
     @Override
@@ -168,7 +169,7 @@ public class ScoresDialogAdapter extends BaseAdapter {
 
         //Context context = parent.getContext();
         viewHolder.name.setText(menu[position]);
-        if(position<current.length) {
+        if (position < current.length) {
             viewHolder.currentvalue.setText(current[position]);
         }
         switch (position) {

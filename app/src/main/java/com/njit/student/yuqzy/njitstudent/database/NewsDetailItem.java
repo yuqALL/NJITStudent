@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/14.
  */
 
-public class NewsDetailItem extends RealmObject{
+public class NewsDetailItem extends RealmObject {
 
     int type = 0;
 

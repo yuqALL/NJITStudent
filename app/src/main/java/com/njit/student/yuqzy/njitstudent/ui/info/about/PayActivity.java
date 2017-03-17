@@ -7,13 +7,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 
 import com.njit.student.yuqzy.njitstudent.App;
 import com.njit.student.yuqzy.njitstudent.R;
@@ -24,24 +22,27 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class PayActivity extends AppCompatActivity implements View.OnLongClickListener{
+public class PayActivity extends AppCompatActivity implements View.OnLongClickListener {
 
     private Toolbar toolbar;
-    private ImageView WeChatPay,ZhiFuBaoPay;
+    private ImageView WeChatPay, ZhiFuBaoPay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
         setContentView(R.layout.activity_pay);
-        toolbar=(Toolbar)findViewById(R.id.title);
+        toolbar = (Toolbar) findViewById(R.id.title);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("感谢支持");
+        getSupportActionBar().setTitle("感谢支持");
         initViews();
     }
+
     protected void setDisplayHomeAsUpEnabled(boolean enable) {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(enable);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -51,17 +52,18 @@ public class PayActivity extends AppCompatActivity implements View.OnLongClickLi
         }
         return super.onOptionsItemSelected(item);
     }
+
     protected void initViews() {
         setDisplayHomeAsUpEnabled(true);
-        WeChatPay=(ImageView)findViewById(R.id.wechat_pay_qrcode);
-        ZhiFuBaoPay=(ImageView)findViewById(R.id.zhifubao_pay_qrcode);
+        WeChatPay = (ImageView) findViewById(R.id.wechat_pay_qrcode);
+        ZhiFuBaoPay = (ImageView) findViewById(R.id.zhifubao_pay_qrcode);
         WeChatPay.setOnLongClickListener(this);
         ZhiFuBaoPay.setOnLongClickListener(this);
     }
 
-    private void initTheme(){
+    private void initTheme() {
         int themeIndex = SettingsUtil.getTheme();
-        switch (themeIndex){
+        switch (themeIndex) {
             case 0:
                 setTheme(R.style.LapisBlueTheme);
                 break;
@@ -95,8 +97,7 @@ public class PayActivity extends AppCompatActivity implements View.OnLongClickLi
 
     @Override
     public boolean onLongClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.wechat_pay_qrcode:
                 toWeChatScan();
                 break;
@@ -108,7 +109,7 @@ public class PayActivity extends AppCompatActivity implements View.OnLongClickLi
     }
 
     private void toWeChatScan() {
-        saveImage(R.drawable.wechat,"wechatpay");
+        saveImage(R.drawable.wechat, "wechatpay");
         try {
 
             startActivity(getPackageManager().getLaunchIntentForPackage("com.tencent.mm"));
@@ -119,7 +120,7 @@ public class PayActivity extends AppCompatActivity implements View.OnLongClickLi
     }
 
     private void toAliPayScan() {
-        saveImage(R.drawable.alipay,"alipay");
+        saveImage(R.drawable.alipay, "alipay");
         try {
             //利用Intent打开支付宝
             //支付宝跳过开启动画打开扫码和付款码的url scheme分别是alipayqr://platformapi/startapp?saId=10000007和
@@ -132,8 +133,9 @@ public class PayActivity extends AppCompatActivity implements View.OnLongClickLi
             Toast.makeText(this, "无法跳转到支付宝，请检查您是否安装了支付宝！", Toast.LENGTH_SHORT).show();
         }
     }
-    public void saveImage(int id,String name) {
-        Bitmap bmp= BitmapFactory.decodeResource(App.getContext().getResources(),id);
+
+    public void saveImage(int id, String name) {
+        Bitmap bmp = BitmapFactory.decodeResource(App.getContext().getResources(), id);
         File appDir = new File(Environment.getExternalStorageDirectory(), "NJITStu");
         if (!appDir.exists()) {
             appDir.mkdir();

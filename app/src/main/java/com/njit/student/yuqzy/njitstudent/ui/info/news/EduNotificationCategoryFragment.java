@@ -35,8 +35,8 @@ public class EduNotificationCategoryFragment extends BaseContentFragment {
     private String baseUrl = "";
     private boolean isLoading = false;
     private String usedUrl;
-    private String preUrl="";
-    private boolean scrollTop=false;
+    private String preUrl = "";
+    private boolean scrollTop = false;
     private Subscription subscription;
 
     @Override
@@ -48,7 +48,7 @@ public class EduNotificationCategoryFragment extends BaseContentFragment {
     protected void initViews() {
         super.initViews();
         baseUrl = getArguments().getString("url");
-        usedUrl=baseUrl;
+        usedUrl = baseUrl;
         recyclerView = findView(R.id.rv_gank);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new NormalAdapter(getActivity(), null);
@@ -58,17 +58,16 @@ public class EduNotificationCategoryFragment extends BaseContentFragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 //RecyclerView.canScrollVertically(1)的值表示是否能向上滚动，false表示已经滚动到底部
                 if (!recyclerView.canScrollVertically(1) && !isLoading) {
-                    scrollTop=false;
+                    scrollTop = false;
                     isLoading = true;
-                    Log.e("onScrollStateChanged x",usedUrl);
+                    Log.e("onScrollStateChanged x", usedUrl);
                     getNotificationFromServer();
 
-                }else if(!recyclerView.canScrollVertically(-1) && !isLoading)
-                {
+                } else if (!recyclerView.canScrollVertically(-1) && !isLoading) {
                     //RecyclerView.canScrollVertically(-1)的值表示是否能向下滚动，false表示已经滚动到顶部
-                    scrollTop=true;
-                    usedUrl=baseUrl;
-                    Log.e("onScrollStateChanged s",usedUrl);
+                    scrollTop = true;
+                    usedUrl = baseUrl;
+                    Log.e("onScrollStateChanged s", usedUrl);
                     isLoading = true;
                     getNotificationFromServer();
                 }
@@ -80,7 +79,7 @@ public class EduNotificationCategoryFragment extends BaseContentFragment {
 
     private void getNotificationFromServer() {
         showRefreshing(true);
-        String url=usedUrl;
+        String url = usedUrl;
         subscription = Observable.just(url).subscribeOn(Schedulers.io())
                 .map(new Func1<String, List<NormalItem>>() {
                          @Override
@@ -103,7 +102,7 @@ public class EduNotificationCategoryFragment extends BaseContentFragment {
                                  }
 
                                  Elements nextUrls = list.select("div.fenye").first().select("a[href]");
-                                 if(nextUrls.size()>0) {
+                                 if (nextUrls.size() > 0) {
                                      for (Element nextUrl : nextUrls) {
                                          if (nextUrl.text().trim().equals("下页")) {
                                              usedUrl = nextUrl.attr("abs:href");
@@ -120,34 +119,34 @@ public class EduNotificationCategoryFragment extends BaseContentFragment {
                 )
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<NormalItem>>() {
-                                      @Override
-                                      public void onCompleted() {
-                                          isLoading = false;
-                                      }
+                               @Override
+                               public void onCompleted() {
+                                   isLoading = false;
+                               }
 
-                                      @Override
-                                      public void onError(Throwable e) {
-                                          isLoading = false;
-                                          showRefreshing(false);
-                                      }
+                               @Override
+                               public void onError(Throwable e) {
+                                   isLoading = false;
+                                   showRefreshing(false);
+                               }
 
-                                      @Override
-                                      public void onNext(List<NormalItem> normalItems) {
-                                          showRefreshing(false);
+                               @Override
+                               public void onNext(List<NormalItem> normalItems) {
+                                   showRefreshing(false);
 
-                                          if (adapter.getData() == null || adapter.getData().size() == 0 ||scrollTop) {
-                                              adapter.setNewData(normalItems);
-                                          } else {
-                                              Log.e("on next",preUrl+"\n"+usedUrl);
-                                              if(preUrl!=usedUrl) {
-                                                  adapter.addData(adapter.getData().size(), normalItems);
-                                                  preUrl=usedUrl;
-                                              }
-                                          }
-                                      }
-                                  }
+                                   if (adapter.getData() == null || adapter.getData().size() == 0 || scrollTop) {
+                                       adapter.setNewData(normalItems);
+                                   } else {
+                                       Log.e("on next", preUrl + "\n" + usedUrl);
+                                       if (preUrl != usedUrl) {
+                                           adapter.addData(adapter.getData().size(), normalItems);
+                                           preUrl = usedUrl;
+                                       }
+                                   }
+                               }
+                           }
 
-                        );
+                );
     }
 
     @Override

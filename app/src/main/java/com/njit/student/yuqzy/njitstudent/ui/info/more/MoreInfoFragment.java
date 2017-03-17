@@ -11,21 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.njit.student.yuqzy.njitstudent.Event.BreakRulesEvent;
 import com.njit.student.yuqzy.njitstudent.MainActivity;
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.database.BreakRulesRealm;
 import com.njit.student.yuqzy.njitstudent.database.NewsDetail;
-import com.njit.student.yuqzy.njitstudent.model.DebtInfoItem;
 import com.njit.student.yuqzy.njitstudent.model.LikeNews;
 import com.njit.student.yuqzy.njitstudent.model.NormalItem;
 import com.njit.student.yuqzy.njitstudent.model.UrlAll;
 import com.njit.student.yuqzy.njitstudent.model.UrlAllEvent;
 import com.njit.student.yuqzy.njitstudent.model.UrlItem;
 import com.njit.student.yuqzy.njitstudent.net.NetWork;
-import com.njit.student.yuqzy.njitstudent.ui.info.more.PersonInfoActivity;
-import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
-import com.njit.student.yuqzy.njitstudent.utils.ShowLoadDialog;
 import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -125,7 +119,7 @@ public class MoreInfoFragment extends Fragment implements View.OnClickListener {
                 RealmResults<UrlAll> results2 = query2
                         .findAll();
                 if (results2.size() <= 0) {
-                    parseUrl=true;
+                    parseUrl = true;
                     NetWork.SchoolLink();
                 }
                 Intent intent4 = new Intent(getContext(), UrlActivity.class);

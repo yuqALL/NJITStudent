@@ -2,7 +2,7 @@ package com.njit.student.yuqzy.njitstudent.model;
 
 import io.realm.RealmObject;
 
-public class UrlItem extends RealmObject{
+public class UrlItem extends RealmObject {
     private int type;
     private String title;
     private String name;

@@ -1,4 +1,5 @@
 package com.njit.student.yuqzy.njitstudent.utils;
+
 public class DoubleClickExit {
     public static long mLastClick = 0L;
     private static final int THRESHOLD = 2000;

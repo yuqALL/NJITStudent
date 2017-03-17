@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.njit.student.yuqzy.njitstudent.ui.info.library.LibraryContentFragment">
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_search_result"
         android:layout_width="wrap_content"
@@ -15,7 +16,8 @@
         app:borderWidth="0dp"
         app:elevation="6dp"
         app:fabSize="normal"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -125,11 +127,12 @@
                         android:layout_margin="5dp"
                         android:entries="@array/library_search_booktype" />
                 </LinearLayout>
+
                 <android.support.v4.widget.Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp" />
             </LinearLayout>
         </LinearLayout>
 

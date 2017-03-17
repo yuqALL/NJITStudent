@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/10.
  */
 
-public class formKBdatabase extends RealmObject{
+public class formKBdatabase extends RealmObject {
     private int colspan;
     private int rowspan;
     private int length;

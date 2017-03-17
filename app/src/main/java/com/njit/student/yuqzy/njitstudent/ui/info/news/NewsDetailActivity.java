@@ -49,7 +49,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private Toolbar toolbar;
     private Subscription subscription;
     private NewsDetailAdapter adapter;
-    private ImageView imgLike, imgIE,imgShare;
+    private ImageView imgLike, imgIE, imgShare;
     private Realm realm;
     private RealmQuery<NewsDetail> query;
     private RealmResults<NewsDetail> results;
@@ -71,7 +71,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         progressBar = (ProgressBar) findViewById(R.id.progress);
         imgLike = (ImageView) findViewById(R.id.img_like);
         imgIE = (ImageView) findViewById(R.id.img_open_ie);
-        imgShare=(ImageView)findViewById(R.id.img_share);
+        imgShare = (ImageView) findViewById(R.id.img_share);
         imgLike.setOnClickListener(this);
         imgIE.setOnClickListener(this);
         imgShare.setOnClickListener(this);
@@ -174,9 +174,9 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                                      }
 
                                      if (value != null) {
-                                         Log.e("value", value.html());
+                                         //Log.e("value", value.html());
                                          Elements pList = value.select("p");
-                                         Log.e("value", pList.size() + "");
+                                         //Log.e("value", pList.size() + "");
                                          for (Element e : pList) {
                                              //抓取图片
                                              if (e.select("img").size() > 0) {
@@ -186,7 +186,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                                                      item.setValue(img.text());
                                                      item.setLink(img.attr("abs:src"));
                                                      list.add(item);
-                                                     Log.e("item", item.toString());
+                                                     //Log.e("item", item.toString());
                                                  }
                                              }
                                              //抓取文字
@@ -197,14 +197,14 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                                                  item.setValue(e.select("span").select("a").text());
                                                  item.setLink(e.select("span").select("a").attr("abs:href"));
                                                  list.add(item);
-                                                 Log.e("item", item.toString());
+                                                 //Log.e("item", item.toString());
                                              }
                                              if (e.text() != "") {
                                                  NewsDetailItem item = new NewsDetailItem();
                                                  item.setType(1);
                                                  item.setValue(e.text());
                                                  list.add(item);
-                                                 Log.e("item", item.toString());
+                                                 //Log.e("item", item.toString());
                                              }
 
                                          }
@@ -219,7 +219,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                                                  item.setValue(e.text());
                                                  item.setLink(e.attr("abs:href"));
                                                  list.add(item);
-                                                 Log.e("item", item.toString());
+                                                 //Log.e("item", item.toString());
                                              }
                                          }
                                      }
@@ -309,14 +309,14 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                             NewsDetailItem item;
                             RealmList<NewsDetailItem> value = new RealmList<>();
                             NewsDetail newsDetail = bgRealm.createObject(NewsDetail.class);
-                            Log.e("NewsDetailItem", list.size() + "");
-                            Log.e("NewsDetailItem", host + ":" + title + updateTime);
+                            //Log.e("NewsDetailItem", list.size() + "");
+                            //Log.e("NewsDetailItem", host + ":" + title + updateTime);
                             for (int i = 0; i < list.size(); i++) {
                                 item = bgRealm.createObject(NewsDetailItem.class);
                                 item.setType(list.get(i).getType());
                                 item.setValue(list.get(i).getValue());
                                 item.setLink(list.get(i).getLink());
-                                Log.e("NewsDetailItem", list.get(i).toString());
+                                //Log.e("NewsDetailItem", list.get(i).toString());
                                 value.add(item);
                             }
                             newsDetail.setHost(host);
@@ -327,13 +327,13 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                     }, new Realm.Transaction.OnSuccess() {
                         @Override
                         public void onSuccess() {
-                            Log.e("Star!", "Realm.Transaction.OnSuccess");
+                            //Log.e("Star!", "Realm.Transaction.OnSuccess");
                             imgLike.setImageResource(R.drawable.ic_like2);
                         }
                     }, new Realm.Transaction.OnError() {
                         @Override
                         public void onError(Throwable error) {
-                            Log.e("Star!", "Realm.Transaction.OnError");
+                            //Log.e("Star!", "Realm.Transaction.OnError");
                             Toast.makeText(getApplicationContext(), "收藏失败！", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -351,7 +351,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 WebUtils.openExternal(this, host);
                 break;
             case R.id.img_share:
-                ShareUtils.shareText(this,title+"\n"+host);
+                ShareUtils.shareText(this, title + "\n" + host);
                 break;
         }
     }

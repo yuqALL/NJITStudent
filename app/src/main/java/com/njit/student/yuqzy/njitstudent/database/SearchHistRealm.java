@@ -11,9 +11,9 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class SearchHistRealm extends RealmObject{
-    private RealmList<SearchHistItem> searchItems=null;
-    private String personXH="";
+public class SearchHistRealm extends RealmObject {
+    private RealmList<SearchHistItem> searchItems = null;
+    private String personXH = "";
 
     public RealmList<SearchHistItem> getSearchItems() {
         return searchItems;

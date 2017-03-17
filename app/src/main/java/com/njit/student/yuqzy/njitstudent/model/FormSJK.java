@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Administrator on 2017/2/10.
  */
 
-public class FormSJK implements Serializable{
+public class FormSJK implements Serializable {
     private String courseName;//课程名称
     private String teacher;//教师
     private String credit;//学分

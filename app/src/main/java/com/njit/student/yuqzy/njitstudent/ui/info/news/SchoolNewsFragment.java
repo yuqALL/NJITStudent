@@ -3,7 +3,7 @@ package com.njit.student.yuqzy.njitstudent.ui.info.news;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -14,14 +14,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.KeyEvent;
+
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+
 import android.widget.ImageView;
-import android.widget.TextView;
+
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -51,7 +48,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-import static com.njit.student.yuqzy.njitstudent.AppGlobal.NJIT_HOME_SEARCH_ADDRESS;
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.SCHOOL_INDEX_HOST;
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.SCHOOL_NOTIFICATION;
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.SCHOOL_XINHUO_NEWS;
@@ -69,7 +65,6 @@ public class SchoolNewsFragment extends BaseFragment implements View.OnClickList
     private CollapsingToolbarLayoutState state; // CollapsingToolbarLayout 折叠状态
 
     private ImageView headImg;
-    private EditText searchText;
 
     private ACache mCache;
 
@@ -81,6 +76,7 @@ public class SchoolNewsFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected int getLayoutId() {
+
         return R.layout.school_news_fragment_tab_viewpager;
     }
 
@@ -93,23 +89,7 @@ public class SchoolNewsFragment extends BaseFragment implements View.OnClickList
 
         headImg = findView(R.id.iv_home_banner);
         headImg.setOnClickListener(this);
-        searchText=findView(R.id.et_search);
-        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //隐藏软键盘
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(getContext().INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                    Intent intent=new Intent(getActivity(),SearchActivity.class);
-                    intent.putExtra("search",searchText.getText().toString());
-                    intent.putExtra("search_host",NJIT_HOME_SEARCH_ADDRESS);
-                    searchText.setText("");
-                    startActivity(intent);
-                }
-                return true;
-            }
-        });
+
         loadData();
     }
 
@@ -163,10 +143,7 @@ public class SchoolNewsFragment extends BaseFragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_home_banner:
-                //隐藏软键盘
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(getContext().INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                searchText.clearFocus();
+
                 if (isBannerAniming) {
                     return;
                 }
@@ -187,17 +164,17 @@ public class SchoolNewsFragment extends BaseFragment implements View.OnClickList
             public List<String> call(String host) {
                 SchoolNewsCategory temp = new SchoolNewsCategory();
                 try {
-                    Log.e("image host", host);
+                    //Log.e("image host", host);
                     Document doc = Jsoup.connect(host).timeout(10000).userAgent(USERAGENT_DESKTOP).get();
                     Element box = doc.select("div.box1").first();
-                    Log.e("imgs", box.html());
+                    //Log.e("imgs", box.html());
                     Element bd = doc.select("div.bd").first();
 
                     Elements imgs = bd.select("a[href]");
                     if (imgs.size() > 0) {
                         for (Element e : imgs) {
                             imgList.add(e.select("img").attr("abs:src"));
-                            Log.e("imgs", e.select("img").attr("abs:href"));
+                            //Log.e("imgs", e.select("img").attr("abs:href"));
                         }
                     }
                 } catch (IOException e) {
@@ -220,7 +197,7 @@ public class SchoolNewsFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onNext(List<String> list) {
                 mCache.put(CACHE_SCHOOL_IMG_CATE, (Serializable) list);
-                Log.e("imgs", list.get(1));
+                //Log.e("imgs", list.get(1));
 
 
             }

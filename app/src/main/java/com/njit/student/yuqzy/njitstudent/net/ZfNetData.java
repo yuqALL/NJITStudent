@@ -3,19 +3,16 @@ package com.njit.student.yuqzy.njitstudent.net;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import android.util.Log;
-import android.util.Xml;
-
 
 import com.njit.student.yuqzy.njitstudent.Event.CourseEvent;
 import com.njit.student.yuqzy.njitstudent.Event.LoginResponseCode;
 import com.njit.student.yuqzy.njitstudent.Event.PersonInfoEvent;
 import com.njit.student.yuqzy.njitstudent.Event.Scores;
 import com.njit.student.yuqzy.njitstudent.Event.SecretCode;
+import com.njit.student.yuqzy.njitstudent.Event.UrlsMap;
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.database.PersonInfo;
-import com.njit.student.yuqzy.njitstudent.Event.UrlsMap;
 import com.njit.student.yuqzy.njitstudent.model.FormKB;
 import com.njit.student.yuqzy.njitstudent.model.FormSJK;
 import com.njit.student.yuqzy.njitstudent.model.FormTTBinfo;
@@ -42,11 +39,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-
 import java.io.IOException;
-
 import java.io.UnsupportedEncodingException;
-
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +48,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.NJIT_ZF_HOST;
 import static com.njit.student.yuqzy.njitstudent.AppGlobal.NJIT_ZF_LOGIN;
@@ -196,9 +189,10 @@ public class ZfNetData {
         }
     }
 
-    private String encode="gb2312";
-    public String matchC(String str){
-       // String str = "A我B3是D4一个D3汉ad字e3d";
+    private String encode = "gb2312";
+
+    public String matchC(String str) {
+        // String str = "A我B3是D4一个D3汉ad字e3d";
 
         try {
             Pattern p = Pattern.compile("([\u4e00-\u9fa5]+)");
@@ -210,19 +204,20 @@ public class ZfNetData {
             while (m.find()) {
                 mv = m.group(0);
                 String en = URLEncoder.encode(mv, encode);
-                if(mes.contains(mv)){
-                    mes=mes.replaceAll(mv,en);
-                    Log.e("match txt ",en+"\n"+mes);//%B2%DC%C7%EC%88%D2
+                if (mes.contains(mv)) {
+                    mes = mes.replaceAll(mv, en);
+                    Log.e("match txt ", en + "\n" + mes);//%B2%DC%C7%EC%88%D2
                 }
             }
 
             return mes;
-        }catch (UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
         return str;
     }
+
     //得到个人信息
     public void getPersonalInfo(String result) {
         theUrls = new UrlsMap(null);
@@ -246,8 +241,8 @@ public class ZfNetData {
             public void run() {
                 try {
                     //String url = new String(theUrls.getPersonInfo().getBytes(), encode);
-                    String url =matchC(theUrls.getPersonInfo());
-                    Log.e("url",url+"\n");
+                    String url = matchC(theUrls.getPersonInfo());
+                    Log.e("url", url + "\n");
                     DefaultHttpClient client = new DefaultHttpClient();
                     HttpGet httpGet = new HttpGet(url);
                     HttpResponse httpResponse;
@@ -272,9 +267,7 @@ public class ZfNetData {
                         Element infoContent = content.select("span.formbox").select("table.formlist").first();
 
                         Elements infolist = infoContent.select("tr");
-                        for (Element e : infolist) {
-                            Log.e("info content", e.html());
-                        }
+
                         //先找照片
                         Element ePic = infolist.select("img#xszp").first();
                         PersonInfo info = new PersonInfo();
@@ -353,7 +346,7 @@ public class ZfNetData {
                         EventBus.getDefault().post(loginevent);
                         SettingsUtil.setNj(info.getPersonDQSZJ());
 
-                    }else {
+                    } else {
                         LoginResponseCode loginevent = new LoginResponseCode(LoginResponseCode.LOGIN_USERNAME_OR_PASSWORD_ERROR);
                         EventBus.getDefault().post(loginevent);
                     }
@@ -382,7 +375,7 @@ public class ZfNetData {
             @Override
             public void run() {
                 try {
-                    String host = theUrls.getScoreUrl();
+                    String host = matchC(theUrls.getScoreUrl());
                     //String host = theUrls.getScoreUrl();
                     DefaultHttpClient client = new DefaultHttpClient();
                     HttpPost httpPost = new HttpPost(host);
@@ -398,7 +391,7 @@ public class ZfNetData {
                     params.add(new BasicNameValuePair("__EVENTTARGET", ""));
                     params.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
                     if (cookieStore == null) {
-
+                        Log.e("cookiestore", "null");
                     } else {
                         client.setCookieStore(cookieStore);
                     }
@@ -432,6 +425,7 @@ public class ZfNetData {
                             Log.e("map", result.toString());
                             scoreList.add(result);
                         }
+                        SettingsUtil.setUserScoreTerm(year + ":" + term);
                         EventBus.getDefault().post(new Scores(theUrls.getXh(), year + ":" + term, scoreList));
 
                     }
@@ -467,13 +461,14 @@ public class ZfNetData {
 
                 try {
 
-                    String host = theUrls.getCourseForm();
+                    String host = matchC(theUrls.getCourseForm());
                     DefaultHttpClient client = new DefaultHttpClient();
                     //班级课表
                     //HttpPost httpPost = new HttpPost(theUrls.getCourseForm());
                     HttpPost httpPost = new HttpPost(host);
                     HttpResponse httpResponse;
                     if (cookieStore == null) {
+                        Log.e("cookiestore", "null");
                         return;
                     } else {
                         client.setCookieStore(cookieStore);
@@ -492,12 +487,12 @@ public class ZfNetData {
                         Document doc = Jsoup.parse(MAINBODYHTML);
 
                         Element content1 = doc.select("form#Form1").first();
-                        Log.e("get", content1.html());
+                        //Log.e("get", content1.html());
                         Elements input = content1.select("input");
                         for (Element e : input) {
                             if (e.attr("name").equals("__VIEWSTATE")) {
                                 firstViewstate = e.attr("value").toString();
-                                Log.e("get first viewstate", firstViewstate);
+                                //Log.e("get first viewstate", firstViewstate);
                             }
                         }
 
@@ -542,63 +537,8 @@ public class ZfNetData {
 
                             if ((year.equals(defaultXN) && term.equals(defaultXQ)) || (year == "" && term == "")) {
 
-                                //课表
-                                Element content = doc.select("div.main_box").first();
-                                //Log.e("test content", content.html());
-                                if (content != null) {
-                                    Element allForm = content.select("span.formbox").first();
-                                    Element formKB = allForm.select("table#Table6.blacktab").first();//课表
-                                    List<FormKB> formKBs = createTable(formKB);
+                                parseCourse(MAINBODYHTML, personXH, defaultXN, defaultXQ);
 
-                                    List<FormSJK> formSJKs = null;
-                                    //实践课信息
-                                    Element formSX = allForm.select("table#Table3").select("table#DataGrid1.datelist").first();//实习
-                                    if (formSX != null) {
-                                        Elements SXresults = formSX.select("tr");
-                                        formSJKs = new ArrayList<>();
-                                        for (int i = 1; i < SXresults.size(); i++) {
-                                            FormSJK formSJK = new FormSJK();
-                                            Elements td = SXresults.get(i).select("td");
-                                            formSJK.setCourseName(td.get(0).text());
-                                            formSJK.setTeacher(td.get(1).text());
-                                            formSJK.setCredit(td.get(2).text());
-                                            formSJK.setTime(td.get(3).text());
-                                            formSJK.setStudyTime(td.get(4).text());
-                                            formSJK.setStudyPlace(td.get(5).text());
-                                            formSJKs.add(formSJK);
-                                        }
-                                    }
-                                    //调课信息
-                                    Element formTTB = null;
-                                    List<FormTTBinfo> formTTBinfos = null;
-                                    formTTB = allForm.select("table#DBGrid.datelist").first();//调、停、补课信息
-                                    if (formTTB != null) {
-                                        //Log.e("test content", formTTB.html() + "");
-                                        Elements ttbTr = formTTB.select("tr");
-                                        formTTBinfos = new ArrayList<>();
-                                        for (int i = 1; i < ttbTr.size(); i++) {
-                                            FormTTBinfo formTTBinfo = new FormTTBinfo();
-                                            Elements ttbTd = ttbTr.get(i).select("td");
-                                            formTTBinfo.setId(ttbTd.get(0).text());
-                                            formTTBinfo.setCourseName(ttbTd.get(1).text());
-                                            formTTBinfo.setPreStudyState(ttbTd.get(2).text());
-                                            formTTBinfo.setNowStudyState(ttbTd.get(3).text());
-                                            formTTBinfo.setPostTime(ttbTd.get(4).text());
-                                            formTTBinfos.add(formTTBinfo);
-                                        }
-                                    }
-
-                                    Log.e("query term", year + ":" + term);
-                                    if (formKBs.size() == 9 * 13) {
-                                        EventBus.getDefault().post(new CourseEvent(personXH, defaultXN + ":" + defaultXQ, "class", formKBs, formSJKs, formTTBinfos));
-                                        SettingsUtil.setUserCourseType("class");
-                                        SettingsUtil.setUserCourseTerm(defaultXN + ":" + defaultXQ);
-                                        SettingsUtil.setCurrentWeek("1");
-                                        SettingsUtil.setCourseStartWeek("1");
-                                        SettingsUtil.setCourseCurrentWeekBindTime(NJITCourseFragment.getCurrentTime());
-
-                                    }
-                                }
                             }
                         }
                     }
@@ -625,10 +565,10 @@ public class ZfNetData {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if ((!year.equals(defaultXN) && !term.equals(defaultXQ)) && year != "" && term != "") {
+                if ((!year.equals(defaultXN) || !term.equals(defaultXQ)) && year != "" && term != "") {
 
                     try {
-                        String host = theUrls.getCourseForm();
+                        String host = matchC(theUrls.getCourseForm());
                         DefaultHttpClient client = new DefaultHttpClient();
                         //班级课表
                         //HttpPost httpPost = new HttpPost(theUrls.getCourseForm());
@@ -660,70 +600,11 @@ public class ZfNetData {
                         httpResponse = client.execute(httpPost);
                         Log.i("xyz", String.valueOf(httpResponse.getStatusLine().getStatusCode()));
                         if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                            StringBuffer sb = new StringBuffer();
+
                             HttpEntity entity = httpResponse.getEntity();
 
                             String MAINBODYHTML = EntityUtils.toString(entity);
-
-                            Document doc = Jsoup.parse(MAINBODYHTML);
-
-                            //课表
-                            Element content = doc.select("div.main_box").first();
-                            //Log.e("test content", content.html());
-                            if (content != null) {
-                                Element allForm = content.select("span.formbox").first();
-                                Element formKB = allForm.select("table#Table6.blacktab").first();//课表
-                                List<FormKB> formKBs = createTable(formKB);
-
-                                List<FormSJK> formSJKs = null;
-                                //实践课信息
-                                Element formSX = allForm.select("table#Table3").select("table#DataGrid1.datelist").first();//实习
-                                if (formSX != null) {
-                                    Elements SXresults = formSX.select("tr");
-                                    formSJKs = new ArrayList<>();
-                                    for (int i = 1; i < SXresults.size(); i++) {
-                                        FormSJK formSJK = new FormSJK();
-                                        Elements td = SXresults.get(i).select("td");
-                                        formSJK.setCourseName(td.get(0).text());
-                                        formSJK.setTeacher(td.get(1).text());
-                                        formSJK.setCredit(td.get(2).text());
-                                        formSJK.setTime(td.get(3).text());
-                                        formSJK.setStudyTime(td.get(4).text());
-                                        formSJK.setStudyPlace(td.get(5).text());
-                                        formSJKs.add(formSJK);
-                                    }
-                                }
-                                //调课信息
-                                Element formTTB = null;
-                                List<FormTTBinfo> formTTBinfos = null;
-                                formTTB = allForm.select("table#DBGrid.datelist").first();//调、停、补课信息
-                                if (formTTB != null) {
-                                    //Log.e("test content", formTTB.html() + "");
-                                    Elements ttbTr = formTTB.select("tr");
-                                    formTTBinfos = new ArrayList<>();
-                                    for (int i = 1; i < ttbTr.size(); i++) {
-                                        FormTTBinfo formTTBinfo = new FormTTBinfo();
-                                        Elements ttbTd = ttbTr.get(i).select("td");
-                                        formTTBinfo.setId(ttbTd.get(0).text());
-                                        formTTBinfo.setCourseName(ttbTd.get(1).text());
-                                        formTTBinfo.setPreStudyState(ttbTd.get(2).text());
-                                        formTTBinfo.setNowStudyState(ttbTd.get(3).text());
-                                        formTTBinfo.setPostTime(ttbTd.get(4).text());
-                                        formTTBinfos.add(formTTBinfo);
-                                    }
-                                }
-
-                                Log.e("query term", year + ":" + term);
-                                if (formKBs.size() == 9 * 13) {
-                                    EventBus.getDefault().post(new CourseEvent(personXH, year + ":" + term, "class", formKBs, formSJKs, formTTBinfos));
-                                    SettingsUtil.setUserCourseType("class");
-                                    SettingsUtil.setUserCourseTerm(year + ":" + term);
-                                    SettingsUtil.setCurrentWeek("1");
-                                    SettingsUtil.setCourseStartWeek("1");
-                                    SettingsUtil.setCourseCurrentWeekBindTime(NJITCourseFragment.getCurrentTime());
-                                }
-                            }
-
+                            parseCourse(MAINBODYHTML, personXH, year, term);
 
                         }
                     } catch (UnsupportedEncodingException e) {
@@ -742,6 +623,69 @@ public class ZfNetData {
         t1.start();
     }
 
+    private void parseCourse(String MAINBODYHTML, String personXH, String year, String term) {
+        Document doc = Jsoup.parse(MAINBODYHTML);
+
+        //课表
+        Element content = doc.select("div.main_box").first();
+        //Log.e("test content", content.html());
+        if (content != null) {
+            Element allForm = content.select("span.formbox").first();
+            Element formKB = allForm.select("table#Table6.blacktab").first();//课表
+            List<FormKB> formKBs = createTable(formKB);
+
+            List<FormSJK> formSJKs = null;
+            //实践课信息
+            Element formSX = allForm.select("table#Table3").select("table#DataGrid1.datelist").first();//实习
+            if (formSX != null) {
+                Elements SXresults = formSX.select("tr");
+                formSJKs = new ArrayList<>();
+                for (int i = 1; i < SXresults.size(); i++) {
+                    FormSJK formSJK = new FormSJK();
+                    Elements td = SXresults.get(i).select("td");
+                    formSJK.setCourseName(td.get(0).text());
+                    formSJK.setTeacher(td.get(1).text());
+                    formSJK.setCredit(td.get(2).text());
+                    formSJK.setTime(td.get(3).text());
+                    formSJK.setStudyTime(td.get(4).text());
+                    formSJK.setStudyPlace(td.get(5).text());
+                    formSJKs.add(formSJK);
+                }
+            }
+            //调课信息
+            Element formTTB = null;
+            List<FormTTBinfo> formTTBinfos = null;
+            formTTB = allForm.select("table#DBGrid.datelist").first();//调、停、补课信息
+            if (formTTB != null) {
+                //Log.e("test content", formTTB.html() + "");
+                Elements ttbTr = formTTB.select("tr");
+                formTTBinfos = new ArrayList<>();
+                for (int i = 1; i < ttbTr.size(); i++) {
+                    FormTTBinfo formTTBinfo = new FormTTBinfo();
+                    Elements ttbTd = ttbTr.get(i).select("td");
+                    formTTBinfo.setId(ttbTd.get(0).text());
+                    formTTBinfo.setCourseName(ttbTd.get(1).text());
+                    formTTBinfo.setPreStudyState(ttbTd.get(2).text());
+                    formTTBinfo.setNowStudyState(ttbTd.get(3).text());
+                    formTTBinfo.setPostTime(ttbTd.get(4).text());
+                    formTTBinfos.add(formTTBinfo);
+                }
+            }
+
+            Log.e("query term", year + ":" + term);
+            if (formKBs.size() == 9 * 13) {
+                EventBus.getDefault().post(new CourseEvent(personXH, year + ":" + term, "class", formKBs, formSJKs, formTTBinfos));
+                SettingsUtil.setUserCourseType("class");
+                SettingsUtil.setUserCourseTerm(year + ":" + term);
+                SettingsUtil.setCurrentWeek("1");
+                SettingsUtil.setCourseStartWeek("1");
+                SettingsUtil.setCourseCurrentWeekBindTime(NJITCourseFragment.getCurrentTime());
+            } else {
+                Log.e("term course", "error");
+            }
+        }
+    }
+
     String firstPersonViewstate = "";
     String defaultPYear, defaultPterm;
 
@@ -753,7 +697,7 @@ public class ZfNetData {
             public void run() {
 
                 try {
-                    String host = theUrls.getPersonCourse();
+                    String host = matchC(theUrls.getPersonCourse());
                     DefaultHttpClient client = new DefaultHttpClient();
                     //班级课表
                     //HttpPost httpPost = new HttpPost(theUrls.getPersonCourse());
@@ -761,14 +705,15 @@ public class ZfNetData {
                     HttpResponse httpResponse;
 
                     if (cookieStore == null) {
+                        Log.e("cookiestore", "null");
                         return;
                     } else {
                         client.setCookieStore(cookieStore);
                     }
 
                     httpPost.addHeader("User-Agent", USERAGENT_DESKTOP);
-                    httpPost.addHeader("Referer", "http://jwjx.njit.edu.cn/xs_main.aspx?xh=201140233");
-                    //client.getParams().setParameter("http.protocol.allow-circular-redirects", false);
+                    httpPost.addHeader("Referer", host);
+                    client.getParams().setParameter("http.protocol.allow-circular-redirects", false);
                     httpResponse = client.execute(httpPost);
 
                     Log.i("xyz", String.valueOf(httpResponse.getStatusLine().getStatusCode()));
@@ -812,69 +757,8 @@ public class ZfNetData {
                         }
                         Log.e("query term pp", year + ":" + term);
                         if ((year.equals(defaultPYear) && term.equals(defaultPterm)) || (year == "" && term == "")) {
-
-                            //课表
-                            Element content = doc.select("div.main_box").first();
-                            //Log.e("test content", content.html());
-                            if (content != null) {
-                                Element allForm = content.select("span.formbox").first();
-                                Log.e("info", allForm.select("table#Table2").first().html());
-                                Element formKB = allForm.select("table#Table1.blacktab").first();//课表
-                                Log.e("formKB", formKB.html());
-                                List<FormKB> formKBs = createTable(formKB);
-
-                                List<FormSJK> formSJKs = null;
-                                //实践课信息
-                                Element formSX = allForm.select("table#Table3").select("table#DataGrid1.datelist").first();//实习
-                                if (formSX != null) {
-                                    Elements SXresults = formSX.select("tr");
-                                    formSJKs = new ArrayList<>();
-                                    for (int i = 1; i < SXresults.size(); i++) {
-                                        FormSJK formSJK = new FormSJK();
-                                        Elements td = SXresults.get(i).select("td");
-                                        formSJK.setCourseName(td.get(0).text());
-                                        formSJK.setTeacher(td.get(1).text());
-                                        formSJK.setCredit(td.get(2).text());
-                                        formSJK.setTime(td.get(3).text());
-                                        formSJK.setStudyTime(td.get(4).text());
-                                        formSJK.setStudyPlace(td.get(5).text());
-                                        formSJKs.add(formSJK);
-                                    }
-                                }
-
-                                //调课信息
-                                Element formTTB = null;
-                                List<FormTTBinfo> formTTBinfos = null;
-                                formTTB = allForm.select("table#DBGrid.datelist").first();//调、停、补课信息
-                                if (formTTB != null) {
-                                    //Log.e("test content", formTTB.html() + "");
-                                    Elements ttbTr = formTTB.select("tr");
-                                    formTTBinfos = new ArrayList<>();
-                                    for (int i = 1; i < ttbTr.size(); i++) {
-                                        FormTTBinfo formTTBinfo = new FormTTBinfo();
-                                        Elements ttbTd = ttbTr.get(i).select("td");
-                                        formTTBinfo.setId(ttbTd.get(0).text());
-                                        formTTBinfo.setCourseName(ttbTd.get(1).text());
-                                        formTTBinfo.setPreStudyState(ttbTd.get(2).text());
-                                        formTTBinfo.setNowStudyState(ttbTd.get(3).text());
-                                        formTTBinfo.setPostTime(ttbTd.get(4).text());
-                                        formTTBinfos.add(formTTBinfo);
-                                    }
-                                }
-
-                                Log.e("query term", year + ":" + term);
-                                if (formKBs.size() == 9 * 13) {
-                                    EventBus.getDefault().post(new CourseEvent(personXH, defaultPYear + ":" + defaultPterm, "person", formKBs, formSJKs, formTTBinfos));
-                                    SettingsUtil.setUserCourseType("person");
-                                    SettingsUtil.setUserCourseTerm(defaultPYear + ":" + defaultPterm);
-                                    SettingsUtil.setCurrentWeek("1");
-                                    SettingsUtil.setCourseStartWeek("1");
-                                    SettingsUtil.setCourseCurrentWeekBindTime(NJITCourseFragment.getCurrentTime());
-                                }
-                            }
+                            parsePersonCourse(MAINBODYHTML, personXH, defaultPYear, defaultPterm);
                         }
-
-
                     }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -898,10 +782,10 @@ public class ZfNetData {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if ((!year.equals(defaultPYear) && !term.equals(defaultPterm)) && year != "" && term != "") {
-
+                if ((!year.equals(defaultPYear) || !term.equals(defaultPterm)) && year != "" && term != "") {
+                    Log.i("xyz", "do here");
                     try {
-                        String host =theUrls.getPersonCourse();
+                        String host = matchC(theUrls.getPersonCourse());
                         DefaultHttpClient client = new DefaultHttpClient();
                         //HttpPost httpPost = new HttpPost(theUrls.getPersonCourse());
                         HttpPost httpPost = new HttpPost(host);
@@ -928,71 +812,8 @@ public class ZfNetData {
                         Log.i("xyz", String.valueOf(httpResponse.getStatusLine().getStatusCode()));
                         if (httpResponse.getStatusLine().getStatusCode() == 200) {
                             HttpEntity entity = httpResponse.getEntity();
-
                             String MAINBODYHTML = EntityUtils.toString(entity);
-
-                            Document doc = Jsoup.parse(MAINBODYHTML);
-                            //课表
-                            Element content = doc.select("div.main_box").first();
-                            //Log.e("test content", content.html());
-                            if (content != null) {
-                                Element allForm = content.select("span.formbox").first();
-                                Log.e("info", allForm.select("table#Table2").first().html());
-                                Element formKB = allForm.select("table#Table1.blacktab").first();//课表
-                                Log.e("formKB", formKB.html());
-                                List<FormKB> formKBs = createTable(formKB);
-
-                                List<FormSJK> formSJKs = null;
-                                //实践课信息
-                                Element formSX = allForm.select("table#Table3").select("table#DataGrid1.datelist").first();//实习
-                                if (formSX != null) {
-                                    Elements SXresults = formSX.select("tr");
-                                    formSJKs = new ArrayList<>();
-                                    for (int i = 1; i < SXresults.size(); i++) {
-                                        FormSJK formSJK = new FormSJK();
-                                        Elements td = SXresults.get(i).select("td");
-                                        formSJK.setCourseName(td.get(0).text());
-                                        formSJK.setTeacher(td.get(1).text());
-                                        formSJK.setCredit(td.get(2).text());
-                                        formSJK.setTime(td.get(3).text());
-                                        formSJK.setStudyTime(td.get(4).text());
-                                        formSJK.setStudyPlace(td.get(5).text());
-                                        formSJKs.add(formSJK);
-                                    }
-                                }
-
-                                //调课信息
-                                Element formTTB = null;
-                                List<FormTTBinfo> formTTBinfos = null;
-                                formTTB = allForm.select("table#DBGrid.datelist").first();//调、停、补课信息
-                                if (formTTB != null) {
-                                    //Log.e("test content", formTTB.html() + "");
-                                    Elements ttbTr = formTTB.select("tr");
-                                    formTTBinfos = new ArrayList<>();
-                                    for (int i = 1; i < ttbTr.size(); i++) {
-                                        FormTTBinfo formTTBinfo = new FormTTBinfo();
-                                        Elements ttbTd = ttbTr.get(i).select("td");
-                                        formTTBinfo.setId(ttbTd.get(0).text());
-                                        formTTBinfo.setCourseName(ttbTd.get(1).text());
-                                        formTTBinfo.setPreStudyState(ttbTd.get(2).text());
-                                        formTTBinfo.setNowStudyState(ttbTd.get(3).text());
-                                        formTTBinfo.setPostTime(ttbTd.get(4).text());
-                                        formTTBinfos.add(formTTBinfo);
-                                    }
-                                }
-
-                                Log.e("query term", year + ":" + term);
-                                if (formKBs.size() == 9 * 13) {
-                                    EventBus.getDefault().post(new CourseEvent(personXH, year + ":" + term, "person", formKBs, formSJKs, formTTBinfos));
-                                    SettingsUtil.setUserCourseType("person");
-                                    SettingsUtil.setUserCourseTerm(year + ":" + term);
-                                    SettingsUtil.setCurrentWeek("1");
-                                    SettingsUtil.setCourseStartWeek("1");
-                                    SettingsUtil.setCourseCurrentWeekBindTime(NJITCourseFragment.getCurrentTime());
-                                }
-                            }
-
-
+                            parsePersonCourse(MAINBODYHTML, personXH, year, term);
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -1008,6 +829,69 @@ public class ZfNetData {
         );
         t0.start();
         t1.start();
+    }
+
+    private void parsePersonCourse(String MAINBODYHTML, String personXH, String year, String term) {
+        Document doc = Jsoup.parse(MAINBODYHTML);
+        //课表
+        Element content = doc.select("div.main_box").first();
+        //Log.e("test content", content.html());
+        if (content != null) {
+            Element allForm = content.select("span.formbox").first();
+            Log.e("info", allForm.select("table#Table2").first().html());
+            Element formKB = allForm.select("table#Table1.blacktab").first();//课表
+            Log.e("formKB", formKB.html());
+            List<FormKB> formKBs = createTable(formKB);
+
+            List<FormSJK> formSJKs = null;
+            //实践课信息
+            Element formSX = allForm.select("table#Table3").select("table#DataGrid1.datelist").first();//实习
+            if (formSX != null) {
+                Elements SXresults = formSX.select("tr");
+                formSJKs = new ArrayList<>();
+                for (int i = 1; i < SXresults.size(); i++) {
+                    FormSJK formSJK = new FormSJK();
+                    Elements td = SXresults.get(i).select("td");
+                    formSJK.setCourseName(td.get(0).text());
+                    formSJK.setTeacher(td.get(1).text());
+                    formSJK.setCredit(td.get(2).text());
+                    formSJK.setTime(td.get(3).text());
+                    formSJK.setStudyTime(td.get(4).text());
+                    formSJK.setStudyPlace(td.get(5).text());
+                    formSJKs.add(formSJK);
+                }
+            }
+
+            //调课信息
+            Element formTTB = null;
+            List<FormTTBinfo> formTTBinfos = null;
+            formTTB = allForm.select("table#DBGrid.datelist").first();//调、停、补课信息
+            if (formTTB != null) {
+                //Log.e("test content", formTTB.html() + "");
+                Elements ttbTr = formTTB.select("tr");
+                formTTBinfos = new ArrayList<>();
+                for (int i = 1; i < ttbTr.size(); i++) {
+                    FormTTBinfo formTTBinfo = new FormTTBinfo();
+                    Elements ttbTd = ttbTr.get(i).select("td");
+                    formTTBinfo.setId(ttbTd.get(0).text());
+                    formTTBinfo.setCourseName(ttbTd.get(1).text());
+                    formTTBinfo.setPreStudyState(ttbTd.get(2).text());
+                    formTTBinfo.setNowStudyState(ttbTd.get(3).text());
+                    formTTBinfo.setPostTime(ttbTd.get(4).text());
+                    formTTBinfos.add(formTTBinfo);
+                }
+            }
+
+            Log.e("query term", year + ":" + term);
+            if (formKBs.size() == 9 * 13) {
+                EventBus.getDefault().post(new CourseEvent(personXH, year + ":" + term, "person", formKBs, formSJKs, formTTBinfos));
+                SettingsUtil.setUserCourseType("person");
+                SettingsUtil.setUserCourseTerm(year + ":" + term);
+                SettingsUtil.setCurrentWeek("1");
+                SettingsUtil.setCourseStartWeek("1");
+                SettingsUtil.setCourseCurrentWeekBindTime(NJITCourseFragment.getCurrentTime());
+            }
+        }
     }
 
     //提取课表表格
@@ -1067,60 +951,6 @@ public class ZfNetData {
                     }
 
                 }
-//                if (colspan.isEmpty() || colspan == "" || colspan == null || colspan.equals("")) {//不跨列
-//                    if (rowspan.isEmpty() || rowspan == "" || rowspan == null || rowspan.equals("")) {//不跨行
-//                        if (!isAdded(kblist, m, n)) {//没有保存过
-//                            Log.e("add course", n + ":" + m + ":" + text);
-//                            kblist.add(new FormKB(m, n, 1, text));//添加元素
-//                        } else {//已经保存过
-//                            while (m < 9) {//找寻没有保存过的位置存储信息
-//                                ++m;
-//                                if (!isAdded(kblist, m, n)) {
-//                                    Log.e("add course", n + ":" + m + ":" + text);
-//                                    kblist.add(new FormKB(m, n, 1, text));
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    } else {//存在跨行情况
-//                        for (int j = 0; j < row; j++) {
-//                            if (!isAdded(kblist, m, n + j)) {
-//                                Log.e("add course", (n + j) + ":" + m + ":" + text);
-//                                kblist.add(new FormKB(m, n + j, row, text));
-//                            } else {
-//                                while (m < 9) {
-//                                    ++m;
-//                                    if (!isAdded(kblist, m, n)) {
-//                                        Log.e("add course", (n + j) + ":" + m + ":" + text);
-//                                        kblist.add(new FormKB(m, n + j, row, text));
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                } else {//存在跨列
-//                    for (int j = 0; j < col; j++) {
-//                        m = m + j;
-//                        Log.e("add ??", n + ":" + m + ":" + text);
-//                        if (rowspan == null || rowspan.isEmpty() || rowspan == "" || rowspan.equals("")) {//不跨行
-//                            Log.e("add ?", n + ":" + m + ":" + text);
-//                            if (!isAdded(kblist, m, n)) {
-//                                Log.e("add course", n + ":" + m + ":" + text);
-//                                kblist.add(new FormKB(m, n, 1, text));
-//                            }
-//                        } else {//跨行
-//                            for (int k = 0; k < row; k++) {
-//                                if (!isAdded(kblist, m, n + k)) {
-//                                    Log.e("add course", (n + k) + ":" + m + ":" + text);
-//                                    kblist.add(new FormKB(m, n + k, row, text));
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-
-
             }
 
         }

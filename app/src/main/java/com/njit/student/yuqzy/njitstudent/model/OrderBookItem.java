@@ -7,7 +7,7 @@ import io.realm.RealmObject;
  */
 
 //预约
-public class OrderBookItem extends RealmObject{
+public class OrderBookItem extends RealmObject {
     private String id;//索书号
     private String name;//题名/责任者
     private String bookUrl;//书籍信息地址

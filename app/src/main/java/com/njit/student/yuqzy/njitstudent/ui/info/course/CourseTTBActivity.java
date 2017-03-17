@@ -7,9 +7,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.model.FormSJKCategory;
 import com.njit.student.yuqzy.njitstudent.model.FormTTBCategory;
-import com.njit.student.yuqzy.njitstudent.ui.adapter.CourseSJKAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.CourseTTBAdapter;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
 
@@ -18,19 +16,20 @@ public class CourseTTBActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ListView courseSjkList;
     private FormTTBCategory category;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
         setContentView(R.layout.activity_course_sjk);
-        toolbar=(Toolbar)findViewById(R.id.title);
+        toolbar = (Toolbar) findViewById(R.id.title);
         setSupportActionBar(toolbar);
         setDisplayHomeAsUpEnabled(true);
 
-        courseSjkList=(ListView) findViewById(R.id.course_sjk_list);
+        courseSjkList = (ListView) findViewById(R.id.course_sjk_list);
 
-        category=(FormTTBCategory) getIntent().getSerializableExtra("data");
-        CourseTTBAdapter adapter=new CourseTTBAdapter(this,category);
+        category = (FormTTBCategory) getIntent().getSerializableExtra("data");
+        CourseTTBAdapter adapter = new CourseTTBAdapter(this, category);
         courseSjkList.setAdapter(adapter);
     }
 
@@ -38,6 +37,7 @@ public class CourseTTBActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(enable);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

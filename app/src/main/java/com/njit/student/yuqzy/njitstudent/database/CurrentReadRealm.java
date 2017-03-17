@@ -9,9 +9,9 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class CurrentReadRealm extends RealmObject{
-    private RealmList<CurrentReadItem> crItems=null;
-    private String personXH="";
+public class CurrentReadRealm extends RealmObject {
+    private RealmList<CurrentReadItem> crItems = null;
+    private String personXH = "";
 
 
     public RealmList<CurrentReadItem> getCrItems() {

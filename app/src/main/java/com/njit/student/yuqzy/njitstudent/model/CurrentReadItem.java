@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class CurrentReadItem extends RealmObject{
+public class CurrentReadItem extends RealmObject {
     private String id;//条码号
     private String name;//书名
     private String bookUrl;

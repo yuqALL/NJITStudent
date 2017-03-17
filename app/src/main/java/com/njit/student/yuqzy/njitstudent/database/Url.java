@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/9.
  */
 
-public class Url  extends RealmObject {
+public class Url extends RealmObject {
     private String name;
     private String url;
 

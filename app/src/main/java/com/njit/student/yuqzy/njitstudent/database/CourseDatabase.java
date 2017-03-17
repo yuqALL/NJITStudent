@@ -13,7 +13,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/10.
  */
 
-public class CourseDatabase extends RealmObject{
+public class CourseDatabase extends RealmObject {
     private String personXH;
     private String yearAterm;
     private String type;

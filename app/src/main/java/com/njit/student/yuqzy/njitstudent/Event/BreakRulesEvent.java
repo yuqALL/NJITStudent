@@ -10,8 +10,8 @@ import java.util.List;
  */
 
 public class BreakRulesEvent {
-    private List<DebtInfoItem> debtItems=null;
-    private String personXH="";
+    private List<DebtInfoItem> debtItems = null;
+    private String personXH = "";
 
     public BreakRulesEvent(List<DebtInfoItem> debtItems, String personXH) {
         this.debtItems = debtItems;

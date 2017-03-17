@@ -3,24 +3,16 @@ package com.njit.student.yuqzy.njitstudent.ui.info.more;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
-
-import com.njit.student.yuqzy.njitstudent.Event.BreakRulesEvent;
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.database.BookDetailRealm;
-import com.njit.student.yuqzy.njitstudent.database.BreakRulesRealm;
-import com.njit.student.yuqzy.njitstudent.database.Url;
 import com.njit.student.yuqzy.njitstudent.model.UrlAll;
 import com.njit.student.yuqzy.njitstudent.model.UrlAllEvent;
 import com.njit.student.yuqzy.njitstudent.model.UrlItem;
 import com.njit.student.yuqzy.njitstudent.net.NetWork;
-import com.njit.student.yuqzy.njitstudent.ui.adapter.LikeBooksAdapter;
 import com.njit.student.yuqzy.njitstudent.ui.adapter.UrlAdapter;
 import com.njit.student.yuqzy.njitstudent.utils.SettingsUtil;
 import com.njit.student.yuqzy.njitstudent.utils.ShowLoadDialog;
@@ -56,7 +48,7 @@ public class UrlActivity extends AppCompatActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         toolbar = (Toolbar) findViewById(R.id.title);
-        img_refresh=(ImageView)findViewById(R.id.img_refresh);
+        img_refresh = (ImageView) findViewById(R.id.img_refresh);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         setDisplayHomeAsUpEnabled(true);
@@ -96,13 +88,13 @@ public class UrlActivity extends AppCompatActivity {
                     NetWork.SchoolLink();
                 }
             });
-            if(!MoreInfoFragment.parseUrl){
+            if (!MoreInfoFragment.parseUrl) {
                 ShowLoadDialog.dismiss();
-                if(getUrlRealm()!=null) {
+                if (getUrlRealm() != null) {
                     UrlAdapter adapter = new UrlAdapter(this, getUrlRealm().getUrlItems());
                     listView.setAdapter(adapter);
                 }
-            }else {
+            } else {
                 ShowLoadDialog.show(this);
             }
         }
@@ -159,15 +151,15 @@ public class UrlActivity extends AppCompatActivity {
     }
 
     private UrlAllEvent getUrlRealm() {
-        realm=Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
         RealmQuery<UrlAll> query = realm.where(UrlAll.class);
         RealmResults<UrlAll> results = query
                 .findAll();
         if (results.size() > 0) {
             UrlAll value = results.first();
             UrlAllEvent event = new UrlAllEvent();
-            List<UrlItem> list=new ArrayList<>();
-            for(UrlItem item:value.getUrlItems()){
+            List<UrlItem> list = new ArrayList<>();
+            for (UrlItem item : value.getUrlItems()) {
                 list.add(item);
             }
             event.setUrlItems(list);
@@ -180,7 +172,7 @@ public class UrlActivity extends AppCompatActivity {
     public void onEventMainThread(UrlAllEvent event) {
         ShowLoadDialog.dismiss();
         //存储到数据库
-        if(title.equals("快速链接")){
+        if (title.equals("快速链接")) {
             UrlAdapter adapter = new UrlAdapter(this, event.getUrlItems());
             listView.setAdapter(adapter);
         }

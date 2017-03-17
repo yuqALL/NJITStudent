@@ -3,7 +3,7 @@ package com.njit.student.yuqzy.njitstudent.model;
 
 import java.io.Serializable;
 
-public class BookItem implements Serializable{
+public class BookItem implements Serializable {
     private String name;//题名
     private String author;//作者
     private String id_suoshu;//索书号

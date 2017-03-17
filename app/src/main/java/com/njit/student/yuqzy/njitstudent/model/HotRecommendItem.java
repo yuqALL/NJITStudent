@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class HotRecommendItem extends RealmObject{
+public class HotRecommendItem extends RealmObject {
     private String name;//题名
 
     public String getBookUrl() {

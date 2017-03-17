@@ -10,8 +10,8 @@ import java.util.List;
  */
 
 public class SearchHistEvent {
-    private List<SearchHistItem> searchItems=null;
-    private String personXH="";
+    private List<SearchHistItem> searchItems = null;
+    private String personXH = "";
 
     public SearchHistEvent(List<SearchHistItem> searchItems, String personXH) {
         this.searchItems = searchItems;

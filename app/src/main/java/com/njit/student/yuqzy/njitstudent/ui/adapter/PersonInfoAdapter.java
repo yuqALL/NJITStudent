@@ -5,14 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.database.PersonInfo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/2/13.

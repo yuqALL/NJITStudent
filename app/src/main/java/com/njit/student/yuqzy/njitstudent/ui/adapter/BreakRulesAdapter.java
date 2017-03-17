@@ -10,11 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.njit.student.yuqzy.njitstudent.Event.BreakRulesEvent;
-import com.njit.student.yuqzy.njitstudent.Event.OrderBookEvent;
 import com.njit.student.yuqzy.njitstudent.R;
-import com.njit.student.yuqzy.njitstudent.model.DebtInfoItem;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.BookDetailActivity;
-import com.njit.student.yuqzy.njitstudent.utils.WebUtils;
 
 /**
  * Created by Administrator on 2017/1/27.
@@ -27,7 +24,7 @@ public class BreakRulesAdapter extends BaseAdapter {
     public BreakRulesAdapter(Context context, BreakRulesEvent content) {
 
         this.context = context;
-        this.content=content;
+        this.content = content;
     }
 
     @Override
@@ -63,7 +60,7 @@ public class BreakRulesAdapter extends BaseAdapter {
             viewHolder.book_should_pay = (TextView) convertView.findViewById(R.id.book_should_pay);
             viewHolder.book_actual_pay = (TextView) convertView.findViewById(R.id.book_actual_pay);
             viewHolder.book_state = (TextView) convertView.findViewById(R.id.book_state);
-            viewHolder.break_book=(CardView)convertView.findViewById(R.id.break_book);
+            viewHolder.break_book = (CardView) convertView.findViewById(R.id.break_book);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -81,10 +78,10 @@ public class BreakRulesAdapter extends BaseAdapter {
         viewHolder.break_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, BookDetailActivity.class);
-                intent.putExtra("url",content.getDebtItems().get(position).getBookurl());
-                intent.putExtra("name",content.getDebtItems().get(position).getName());
-                intent.putExtra("other",content.getDebtItems().get(position).getPlace());
+                Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("url", content.getDebtItems().get(position).getBookurl());
+                intent.putExtra("name", content.getDebtItems().get(position).getName());
+                intent.putExtra("other", content.getDebtItems().get(position).getPlace());
                 context.startActivity(intent);
             }
         });
@@ -93,7 +90,7 @@ public class BreakRulesAdapter extends BaseAdapter {
 
     // View lookup cache
     private static class ViewHolder {
-        TextView book_id_tiao_ma,book_id_suo_shu,book_name,book_authors,book_read_time,book_return_time,book_sto_place,book_should_pay,book_actual_pay,book_state;
+        TextView book_id_tiao_ma, book_id_suo_shu, book_name, book_authors, book_read_time, book_return_time, book_sto_place, book_should_pay, book_actual_pay, book_state;
         CardView break_book;
     }
 }

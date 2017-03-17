@@ -10,8 +10,8 @@ import java.util.List;
  */
 
 public class OrderBookEvent {
-    private List<OrderBookItem> orderItems=null;
-    private String personXH="";
+    private List<OrderBookItem> orderItems = null;
+    private String personXH = "";
 
     public OrderBookEvent(List<OrderBookItem> orderItems, String personXH) {
         this.orderItems = orderItems;

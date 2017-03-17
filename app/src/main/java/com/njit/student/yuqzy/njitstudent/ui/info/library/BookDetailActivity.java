@@ -54,19 +54,19 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
 
     private Toolbar toolbar;
     private ListView lv_book_detail;
-    private String url,name,other;
+    private String url, name, other;
     private Realm realm;
     private RealmQuery<BookDetailRealm> query;
     private RealmResults<BookDetailRealm> results;
     private Subscription subscription;
-    private ImageView imgLike, imgIE,imgShare;
+    private ImageView imgLike, imgIE, imgShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
         setContentView(R.layout.activity_book_details);
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         url = intent.getStringExtra("url");
         name = intent.getStringExtra("name");
         other = intent.getStringExtra("other");
@@ -75,7 +75,7 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
         setDisplayHomeAsUpEnabled(true);
         imgLike = (ImageView) findViewById(R.id.img_like);
         imgIE = (ImageView) findViewById(R.id.img_open_ie);
-        imgShare=(ImageView)findViewById(R.id.img_share);
+        imgShare = (ImageView) findViewById(R.id.img_share);
         imgLike.setOnClickListener(this);
         imgIE.setOnClickListener(this);
         imgShare.setOnClickListener(this);
@@ -149,7 +149,9 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
 
         }
     }
+
     List<String> itemList;
+
     private void getBookDetailFromServer(String url) {
 
         subscription = Observable.just(url).subscribeOn(Schedulers.io())
@@ -311,7 +313,7 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
                 WebUtils.openExternal(this, url);
                 break;
             case R.id.img_share:
-                ShareUtils.shareText(this,name+"\n"+other+"\n"+url);
+                ShareUtils.shareText(this, name + "\n" + other + "\n" + url);
                 break;
         }
     }

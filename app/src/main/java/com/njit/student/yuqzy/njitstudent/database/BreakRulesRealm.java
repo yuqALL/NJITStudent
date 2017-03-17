@@ -11,9 +11,9 @@ import io.realm.RealmObject;
  * Created by Administrator on 2017/2/25.
  */
 
-public class BreakRulesRealm extends RealmObject{
-    private RealmList<DebtInfoItem> debtItems=null;
-    private String personXH="";
+public class BreakRulesRealm extends RealmObject {
+    private RealmList<DebtInfoItem> debtItems = null;
+    private String personXH = "";
 
 
     public RealmList<DebtInfoItem> getDebtItems() {

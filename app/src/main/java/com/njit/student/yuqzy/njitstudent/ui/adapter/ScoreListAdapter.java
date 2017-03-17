@@ -1,7 +1,6 @@
 package com.njit.student.yuqzy.njitstudent.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.database.ScoreData;
 
@@ -57,17 +55,17 @@ public class ScoreListAdapter extends ArrayAdapter<ScoreData> {
         }
 
         int score = 0;
-        String s=item.getScore().trim();
+        String s = item.getScore().trim();
         try {
             score = Integer.parseInt(s);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
 
-        if (score >= 90||"优秀".equals(s)) {
+        if (score >= 90 || "优秀".equals(s)) {
             //Glide.with(context).load(R.drawable.ic_above_90).skipMemoryCache(true).into(viewHolder.imgScoreIcon);
             viewHolder.imgScoreIcon.setImageResource(R.drawable.ic_above_90);
-        } else if (score >= 60||"良好".equals(s)) {
+        } else if (score >= 60 || "良好".equals(s)) {
             //Glide.with(context).load(R.drawable.ic_heart).skipMemoryCache(true).into(viewHolder.imgScoreIcon);
             viewHolder.imgScoreIcon.setImageResource(R.drawable.ic_heart);
         } else {

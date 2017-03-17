@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.njit.student.yuqzy.njitstudent.Event.BreakRulesEvent;
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.model.BookShelfBean;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.BookDetailActivity;
@@ -62,7 +61,7 @@ public class BookShelfAdapter extends BaseAdapter {
             } else {
                 viewHolder = (ViewHolderShelf) holderView.getTag();
             }
-            convertView=holderView;
+            convertView = holderView;
             viewHolder.shelf_name.setText(content.get(position).getTitle());
 
         } else if (content.get(position).getType() == 1) {
@@ -77,12 +76,12 @@ public class BookShelfAdapter extends BaseAdapter {
                 viewHolder.book_publish_company = (TextView) holderView.findViewById(R.id.book_publish_company);
                 viewHolder.book_publish_time = (TextView) holderView.findViewById(R.id.book_publish_time);
                 viewHolder.book_id_suo_shu = (TextView) holderView.findViewById(R.id.book_id_suo_shu);
-                viewHolder.shelf_book=(CardView)holderView.findViewById(R.id.shelf_book);
+                viewHolder.shelf_book = (CardView) holderView.findViewById(R.id.shelf_book);
                 holderView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolderBook) holderView.getTag();
             }
-            convertView=holderView;
+            convertView = holderView;
             viewHolder.book_name.setText(content.get(position).getItem().getName());
             viewHolder.book_authors.setText(content.get(position).getItem().getAuthors());
             viewHolder.book_publish_company.setText(content.get(position).getItem().getPublishCompany());
@@ -91,10 +90,10 @@ public class BookShelfAdapter extends BaseAdapter {
             viewHolder.shelf_book.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(context, BookDetailActivity.class);
-                    intent.putExtra("url",content.get(position).getItem().getBookUrl());
-                    intent.putExtra("name",content.get(position).getItem().getName());
-                    intent.putExtra("other",content.get(position).getItem().getIdSuoShu());
+                    Intent intent = new Intent(context, BookDetailActivity.class);
+                    intent.putExtra("url", content.get(position).getItem().getBookUrl());
+                    intent.putExtra("name", content.get(position).getItem().getName());
+                    intent.putExtra("other", content.get(position).getItem().getIdSuoShu());
                     context.startActivity(intent);
                 }
             });

@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import com.njit.student.yuqzy.njitstudent.R;
 import com.njit.student.yuqzy.njitstudent.database.BookDetailRealm;
-import com.njit.student.yuqzy.njitstudent.model.NormalItem;
 import com.njit.student.yuqzy.njitstudent.ui.info.library.BookDetailActivity;
-import com.njit.student.yuqzy.njitstudent.ui.info.news.NewsDetailActivity;
 
 import java.util.List;
 
@@ -56,10 +54,10 @@ public class LikeBooksAdapter extends RecyclerView.Adapter<LikeBooksAdapter.Norm
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("adapter",""+item.getUrl());
-               // WebUtils.openInternal(context, item.getUrl());
-                Intent intent=new Intent(context, BookDetailActivity.class);
-                intent.putExtra("url",item.getUrl());
+                Log.e("adapter", "" + item.getUrl());
+                // WebUtils.openInternal(context, item.getUrl());
+                Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("url", item.getUrl());
                 context.startActivity(intent);
             }
         });
