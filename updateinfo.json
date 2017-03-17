@@ -8,7 +8,6 @@
 	        "updateTime": "2017-03-17 11:56:00",
             "information": "稳定精简版本，解决部分账号无法登录，课程表时间显示错乱等问题",
             "foreUpdate": false,
-            "url":"https://raw.githubusercontent.com/yuqZY/NJITStudent/master/apk/NJITStu_v1.5.apk"
-
+            "url":"https://raw.githubusercontent.com/yuqZY/NJITStudent/realease/apk/NJITStu_v1.5.apk"
         }
 }
